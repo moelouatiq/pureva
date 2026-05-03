@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "shop": "Boutique",
+    "routine": "La Routine",
+    "ingredients": "Ingrédients",
+    "about": "À propos",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "headline": "La routine naturelle pour des cheveux plus forts",
+      "claim": "Aide à réduire la chute des cheveux due à la casse",
+      "cta_primary": "Voir la routine",
+      "cta_secondary": "Voir les produits"
+    }
+  },
+  "order": {
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone",
+      "country": "Pays",
+      "address": "Adresse de livraison",
+      "product": "Produit",
+      "quantity": "Quantité",
+      "message": "Message (optionnel)",
+      "consent": "En soumettant ce formulaire, j'accepte d'être contacté(e) concernant ma commande et j'ai lu et accepté la Politique de confidentialité.",
+      "submit": "Envoyer la commande",
+      "success_title": "Commande reçue !",
+      "success_message": "Nous vous contacterons pour confirmer votre commande et organiser la livraison.",
+      "whatsapp_followup": "Suivre par WhatsApp",
+      "error": "Une erreur s'est produite. Veuillez réessayer ou nous contacter par WhatsApp."
+    }
+  },
+  "whatsapp": {
+    "product": "Bonjour, je souhaite commander {product}. Pouvez-vous confirmer la disponibilité ?",
+    "routine": "Bonjour, je suis intéressé(e) par le pack routine Pureva complet. Pouvez-vous m'en dire plus ?",
+    "general": "Bonjour, j'ai une question sur les produits Pureva.",
+    "post_order": "Bonjour, j'ai soumis une commande et souhaite avoir une confirmation."
+  },
+  "common": {
+    "order_now": "Commander",
+    "learn_more": "En savoir plus",
+    "whatsapp_order": "Commander par WhatsApp",
+    "whatsapp_question": "Poser une question sur WhatsApp",
+    "loading": "Chargement…",
+    "view_all": "Voir tout",
+    "back": "Retour"
+  },
+  "disclaimer": {
+    "text": "En cas de chute de cheveux soudaine, sévère ou persistante, consultez un professionnel de santé. Les résultats varient selon le type de cheveux, la régularité de la routine et la cause du problème."
+  },
+  "footer": {
+    "tagline": "La routine naturelle pour des cheveux plus forts.",
+    "legal": {
+      "shop": "Boutique",
+      "routine": "La Routine",
+      "shipping": "Livraison & Retours",
+      "legal_notice": "Mentions légales",
+      "terms": "CGV",
+      "privacy": "Confidentialité"
+    },
+    "copyright": "© {year} Pureva. Tous droits réservés."
+  }
+}

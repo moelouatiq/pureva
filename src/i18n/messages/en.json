@@ -1,0 +1,66 @@
+{
+  "nav": {
+    "shop": "Shop",
+    "routine": "The Routine",
+    "ingredients": "Ingredients",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "headline": "The natural routine for stronger hair",
+      "claim": "Helps reduce hair fall caused by breakage",
+      "cta_primary": "See the routine",
+      "cta_secondary": "View products"
+    }
+  },
+  "order": {
+    "form": {
+      "name": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "country": "Country",
+      "address": "Delivery address",
+      "product": "Product",
+      "quantity": "Quantity",
+      "message": "Message (optional)",
+      "consent": "By submitting this form, I agree to be contacted about my order and have read and accepted the Privacy Policy.",
+      "submit": "Place order",
+      "success_title": "Order received!",
+      "success_message": "We will contact you to confirm your order and arrange delivery.",
+      "whatsapp_followup": "Follow up on WhatsApp",
+      "error": "Something went wrong. Please try again or contact us on WhatsApp."
+    }
+  },
+  "whatsapp": {
+    "product": "Hello, I would like to order {product}. Could you confirm availability?",
+    "routine": "Hello, I am interested in the complete Pureva hair routine pack. Could you tell me more?",
+    "general": "Hello, I have a question about Pureva products.",
+    "post_order": "Hello, I submitted an order and would like a confirmation."
+  },
+  "common": {
+    "order_now": "Order now",
+    "learn_more": "Learn more",
+    "whatsapp_order": "Order on WhatsApp",
+    "whatsapp_question": "Ask a question on WhatsApp",
+    "loading": "Loading…",
+    "view_all": "View all",
+    "back": "Back"
+  },
+  "disclaimer": {
+    "text": "If you experience sudden, severe, or persistent hair loss, consult a healthcare professional. Results may vary depending on hair type, routine consistency, and the underlying cause."
+  },
+  "footer": {
+    "tagline": "The natural routine for stronger hair.",
+    "legal": {
+      "shop": "Shop",
+      "routine": "The Routine",
+      "shipping": "Shipping & Returns",
+      "legal_notice": "Legal Notice",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    },
+    "copyright": "© {year} Pureva. All rights reserved."
+  }
+}
