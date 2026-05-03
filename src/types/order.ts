@@ -1,0 +1,16 @@
+export type OrderFormPayload = {
+  name: string
+  email: string
+  phone: string
+  country: string
+  address: string
+  product: string
+  quantity: number
+  message?: string
+  consent: true
+  _hp: string
+}
+
+export type OrderApiResponse =
+  | { success: true }
+  | { error: string }
