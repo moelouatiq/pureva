@@ -5,7 +5,13 @@
     "ingredients": "Ingredients",
     "about": "About",
     "faq": "FAQ",
-    "contact": "Contact"
+    "contact": "Contact",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
+  },
+  "header": {
+    "whatsapp_aria": "Contact us on WhatsApp",
+    "logo_alt": "Pureva — natural hair care"
   },
   "home": {
     "hero": {
@@ -13,6 +19,60 @@
       "claim": "Helps reduce hair fall caused by breakage",
       "cta_primary": "See the routine",
       "cta_secondary": "View products"
+    },
+    "meta_title": "Pureva — Natural hair care routine",
+    "meta_description": "Pureva natural hair care for weakened hair. Helps reduce breakage and strengthen fragile hair."
+  },
+  "pages": {
+    "shop": {
+      "title": "Shop",
+      "meta_title": "Shop — Natural Hair Care | Pureva",
+      "meta_description": "Discover all Pureva natural hair care products for fragile and weakened hair."
+    },
+    "routine_pack": {
+      "title": "Weakened Hair Routine Pack",
+      "meta_title": "Complete Weakened Hair Routine Pack | Pureva",
+      "meta_description": "The complete Pureva hair routine — 4 natural treatments to help strengthen fragile hair prone to breakage."
+    },
+    "ingredients": {
+      "title": "Our Ingredients",
+      "meta_title": "Natural Ingredients — Transparency | Pureva",
+      "meta_description": "Discover the natural actives in Pureva products: fenugreek, amla, rosemary, nigella and more."
+    },
+    "about": {
+      "title": "About Pureva",
+      "meta_title": "About | Pureva",
+      "meta_description": "Pureva — the natural hair care brand for weakened hair."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "meta_title": "FAQ — Frequently Asked Questions | Pureva",
+      "meta_description": "Find answers to the most common questions about Pureva products and the hair routine."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "meta_title": "Contact | Pureva",
+      "meta_description": "Contact the Pureva team by form or via WhatsApp."
+    },
+    "shipping": {
+      "title": "Shipping & Returns",
+      "meta_title": "Shipping & Returns | Pureva",
+      "meta_description": "Pureva shipping and returns information — France, Europe and International."
+    },
+    "legal_notice": {
+      "title": "Legal Notice",
+      "meta_title": "Legal Notice | Pureva",
+      "meta_description": "Legal notice for the Pureva website."
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "meta_title": "Terms & Conditions | Pureva",
+      "meta_description": "Terms and conditions applicable to orders placed on the Pureva website."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "meta_title": "Privacy Policy | Pureva",
+      "meta_description": "How Pureva collects and uses your personal data in compliance with GDPR."
     }
   },
   "order": {
@@ -48,19 +108,39 @@
     "view_all": "View all",
     "back": "Back"
   },
+  "trust": {
+    "no_parabens": "Paraben-free",
+    "no_silicones": "Silicone-free",
+    "cruelty_free": "Cruelty-free",
+    "natural_origin": "Natural origin actives",
+    "made_in_france": "Made in France",
+    "organic_certified": "Certified organic",
+    "dermatologically_tested": "Dermatologically tested"
+  },
   "disclaimer": {
     "text": "If you experience sudden, severe, or persistent hair loss, consult a healthcare professional. Results may vary depending on hair type, routine consistency, and the underlying cause."
   },
   "footer": {
     "tagline": "The natural routine for stronger hair.",
-    "legal": {
+    "brand_description": "Pureva offers natural hair care formulated for fragile, breakage-prone hair.",
+    "sections": {
+      "shop_title": "Products",
+      "legal_title": "Information",
+      "contact_title": "Contact"
+    },
+    "links": {
       "shop": "Shop",
       "routine": "The Routine",
+      "ingredients": "Ingredients",
       "shipping": "Shipping & Returns",
       "legal_notice": "Legal Notice",
       "terms": "Terms",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "faq": "FAQ",
+      "contact": "Contact"
     },
-    "copyright": "© {year} Pureva. All rights reserved."
+    "whatsapp_label": "Message us on WhatsApp",
+    "copyright": "© {year} Pureva. All rights reserved.",
+    "language_label": "Language"
   }
 }

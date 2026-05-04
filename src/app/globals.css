@@ -4,6 +4,42 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Pureva brand tokens ───────────────────────────────────────────────── */
+@theme {
+  /* Primary: dark forest green */
+  --color-green-950: oklch(0.19 0.07 157);
+  --color-green-900: oklch(0.24 0.08 157);
+  --color-green-800: oklch(0.30 0.10 157);
+  --color-green-700: oklch(0.37 0.10 157);
+  --color-green-600: oklch(0.44 0.10 157);
+  --color-green-100: oklch(0.94 0.03 157);
+  --color-green-50:  oklch(0.97 0.015 157);
+
+  /* Accent: warm brown / soft gold */
+  --color-brown-800: oklch(0.38 0.07 55);
+  --color-brown-700: oklch(0.46 0.08 55);
+  --color-brown-600: oklch(0.54 0.09 55);
+  --color-gold-500:  oklch(0.73 0.10 78);
+  --color-gold-400:  oklch(0.80 0.09 78);
+  --color-gold-100:  oklch(0.95 0.03 78);
+
+  /* Backgrounds: ivory / cream */
+  --color-ivory:     oklch(0.97 0.015 78);
+  --color-cream:     oklch(0.94 0.022 78);
+  --color-parchment: oklch(0.91 0.025 78);
+
+  /* WhatsApp brand green (used only on WhatsApp FAB icon) */
+  --color-whatsapp:  oklch(0.73 0.19 152);
+
+  /* Typography */
+  --font-heading: Georgia, "Times New Roman", serif;
+  --font-body:    system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Spacing scale */
+  --spacing-section: 5rem;
+  --spacing-section-sm: 3rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -121,10 +157,106 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
     @apply font-sans;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: oklch(0.19 0.02 250);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-green-900);
+  }
+
+  h1 { font-size: clamp(1.875rem, 4vw, 3rem); }
+  h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+  h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+}
+
+/* ─── Layout utilities ───────────────────────────────────────────────────── */
+@layer utilities {
+  .container-pureva {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-pureva { padding-inline: 2rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .container-pureva { padding-inline: 3rem; }
+  }
+
+  .section-padding {
+    padding-block: var(--spacing-section-sm);
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-block: var(--spacing-section);
+    }
+  }
+
+  /* Primary button — solid forest green */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: var(--color-green-800);
+    color: var(--color-ivory);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: background-color 150ms ease, transform 100ms ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-green-900);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  /* Secondary button — outlined forest green */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: transparent;
+    color: var(--color-green-800);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+    cursor: pointer;
+    border: 2px solid var(--color-green-800);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-green-800);
+    color: var(--color-ivory);
   }
 }

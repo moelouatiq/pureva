@@ -5,7 +5,13 @@
     "ingredients": "Ingrédients",
     "about": "À propos",
     "faq": "FAQ",
-    "contact": "Contact"
+    "contact": "Contact",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu"
+  },
+  "header": {
+    "whatsapp_aria": "Nous contacter sur WhatsApp",
+    "logo_alt": "Pureva — soins capillaires naturels"
   },
   "home": {
     "hero": {
@@ -13,6 +19,60 @@
       "claim": "Aide à réduire la chute des cheveux due à la casse",
       "cta_primary": "Voir la routine",
       "cta_secondary": "Voir les produits"
+    },
+    "meta_title": "Pureva — Routine capillaire naturelle",
+    "meta_description": "Soins capillaires naturels Pureva pour les cheveux fragilisés. Aide à réduire la casse et à fortifier les cheveux."
+  },
+  "pages": {
+    "shop": {
+      "title": "Boutique",
+      "meta_title": "Boutique — Soins capillaires naturels | Pureva",
+      "meta_description": "Découvrez tous les soins capillaires naturels Pureva pour les cheveux fragilisés."
+    },
+    "routine_pack": {
+      "title": "Pack Routine Cheveux Fragilisés",
+      "meta_title": "Pack Routine Complète Cheveux Fragilisés | Pureva",
+      "meta_description": "La routine capillaire complète Pureva — 4 soins naturels pour aider à fortifier les cheveux fragilisés, sujets à la casse."
+    },
+    "ingredients": {
+      "title": "Nos Ingrédients",
+      "meta_title": "Ingrédients naturels — Transparence | Pureva",
+      "meta_description": "Découvrez les actifs naturels qui composent les soins Pureva : fenugrec, amla, romarin, nigelle et plus."
+    },
+    "about": {
+      "title": "À propos de Pureva",
+      "meta_title": "À propos | Pureva",
+      "meta_description": "Pureva — la marque de soins capillaires naturels pour les cheveux fragilisés."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "meta_title": "FAQ — Questions fréquentes | Pureva",
+      "meta_description": "Retrouvez les réponses aux questions les plus fréquentes sur les produits et la routine Pureva."
+    },
+    "contact": {
+      "title": "Contactez-nous",
+      "meta_title": "Contact | Pureva",
+      "meta_description": "Contactez l'équipe Pureva par formulaire ou via WhatsApp."
+    },
+    "shipping": {
+      "title": "Livraison & Retours",
+      "meta_title": "Livraison & Retours | Pureva",
+      "meta_description": "Informations sur la livraison et les retours Pureva — France, Europe et International."
+    },
+    "legal_notice": {
+      "title": "Mentions légales",
+      "meta_title": "Mentions légales | Pureva",
+      "meta_description": "Mentions légales du site Pureva."
+    },
+    "terms": {
+      "title": "Conditions Générales de Vente",
+      "meta_title": "CGV — Conditions Générales de Vente | Pureva",
+      "meta_description": "Conditions générales de vente applicables aux commandes passées sur le site Pureva."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "meta_title": "Politique de confidentialité | Pureva",
+      "meta_description": "Comment Pureva collecte et utilise vos données personnelles conformément au RGPD."
     }
   },
   "order": {
@@ -48,19 +108,39 @@
     "view_all": "Voir tout",
     "back": "Retour"
   },
+  "trust": {
+    "no_parabens": "Sans parabènes",
+    "no_silicones": "Sans silicones",
+    "cruelty_free": "Cruelty-free",
+    "natural_origin": "Actifs d'origine naturelle",
+    "made_in_france": "Fabriqué en France",
+    "organic_certified": "Certifié biologique",
+    "dermatologically_tested": "Testé dermatologiquement"
+  },
   "disclaimer": {
     "text": "En cas de chute de cheveux soudaine, sévère ou persistante, consultez un professionnel de santé. Les résultats varient selon le type de cheveux, la régularité de la routine et la cause du problème."
   },
   "footer": {
     "tagline": "La routine naturelle pour des cheveux plus forts.",
-    "legal": {
+    "brand_description": "Pureva propose des soins capillaires naturels formulés pour les cheveux fragilisés, sujets à la casse.",
+    "sections": {
+      "shop_title": "Produits",
+      "legal_title": "Informations",
+      "contact_title": "Contact"
+    },
+    "links": {
       "shop": "Boutique",
       "routine": "La Routine",
+      "ingredients": "Ingrédients",
       "shipping": "Livraison & Retours",
       "legal_notice": "Mentions légales",
       "terms": "CGV",
-      "privacy": "Confidentialité"
+      "privacy": "Confidentialité",
+      "faq": "FAQ",
+      "contact": "Contact"
     },
-    "copyright": "© {year} Pureva. Tous droits réservés."
+    "whatsapp_label": "Écrire sur WhatsApp",
+    "copyright": "© {year} Pureva. Tous droits réservés.",
+    "language_label": "Langue"
   }
 }
