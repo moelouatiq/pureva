@@ -14,14 +14,228 @@
     "logo_alt": "Pureva — soins capillaires naturels"
   },
   "home": {
+    "meta_title": "Pureva — Routine capillaire naturelle",
+    "meta_description": "Soins capillaires naturels Pureva pour les cheveux fragilisés. Aide à réduire la casse et à fortifier les cheveux.",
     "hero": {
       "headline": "La routine naturelle pour des cheveux plus forts",
       "claim": "Aide à réduire la chute des cheveux due à la casse",
       "cta_primary": "Voir la routine",
       "cta_secondary": "Voir les produits"
     },
-    "meta_title": "Pureva — Routine capillaire naturelle",
-    "meta_description": "Soins capillaires naturels Pureva pour les cheveux fragilisés. Aide à réduire la casse et à fortifier les cheveux."
+    "problem": {
+      "headline": "Vos cheveux vous préoccupent ?",
+      "body": "La chute due à la casse, les cheveux secs et fragilisés, la perte de densité — ces signes méritent une routine adaptée, pas des promesses.",
+      "note": "Pureva ne promet pas de miracle. Nos soins sont formulés pour accompagner une routine régulière."
+    },
+    "routine_steps": {
+      "headline": "La routine en 4 étapes",
+      "subtitle": "Une approche progressive, à intégrer dans votre soin hebdomadaire.",
+      "step1_label": "1. Huile capillaire",
+      "step1_desc": "Appliquez l'huile sur le cuir chevelu et les longueurs avant le shampoing. Aide à nourrir et à préparer les cheveux.",
+      "step2_label": "2. Masque ou poudre",
+      "step2_desc": "Appliquez le masque ou une poudre (Sidr ou Mashat) sur cheveux humides. Laissez poser puis rincez.",
+      "step3_label": "3. Lotion capillaire",
+      "step3_desc": "Après le shampoing, appliquez la lotion sur les longueurs et le cuir chevelu. Ne pas rincer.",
+      "step4_label": "4. Sérum capillaire",
+      "step4_desc": "Terminez par quelques gouttes de sérum sur les pointes pour hydrater et apporter brillance.",
+      "cta": "Découvrir la routine complète"
+    },
+    "best_sellers": {
+      "headline": "Nos produits phares",
+      "subtitle": "Les soins les plus demandés de la gamme Pureva.",
+      "cta": "Voir tous les produits"
+    },
+    "ingredients_preview": {
+      "headline": "Des actifs naturels sélectionnés",
+      "subtitle": "Chaque formule est composée d'actifs naturels reconnus pour leurs propriétés sur les cheveux fragilisés.",
+      "cta": "Voir tous les ingrédients",
+      "fenugreek_name": "Fenugrec",
+      "fenugreek_desc": "Riche en protéines et acides aminés, il aide à renforcer la fibre capillaire.",
+      "amla_name": "Amla (Groseille de l'Inde)",
+      "amla_desc": "Source de vitamine C naturelle, l'amla aide à nourrir le cuir chevelu et les longueurs.",
+      "rosemary_name": "Romarin",
+      "rosemary_desc": "Connu pour ses propriétés stimulantes sur la circulation du cuir chevelu.",
+      "nigella_name": "Huile de Nigelle",
+      "nigella_desc": "Traditionnellement utilisée pour ses propriétés nourrissantes et apaisantes sur le cuir chevelu.",
+      "shea_name": "Beurre de Karité",
+      "shea_desc": "Émollient naturel qui aide à hydrater et à protéger les cheveux secs.",
+      "sidr_name": "Poudre de Sidr",
+      "sidr_desc": "Utilisée de longue date pour nettoyer et fortifier le cuir chevelu.",
+      "keratin_name": "Kératine Hydrolysée",
+      "keratin_desc": "Aide à renforcer la structure de la fibre capillaire et à réduire la casse."
+    },
+    "benefits": {
+      "headline": "Ce que la routine vise",
+      "b1_title": "Réduire la casse",
+      "b1_desc": "Aide à réduire la chute des cheveux due à la fragilité et à la casse.",
+      "b2_title": "Nourrir en profondeur",
+      "b2_desc": "Des actifs nourrissants pour hydrater le cuir chevelu et les longueurs.",
+      "b3_title": "Apporter brillance",
+      "b3_desc": "Le sérum et l'huile aident à lisser la fibre et à révéler l'éclat naturel.",
+      "b4_title": "Une routine hebdomadaire",
+      "b4_desc": "Des soins conçus pour s'intégrer facilement dans votre programme capillaire régulier.",
+      "disclaimer": "Les résultats varient selon les individus, la régularité de la routine et la cause du problème."
+    },
+    "faq_preview": {
+      "headline": "Questions fréquentes",
+      "q1": "La routine convient-elle à tous les types de cheveux ?",
+      "a1": "La gamme Pureva est formulée pour les cheveux fragilisés et sujets à la casse. Le masque est adapté à tous types de cheveux. Si vous avez un doute, contactez-nous avant d'acheter.",
+      "q2": "Combien de temps avant de voir des résultats ?",
+      "a2": "Nous ne pouvons pas garantir de résultats ni de délai précis. Comme tout soin capillaire, une utilisation régulière sur plusieurs semaines est nécessaire pour observer une différence. Les résultats varient selon les individus.",
+      "q3": "Comment commander ?",
+      "a3": "Vous pouvez commander directement via le formulaire de commande ou par WhatsApp. Nous vous contacterons pour confirmer votre commande et organiser la livraison.",
+      "q4": "Les produits sont-ils sans parabènes ou sans silicones ?",
+      "a4": "Nous n'indiquons pas ces informations sans confirmation officielle de notre formulateur. Consultez la liste INCI complète visible sur chaque fiche produit.",
+      "cta": "Voir toutes les questions"
+    },
+    "final_cta": {
+      "headline": "Commencer la routine",
+      "body": "Découvrez le pack routine complet — 4 soins formulés pour les cheveux fragilisés.",
+      "cta_primary": "Voir le pack routine",
+      "cta_secondary": "Poser une question sur WhatsApp"
+    }
+  },
+  "product": {
+    "price_placeholder": "Prix à confirmer",
+    "size_placeholder": "Taille à confirmer",
+    "price_label": "Prix",
+    "size_label": "Contenance",
+    "in_stock": "En stock",
+    "low_stock": "Stock limité",
+    "out_of_stock": "Rupture de stock",
+    "benefits_label": "Bénéfices",
+    "how_to_use_label": "Comment utiliser",
+    "ingredients_label": "Composition (INCI)",
+    "precautions_label": "Précautions d'emploi",
+    "order_cta": "Commander",
+    "whatsapp_cta": "Commander par WhatsApp",
+    "ask_question": "Poser une question",
+    "related_title": "Compléter la routine",
+    "back_to_shop": "Retour à la boutique",
+    "sticky_cta": "Commander par WhatsApp"
+  },
+  "shop": {
+    "headline": "Nos produits",
+    "subtitle": "Des soins formulés pour les cheveux fragilisés, sujets à la casse.",
+    "all_products": "Tous les produits",
+    "routine_products": "La routine",
+    "empty": "Aucun produit disponible."
+  },
+  "routine_pack": {
+    "headline": "Pack Routine Cheveux Fragilisés",
+    "subtitle": "4 soins formulés pour les cheveux fragilisés — une routine complète de l'huile au sérum.",
+    "who_title": "Pour qui ?",
+    "who_body": "Ce pack est conçu pour les personnes dont les cheveux sont fragilisés et sujets à la casse. Il ne s'adresse pas aux chutes sévères ou aux problèmes médicaux du cuir chevelu — dans ces cas, consultez un professionnel de santé.",
+    "includes_title": "Ce que comprend le pack",
+    "includes_oil": "Huile capillaire (100 ml) — soin pré-shampoing nourrissant",
+    "includes_mask": "Masque capillaire — soin hebdomadaire pour tous types de cheveux",
+    "includes_lotion": "Lotion capillaire — soin sans rinçage après shampoing",
+    "includes_serum": "Sérum capillaire (50 ml) — finition lissante et brillance",
+    "how_title": "Comment utiliser le pack",
+    "how_step1": "Étape 1 — Avant le shampoing : appliquez l'huile sur le cuir chevelu et les longueurs, laissez poser 30 min minimum.",
+    "how_step2": "Étape 2 — Après le shampoing : appliquez le masque ou une poudre (Sidr ou Mashat), laissez poser puis rincez.",
+    "how_step3": "Étape 3 — Sans rinçage : appliquez la lotion sur les longueurs et le cuir chevelu.",
+    "how_step4": "Étape 4 — Finition : appliquez quelques gouttes de sérum sur les pointes.",
+    "frequency": "Fréquence recommandée : 1 à 2 fois par semaine.",
+    "timeline_title": "À quoi s'attendre ?",
+    "timeline_body": "Nous ne pouvons pas garantir de résultats spécifiques. Une utilisation régulière sur plusieurs semaines est nécessaire pour observer un changement. Les résultats varient selon le type de cheveux, la régularité et la cause du problème.",
+    "limits_title": "Ce que la routine ne fait pas",
+    "limits_body": "Cette routine ne traite pas l'alopécie, les maladies du cuir chevelu, ni les chutes d'origine hormonale ou médicale. En cas de doute, consultez un dermatologue ou un médecin.",
+    "crosssell_title": "Compléter avec les poudres",
+    "crosssell_body": "Nos poudres de Sidr et de Mashat peuvent être intégrées comme soin complémentaire dans la routine. Disponibles séparément.",
+    "order_cta": "Commander le pack par WhatsApp",
+    "ask_cta": "Poser une question"
+  },
+  "ingredients": {
+    "headline": "Nos ingrédients",
+    "subtitle": "Pureva s'engage à afficher la liste INCI complète de chaque produit. Voici les principaux actifs naturels utilisés dans la gamme.",
+    "disclaimer": "La liste INCI complète est indiquée sur chaque produit. Si vous avez des allergies connues, vérifiez attentivement les ingrédients avant utilisation.",
+    "fenugreek_name": "Fenugrec (Trigonella Foenum-Graecum)",
+    "fenugreek_desc": "Riche en protéines végétales et en acides aminés. Utilisé dans la formulation pour ses propriétés nourrissantes sur la fibre capillaire.",
+    "amla_name": "Amla — Groseille de l'Inde (Phyllanthus Emblica)",
+    "amla_desc": "Source de vitamine C naturelle. Traditionnellement utilisé pour le soin du cuir chevelu et des cheveux.",
+    "rosemary_name": "Romarin (Rosmarinus Officinalis)",
+    "rosemary_desc": "Connu pour ses propriétés stimulantes sur la circulation du cuir chevelu. Présent dans la lotion.",
+    "nigella_name": "Huile de Nigelle (Nigella Sativa)",
+    "nigella_desc": "Huile végétale aux propriétés nourrissantes et apaisantes, utilisée dans l'huile capillaire.",
+    "shea_name": "Beurre de Karité (Butyrospermum Parkii)",
+    "shea_desc": "Émollient naturel riche en acides gras. Présent dans le masque pour ses propriétés hydratantes.",
+    "sidr_name": "Poudre de Sidr (Ziziphus Spina-Christi)",
+    "sidr_desc": "Poudre végétale utilisée de longue date dans les soins capillaires traditionnels pour nettoyer et fortifier.",
+    "keratin_name": "Kératine Hydrolysée (Keratin Hydrolyzed)",
+    "keratin_desc": "Protéine capillaire hydrolysée qui aide à renforcer la structure de la fibre et à réduire la casse.",
+    "collagen_name": "Acides Aminés de Collagène (Collagen Amino Acids)",
+    "collagen_desc": "Aide à nourrir et à fortifier la fibre capillaire. Présent dans le masque et le sérum."
+  },
+  "about": {
+    "headline": "À propos de Pureva",
+    "mission_title": "Notre démarche",
+    "mission_body": "Pureva est une marque de soins capillaires naturels pensée pour les cheveux fragilisés, sujets à la casse. Nous formulons des soins avec des actifs naturels sélectionnés pour accompagner une routine capillaire régulière.",
+    "approach_title": "Transparence et honnêteté",
+    "approach_body": "Nous n'affichons aucune allégation que nous ne pouvons pas justifier. Pas de promesses de résultats garantis, pas de certifications non vérifiées. Chaque produit affiche la liste INCI complète et une notice de précaution.",
+    "safe_claim": "Aide à réduire la chute des cheveux due à la casse — c'est ce que nous affirmons, et rien de plus.",
+    "contact_title": "Nous contacter",
+    "contact_body": "Pour toute question sur nos produits, une commande ou un conseil, vous pouvez nous contacter par WhatsApp ou via le formulaire de contact.",
+    "todo_note": "Plus d'informations sur la marque et l'équipe seront ajoutées prochainement."
+  },
+  "contact": {
+    "headline": "Contactez-nous",
+    "how_to_order_title": "Comment commander ?",
+    "how_to_order_body": "Toutes les commandes se passent par WhatsApp ou via le formulaire ci-dessous. Nous vous recontactons pour confirmer la disponibilité, le prix final et les modalités de livraison.",
+    "whatsapp_title": "Commander par WhatsApp",
+    "whatsapp_body": "Cliquez sur le bouton ci-dessous pour démarrer une conversation. Indiquez le(s) produit(s) souhaité(s) et votre pays de livraison.",
+    "whatsapp_cta": "Écrire sur WhatsApp",
+    "form_title": "Ou envoyez un message",
+    "form_intro": "Remplissez le formulaire et nous vous répondrons dans les plus brefs délais.",
+    "response_time": "Délai de réponse habituel : 24–48 h.",
+    "shipping_note": "Livraison disponible en France, en Europe et à l'international. Les tarifs et délais sont confirmés à la commande."
+  },
+  "shipping": {
+    "headline": "Livraison & Retours",
+    "zones_title": "Zones de livraison",
+    "zones_body": "Nous livrons en France métropolitaine, en Europe et à l'international. Les tarifs et délais exacts sont confirmés lors de la commande.",
+    "france_label": "France métropolitaine",
+    "france_delay": "Délai estimé : à confirmer",
+    "europe_label": "Europe",
+    "europe_delay": "Délai estimé : à confirmer",
+    "international_label": "International",
+    "international_delay": "Délai estimé : à confirmer",
+    "todo_rates": "Les tarifs de livraison seront affichés ici dès confirmation par la marque.",
+    "returns_title": "Retours",
+    "returns_body": "En raison de la nature des produits cosmétiques, les retours ne sont acceptés que pour les produits défectueux ou non conformes à la commande. Contactez-nous dans les 48 h suivant la réception.",
+    "returns_contact": "Pour tout problème, contactez-nous par WhatsApp ou email.",
+    "todo_policy": "La politique de retour complète sera mise à jour prochainement."
+  },
+  "legal": {
+    "todo_intro": "Ces mentions seront complétées avec les informations officielles de la société. Veuillez vérifier les informations légales avant la mise en ligne.",
+    "legal_notice": {
+      "publisher_title": "Éditeur du site",
+      "publisher_todo": "Raison sociale, adresse, SIRET et numéro de TVA intracommunautaire — à compléter.",
+      "host_title": "Hébergement",
+      "host_body": "Ce site est hébergé par Vercel Inc., 340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis.",
+      "director_title": "Directeur de la publication",
+      "director_todo": "Nom du directeur de la publication — à compléter."
+    },
+    "terms": {
+      "scope_title": "Champ d'application",
+      "scope_body": "Les présentes Conditions Générales de Vente s'appliquent à toutes les commandes passées via ce site ou par WhatsApp.",
+      "prices_title": "Prix",
+      "prices_body": "Les prix sont indiqués en euros (€) toutes taxes comprises (TTC). Les frais de livraison sont précisés à la commande.",
+      "orders_title": "Commandes",
+      "orders_body": "La commande est confirmée après accord écrit (WhatsApp ou email) et paiement. Nous nous réservons le droit de refuser toute commande.",
+      "todo": "Les CGV complètes seront rédigées par un professionnel du droit avant la mise en ligne commerciale."
+    },
+    "privacy": {
+      "controller_title": "Responsable du traitement",
+      "controller_todo": "Identité du responsable du traitement — à compléter.",
+      "data_title": "Données collectées",
+      "data_body": "Nous collectons les données fournies lors d'une commande (nom, email, téléphone, adresse de livraison) dans le seul but de traiter et livrer votre commande.",
+      "rights_title": "Vos droits",
+      "rights_body": "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous.",
+      "cookies_title": "Cookies",
+      "cookies_body": "Ce site n'utilise pas de cookies de suivi ou publicitaires.",
+      "todo": "La politique de confidentialité complète sera rédigée avant la mise en ligne commerciale."
+    }
   },
   "pages": {
     "shop": {
@@ -87,10 +301,29 @@
       "message": "Message (optionnel)",
       "consent": "En soumettant ce formulaire, j'accepte d'être contacté(e) concernant ma commande et j'ai lu et accepté la Politique de confidentialité.",
       "submit": "Envoyer la commande",
-      "success_title": "Commande reçue !",
-      "success_message": "Nous vous contacterons pour confirmer votre commande et organiser la livraison.",
+      "loading": "Envoi en cours…",
+      "select_product": "Sélectionner un produit",
+      "order_cta_label": "Commander ce produit",
+      "retry": "Réessayer",
+      "reference_label": "Référence de commande",
+      "success_title": "Demande reçue !",
+      "success_message": "Nous vous contacterons pour confirmer la disponibilité, le montant final et les modalités de livraison.",
       "whatsapp_followup": "Suivre par WhatsApp",
       "error": "Une erreur s'est produite. Veuillez réessayer ou nous contacter par WhatsApp."
+    },
+    "validation": {
+      "name_required": "Le nom est requis.",
+      "email_invalid": "Adresse e-mail invalide.",
+      "phone_required": "Le téléphone est requis.",
+      "country_required": "Le pays est requis.",
+      "address_required": "L'adresse de livraison est requise.",
+      "product_required": "Veuillez sélectionner un produit.",
+      "quantity_min": "La quantité doit être d'au moins 1.",
+      "consent_required": "Vous devez accepter les conditions pour continuer.",
+      "generic": "Ce champ est invalide."
+    },
+    "error": {
+      "too_many_requests": "Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer."
     }
   },
   "whatsapp": {

@@ -1,11 +1,17 @@
 import type { Metadata } from 'next'
-import { setRequestLocale } from 'next-intl/server'
+import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { products } from '@/data/products'
 import { buildMetadata } from '@/lib/seo'
-import { formatPrice } from '@/lib/format-price'
-import Disclaimer from '@/components/shared/Disclaimer'
+import { buildWhatsAppUrl } from '@/lib/whatsapp'
+import { buildProductOptions } from '@/lib/product-options'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
+import ProductImage from '@/components/product/ProductImage'
+import ProductInfo from '@/components/product/ProductInfo'
+import ProductGrid from '@/components/product/ProductGrid'
+import StickyMobileCTA from '@/components/product/StickyMobileCTA'
+import OrderForm from '@/components/order/OrderForm'
+import JsonLd, { productJsonLd, breadcrumbJsonLd } from '@/components/shared/JsonLd'
 import type { Locale } from '@/types/locale'
 
 type Props = {
@@ -37,41 +43,96 @@ export default async function ProductPage({ params }: Props) {
   setRequestLocale(locale)
 
   const l = locale as Locale
+  const t = await getTranslations({ locale, namespace: 'product' })
+  const tNav = await getTranslations({ locale, namespace: 'nav' })
+  const tOrder = await getTranslations({ locale, namespace: 'order' })
+  const tProduct = await getTranslations({ locale, namespace: 'product' })
+
   const product = products.find((p) => p.slug.fr === slug || p.slug.en === slug)
   if (!product) notFound()
 
+  const relatedProducts = products
+    .filter((p) => p.id !== product.id && p.isRoutineProduct === product.isRoutineProduct)
+    .slice(0, 3)
+
   const breadcrumbItems = [
-    { label: l === 'fr' ? 'Accueil' : 'Home', href: '/' },
-    { label: l === 'fr' ? 'Boutique' : 'Shop', href: '/shop' },
+    { label: l === 'fr' ? 'Accueil' : 'Home', href: '/' as const },
+    { label: tNav('shop'), href: '/shop' as const },
     { label: product.name[l] },
   ]
 
+  const waMsg = product.whatsappMessage[l] ?? product.whatsappMessage.fr
+  const waUrl = buildWhatsAppUrl(waMsg)
+
+  const productOptions = buildProductOptions(l, tProduct('price_placeholder'))
+
   return (
-    <div className="section-padding">
-      <div className="container-pureva">
-        <div className="mb-6">
-          <Breadcrumbs items={breadcrumbItems} />
-        </div>
-
-        <div className="max-w-3xl">
-          <h1 className="mb-2">{product.name[l]}</h1>
-          <p className="text-2xl font-semibold mb-1" style={{ color: 'var(--color-green-800)' }}>
-            {formatPrice(product.price, l)}
-          </p>
-          {product.compareAtPrice && (
-            <p className="text-base line-through text-[oklch(0.55_0.02_250)] mb-4">
-              {formatPrice(product.compareAtPrice, l)}
-            </p>
-          )}
-          <p className="text-base leading-relaxed mb-6 text-[oklch(0.35_0.02_250)]">
-            {product.shortDescription[l]}
-          </p>
-
-          <div className="mt-10">
-            <Disclaimer locale={l} />
+    <>
+      <JsonLd data={productJsonLd(product, l)} />
+      <JsonLd data={breadcrumbJsonLd(breadcrumbItems, l)} />
+      <div className="section-padding pb-24 md:pb-0">
+        <div className="container-pureva">
+          <div className="mb-6">
+            <Breadcrumbs items={breadcrumbItems} />
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+            {/* Image */}
+            <div className="aspect-square rounded-2xl overflow-hidden bg-cream">
+              <ProductImage
+                src={product.images[0] ?? ''}
+                alt={product.name[l]}
+                className="w-full h-full"
+              />
+            </div>
+
+            {/* Info */}
+            <div>
+              <h1 className="text-2xl md:text-3xl font-heading font-bold text-green-900 mb-4">
+                {product.name[l]}
+              </h1>
+              <ProductInfo product={product} locale={locale} />
+            </div>
+          </div>
+
+          {/* Expandable order section */}
+          {product.stockStatus !== 'out_of_stock' && (
+            <div className="mt-12 border border-green-200 rounded-2xl overflow-hidden">
+              <details className="group">
+                <summary className="flex items-center justify-between cursor-pointer px-6 py-4 bg-green-900 text-ivory list-none hover:bg-green-800 transition-colors">
+                  <span className="font-semibold">
+                    {tOrder('form.order_cta_label')}
+                  </span>
+                  <span
+                    className="text-xl transition-transform duration-200 group-open:rotate-45"
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+                </summary>
+                <div className="p-6 bg-white">
+                  <OrderForm
+                    productOptions={productOptions}
+                    defaultProduct={product.id}
+                  />
+                </div>
+              </details>
+            </div>
+          )}
+
+          {/* Related products */}
+          {relatedProducts.length > 0 && (
+            <section className="mt-16">
+              <h2 className="text-xl font-heading font-bold text-green-900 mb-6">
+                {t('related_title')}
+              </h2>
+              <ProductGrid products={relatedProducts} locale={locale} />
+            </section>
+          )}
         </div>
       </div>
-    </div>
+
+      <StickyMobileCTA href={waUrl} label={t('sticky_cta')} />
+    </>
   )
 }

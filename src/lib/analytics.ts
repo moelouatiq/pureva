@@ -11,8 +11,9 @@ export type AnalyticsEvent =
   | 'order_submitted'
 
 export function trackEvent(
-  _event: AnalyticsEvent,
-  _params?: Record<string, unknown>
+  event: AnalyticsEvent,
+  params?: Record<string, unknown>
 ): void {
-  // no-op in MVP
+  void event
+  void params
 }

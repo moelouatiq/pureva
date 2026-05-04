@@ -90,7 +90,7 @@ export const ingredients: Ingredient[] = [
       fr: "Aide à soutenir le confort et l'équilibre du cuir chevelu",
       en: 'Helps support scalp comfort and balance',
     },
-    image: '/images/ingredients/licorice.jpg',
+    image: '/images/ingredients/licorice-root.jpg',
   },
   {
     id: 'clove',

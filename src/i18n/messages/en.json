@@ -14,14 +14,228 @@
     "logo_alt": "Pureva — natural hair care"
   },
   "home": {
+    "meta_title": "Pureva — Natural hair care routine",
+    "meta_description": "Pureva natural hair care for weakened hair. Helps reduce breakage and strengthen fragile hair.",
     "hero": {
       "headline": "The natural routine for stronger hair",
       "claim": "Helps reduce hair fall caused by breakage",
       "cta_primary": "See the routine",
       "cta_secondary": "View products"
     },
-    "meta_title": "Pureva — Natural hair care routine",
-    "meta_description": "Pureva natural hair care for weakened hair. Helps reduce breakage and strengthen fragile hair."
+    "problem": {
+      "headline": "Concerned about your hair?",
+      "body": "Hair fall from breakage, dry and weakened strands, loss of density — these signs call for the right routine, not empty promises.",
+      "note": "Pureva does not promise miracles. Our products are formulated to support a regular hair care routine."
+    },
+    "routine_steps": {
+      "headline": "The 4-step routine",
+      "subtitle": "A progressive approach designed to fit into your weekly hair care routine.",
+      "step1_label": "1. Hair oil",
+      "step1_desc": "Apply the oil to your scalp and lengths before shampooing. Helps to nourish and prepare the hair.",
+      "step2_label": "2. Mask or powder",
+      "step2_desc": "Apply the mask or a powder (Sidr or Mashat) to damp hair. Leave on, then rinse.",
+      "step3_label": "3. Hair lotion",
+      "step3_desc": "After shampooing, apply the lotion to lengths and scalp. No rinsing needed.",
+      "step4_label": "4. Hair serum",
+      "step4_desc": "Finish with a few drops of serum on the ends to hydrate and add shine.",
+      "cta": "Discover the full routine"
+    },
+    "best_sellers": {
+      "headline": "Our featured products",
+      "subtitle": "The most requested products from the Pureva range.",
+      "cta": "View all products"
+    },
+    "ingredients_preview": {
+      "headline": "Selected natural actives",
+      "subtitle": "Each formula contains natural actives recognised for their properties on weakened hair.",
+      "cta": "See all ingredients",
+      "fenugreek_name": "Fenugreek",
+      "fenugreek_desc": "Rich in proteins and amino acids, it helps to strengthen the hair fibre.",
+      "amla_name": "Amla (Indian Gooseberry)",
+      "amla_desc": "A natural source of vitamin C, amla helps to nourish the scalp and hair lengths.",
+      "rosemary_name": "Rosemary",
+      "rosemary_desc": "Known for its stimulating properties on scalp circulation.",
+      "nigella_name": "Nigella Oil",
+      "nigella_desc": "Traditionally used for its nourishing and soothing properties on the scalp.",
+      "shea_name": "Shea Butter",
+      "shea_desc": "A natural emollient that helps to moisturise and protect dry hair.",
+      "sidr_name": "Sidr Powder",
+      "sidr_desc": "Long used to cleanse and strengthen the scalp.",
+      "keratin_name": "Hydrolysed Keratin",
+      "keratin_desc": "Helps to reinforce the hair fibre structure and reduce breakage."
+    },
+    "benefits": {
+      "headline": "What the routine aims for",
+      "b1_title": "Reduce breakage",
+      "b1_desc": "Helps reduce hair fall caused by fragility and breakage.",
+      "b2_title": "Deep nourishment",
+      "b2_desc": "Nourishing actives to hydrate the scalp and hair lengths.",
+      "b3_title": "Add shine",
+      "b3_desc": "The serum and oil help smooth the hair fibre and reveal natural radiance.",
+      "b4_title": "A weekly routine",
+      "b4_desc": "Products designed to fit easily into your regular hair care programme.",
+      "disclaimer": "Results vary between individuals, depending on routine consistency and the underlying cause."
+    },
+    "faq_preview": {
+      "headline": "Frequently asked questions",
+      "q1": "Is the routine suitable for all hair types?",
+      "a1": "The Pureva range is formulated for weakened hair prone to breakage. The mask is suitable for all hair types. If in doubt, contact us before purchasing.",
+      "q2": "How long before results are visible?",
+      "a2": "We cannot guarantee specific results or timelines. As with any hair care product, regular use over several weeks is needed to observe a difference. Results vary between individuals.",
+      "q3": "How do I place an order?",
+      "a3": "You can order directly via the order form or through WhatsApp. We will contact you to confirm your order and arrange delivery.",
+      "q4": "Are the products paraben-free or silicone-free?",
+      "a4": "We do not state this without official confirmation from our formulator. Please refer to the full INCI list shown on each product page.",
+      "cta": "See all questions"
+    },
+    "final_cta": {
+      "headline": "Start the routine",
+      "body": "Discover the complete routine pack — 4 products formulated for weakened hair.",
+      "cta_primary": "View the routine pack",
+      "cta_secondary": "Ask a question on WhatsApp"
+    }
+  },
+  "product": {
+    "price_placeholder": "Price to be confirmed",
+    "size_placeholder": "Size to be confirmed",
+    "price_label": "Price",
+    "size_label": "Size",
+    "in_stock": "In stock",
+    "low_stock": "Limited stock",
+    "out_of_stock": "Out of stock",
+    "benefits_label": "Benefits",
+    "how_to_use_label": "How to use",
+    "ingredients_label": "Ingredients (INCI)",
+    "precautions_label": "Precautions",
+    "order_cta": "Order",
+    "whatsapp_cta": "Order on WhatsApp",
+    "ask_question": "Ask a question",
+    "related_title": "Complete the routine",
+    "back_to_shop": "Back to shop",
+    "sticky_cta": "Order on WhatsApp"
+  },
+  "shop": {
+    "headline": "Our products",
+    "subtitle": "Products formulated for weakened hair prone to breakage.",
+    "all_products": "All products",
+    "routine_products": "The routine",
+    "empty": "No products available."
+  },
+  "routine_pack": {
+    "headline": "Weakened Hair Routine Pack",
+    "subtitle": "4 products formulated for weakened hair — a complete routine from oil to serum.",
+    "who_title": "Who is it for?",
+    "who_body": "This pack is designed for people whose hair is weakened and prone to breakage. It is not intended for severe hair loss or medical scalp conditions — in those cases, please consult a healthcare professional.",
+    "includes_title": "What's included",
+    "includes_oil": "Hair oil (100 ml) — pre-shampoo nourishing treatment",
+    "includes_mask": "Hair mask — weekly treatment for all hair types",
+    "includes_lotion": "Hair lotion — leave-in treatment after shampooing",
+    "includes_serum": "Hair serum (50 ml) — smoothing finish and shine",
+    "how_title": "How to use the pack",
+    "how_step1": "Step 1 — Before shampooing: apply the oil to the scalp and lengths, leave on for at least 30 minutes.",
+    "how_step2": "Step 2 — After shampooing: apply the mask or a powder (Sidr or Mashat), leave on then rinse.",
+    "how_step3": "Step 3 — Leave-in: apply the lotion to lengths and scalp.",
+    "how_step4": "Step 4 — Finish: apply a few drops of serum to the ends.",
+    "frequency": "Recommended frequency: 1 to 2 times per week.",
+    "timeline_title": "What to expect?",
+    "timeline_body": "We cannot guarantee specific results. Regular use over several weeks is needed to observe a change. Results vary depending on hair type, routine consistency, and the underlying cause.",
+    "limits_title": "What this routine does not do",
+    "limits_body": "This routine does not treat alopecia, scalp conditions, or hair loss of hormonal or medical origin. If in doubt, consult a dermatologist or doctor.",
+    "crosssell_title": "Complement with powders",
+    "crosssell_body": "Our Sidr and Mashat powders can be incorporated as a complementary treatment in the routine. Available separately.",
+    "order_cta": "Order the pack on WhatsApp",
+    "ask_cta": "Ask a question"
+  },
+  "ingredients": {
+    "headline": "Our ingredients",
+    "subtitle": "Pureva is committed to displaying the full INCI list for each product. Here are the main natural actives used across the range.",
+    "disclaimer": "The full INCI list is shown on each product. If you have known allergies, check the ingredients carefully before use.",
+    "fenugreek_name": "Fenugreek (Trigonella Foenum-Graecum)",
+    "fenugreek_desc": "Rich in plant proteins and amino acids. Used in the formulation for its nourishing properties on the hair fibre.",
+    "amla_name": "Amla — Indian Gooseberry (Phyllanthus Emblica)",
+    "amla_desc": "A natural source of vitamin C. Traditionally used for scalp and hair care.",
+    "rosemary_name": "Rosemary (Rosmarinus Officinalis)",
+    "rosemary_desc": "Known for its stimulating properties on scalp circulation. Present in the lotion.",
+    "nigella_name": "Nigella Oil (Nigella Sativa)",
+    "nigella_desc": "Vegetable oil with nourishing and soothing properties, used in the hair oil.",
+    "shea_name": "Shea Butter (Butyrospermum Parkii)",
+    "shea_desc": "Natural emollient rich in fatty acids. Present in the mask for its moisturising properties.",
+    "sidr_name": "Sidr Powder (Ziziphus Spina-Christi)",
+    "sidr_desc": "Plant powder long used in traditional hair care to cleanse and strengthen.",
+    "keratin_name": "Hydrolysed Keratin (Keratin Hydrolyzed)",
+    "keratin_desc": "Hydrolysed hair protein that helps reinforce the hair fibre structure and reduce breakage.",
+    "collagen_name": "Collagen Amino Acids (Collagen Amino Acids)",
+    "collagen_desc": "Helps nourish and strengthen the hair fibre. Present in the mask and serum."
+  },
+  "about": {
+    "headline": "About Pureva",
+    "mission_title": "Our approach",
+    "mission_body": "Pureva is a natural hair care brand designed for weakened hair prone to breakage. We formulate our products with selected natural actives to support a regular hair care routine.",
+    "approach_title": "Transparency and honesty",
+    "approach_body": "We do not display any claim we cannot justify. No promises of guaranteed results, no unverified certifications. Each product displays the full INCI list and a precaution notice.",
+    "safe_claim": "Helps reduce hair fall caused by breakage — that is what we claim, and nothing more.",
+    "contact_title": "Contact us",
+    "contact_body": "For any questions about our products, an order, or advice, you can contact us via WhatsApp or through the contact form.",
+    "todo_note": "More information about the brand and team will be added soon."
+  },
+  "contact": {
+    "headline": "Contact us",
+    "how_to_order_title": "How to order?",
+    "how_to_order_body": "All orders are placed via WhatsApp or through the form below. We will get back to you to confirm availability, final price, and delivery arrangements.",
+    "whatsapp_title": "Order on WhatsApp",
+    "whatsapp_body": "Click the button below to start a conversation. Tell us which product(s) you want and your delivery country.",
+    "whatsapp_cta": "Message us on WhatsApp",
+    "form_title": "Or send a message",
+    "form_intro": "Fill in the form and we will reply as soon as possible.",
+    "response_time": "Usual response time: 24–48 h.",
+    "shipping_note": "Delivery available in France, Europe and internationally. Rates and lead times are confirmed at the time of order."
+  },
+  "shipping": {
+    "headline": "Shipping & Returns",
+    "zones_title": "Delivery zones",
+    "zones_body": "We ship to mainland France, Europe, and internationally. Exact rates and lead times are confirmed at the time of order.",
+    "france_label": "Mainland France",
+    "france_delay": "Estimated lead time: to be confirmed",
+    "europe_label": "Europe",
+    "europe_delay": "Estimated lead time: to be confirmed",
+    "international_label": "International",
+    "international_delay": "Estimated lead time: to be confirmed",
+    "todo_rates": "Shipping rates will be displayed here once confirmed by the brand.",
+    "returns_title": "Returns",
+    "returns_body": "Due to the nature of cosmetic products, returns are only accepted for defective items or items not matching the order. Please contact us within 48 hours of receipt.",
+    "returns_contact": "For any issue, contact us via WhatsApp or email.",
+    "todo_policy": "The full returns policy will be updated soon."
+  },
+  "legal": {
+    "todo_intro": "These notices will be completed with the company's official information. Please verify legal details before going live.",
+    "legal_notice": {
+      "publisher_title": "Website publisher",
+      "publisher_todo": "Company name, address, SIRET number, and VAT number — to be completed.",
+      "host_title": "Hosting",
+      "host_body": "This site is hosted by Vercel Inc., 340 Pine Street, Suite 701, San Francisco, CA 94104, United States.",
+      "director_title": "Publication director",
+      "director_todo": "Name of publication director — to be completed."
+    },
+    "terms": {
+      "scope_title": "Scope",
+      "scope_body": "These Terms and Conditions apply to all orders placed via this website or via WhatsApp.",
+      "prices_title": "Prices",
+      "prices_body": "Prices are shown in euros (€) inclusive of all taxes. Shipping costs are specified at the time of order.",
+      "orders_title": "Orders",
+      "orders_body": "An order is confirmed after written agreement (WhatsApp or email) and payment. We reserve the right to refuse any order.",
+      "todo": "Full terms and conditions will be drafted by a legal professional before commercial launch."
+    },
+    "privacy": {
+      "controller_title": "Data controller",
+      "controller_todo": "Identity of the data controller — to be completed.",
+      "data_title": "Data collected",
+      "data_body": "We collect data provided when placing an order (name, email, phone number, delivery address) solely for the purpose of processing and delivering your order.",
+      "rights_title": "Your rights",
+      "rights_body": "In accordance with GDPR, you have the right to access, correct, and delete your personal data. To exercise these rights, please contact us.",
+      "cookies_title": "Cookies",
+      "cookies_body": "This site does not use tracking or advertising cookies.",
+      "todo": "The full privacy policy will be drafted before commercial launch."
+    }
   },
   "pages": {
     "shop": {
@@ -87,10 +301,29 @@
       "message": "Message (optional)",
       "consent": "By submitting this form, I agree to be contacted about my order and have read and accepted the Privacy Policy.",
       "submit": "Place order",
-      "success_title": "Order received!",
-      "success_message": "We will contact you to confirm your order and arrange delivery.",
+      "loading": "Sending…",
+      "select_product": "Select a product",
+      "order_cta_label": "Order this product",
+      "retry": "Try again",
+      "reference_label": "Order reference",
+      "success_title": "Request received!",
+      "success_message": "We will contact you to confirm availability, the final amount, and delivery arrangements.",
       "whatsapp_followup": "Follow up on WhatsApp",
       "error": "Something went wrong. Please try again or contact us on WhatsApp."
+    },
+    "validation": {
+      "name_required": "Name is required.",
+      "email_invalid": "Invalid email address.",
+      "phone_required": "Phone number is required.",
+      "country_required": "Country is required.",
+      "address_required": "Delivery address is required.",
+      "product_required": "Please select a product.",
+      "quantity_min": "Quantity must be at least 1.",
+      "consent_required": "You must accept the terms to continue.",
+      "generic": "This field is invalid."
+    },
+    "error": {
+      "too_many_requests": "Too many attempts. Please wait a few minutes before trying again."
     }
   },
   "whatsapp": {

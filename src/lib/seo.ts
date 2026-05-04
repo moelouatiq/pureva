@@ -22,6 +22,7 @@ export function buildMetadata({
   const image = ogImage ?? `${siteUrl}/images/brand/og-default.jpg`
 
   return {
+    metadataBase: new URL(siteUrl),
     title,
     description,
     alternates: {

@@ -1,284 +1,41 @@
 import type { Product } from '@/types/product'
 
+// Image upload checklist — place files in public/images/products/ before launch:
+//   routine-cheveux-fragilises.jpg  ✓ uploaded — pack hero shot (all 4 products)
+//   huile-capillaire-fortifiante.jpg  — Huile Capillaire Fortifiante 100ml
+//   serum-cheveux-fortifiant.jpg      — Sérum Capillaire 50ml
+//   lotion-cuir-chevelu.jpg           — Lotion Cuir Chevelu
+//   masque-soin-cheveux.jpg           — Masque Soin Cheveux 200ml
+//   poudre-de-sidr.jpg              ✓ uploaded — Poudre de Sidr
+//   poudre-de-mashat.jpg            ✓ uploaded — Poudre de Mashat
+// Recommended: 800×800px square, JPEG, <200 KB. ProductImage falls back to SVG placeholder if missing.
+
 export const products: Product[] = [
-  {
-    id: 'hair-oil',
-    slug: { fr: 'huile-capillaire-fortifiante', en: 'strengthening-hair-oil' },
-    name: {
-      fr: 'Huile Capillaire Fortifiante',
-      en: 'Strengthening Hair Oil',
-    },
-    shortDescription: {
-      fr: 'Aide à fortifier les cheveux fragilisés et à réduire la casse',
-      en: 'Helps strengthen fragile hair and reduce breakage',
-    },
-    longDescription: {
-      fr: 'Une huile légère enrichie en actifs naturels pour nourrir le cheveu en profondeur, renforcer sa fibre et soutenir la santé du cuir chevelu.',
-      en: 'A lightweight oil enriched with natural actives to deeply nourish the hair shaft, strengthen its structure, and support a healthy scalp.',
-    },
-    price: 2490,
-    currency: 'EUR',
-    images: ['/images/products/hair-oil-1.jpg'],
-    category: 'oil',
-    tags: ['huile', 'fortifiant', 'cuir chevelu', 'oil', 'strengthening', 'scalp'],
-    size: '100ml',
-    benefits: {
-      fr: [
-        'Aide à réduire la casse',
-        'Nourrit les cheveux secs',
-        'Soutient le confort du cuir chevelu',
-        'Laisse les cheveux plus doux et brillants',
-      ],
-      en: [
-        'Helps reduce breakage',
-        'Nourishes dry hair',
-        'Supports scalp comfort',
-        'Leaves hair softer and shinier',
-      ],
-    },
-    keyIngredients: ['fenugreek', 'nigella', 'rosemary'],
-    ingredients: {
-      fr: 'Ricinus Communis Seed Oil, Argania Spinosa Kernel Oil, Nigella Sativa Seed Oil, Rosmarinus Officinalis Leaf Extract, Trigonella Foenum-Graecum Seed Extract, Tocopherol',
-      en: 'Ricinus Communis Seed Oil, Argania Spinosa Kernel Oil, Nigella Sativa Seed Oil, Rosmarinus Officinalis Leaf Extract, Trigonella Foenum-Graecum Seed Extract, Tocopherol',
-    },
-    howToUse: {
-      fr: "Appliquer quelques gouttes sur le cuir chevelu et les longueurs. Masser doucement. Laisser agir au moins 30 minutes avant le shampooing, ou toute la nuit.",
-      en: 'Apply a few drops to the scalp and lengths. Gently massage. Leave on for at least 30 minutes before shampooing, or overnight.',
-    },
-    precautions: {
-      fr: "Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.",
-      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
-    },
-    isBestSeller: true,
-    isRoutineProduct: true,
-    stockStatus: 'in_stock',
-    whatsappMessage: {
-      fr: "Bonjour, je souhaite commander l'Huile Capillaire Fortifiante Pureva (100ml). Pouvez-vous confirmer la disponibilité ?",
-      en: 'Hello, I would like to order the Pureva Strengthening Hair Oil (100ml). Could you confirm availability?',
-    },
-    seoTitle: {
-      fr: 'Huile Capillaire Fortifiante Naturelle | Pureva',
-      en: 'Natural Strengthening Hair Oil | Pureva',
-    },
-    seoDescription: {
-      fr: 'Huile capillaire naturelle Pureva. Aide à réduire la casse et à fortifier les cheveux fragilisés. Formulée avec fenugrec, nigelle et romarin.',
-      en: 'Pureva natural hair oil. Helps reduce breakage and strengthen fragile hair. Formulated with fenugreek, nigella and rosemary.',
-    },
-  },
-  {
-    id: 'hair-serum',
-    slug: { fr: 'serum-cheveux-fortifiant', en: 'strengthening-hair-serum' },
-    name: {
-      fr: 'Sérum Cheveux Fortifiant',
-      en: 'Strengthening Hair Serum',
-    },
-    shortDescription: {
-      fr: "Aide à renforcer la fibre capillaire et à améliorer l'aspect de la densité",
-      en: 'Helps reinforce the hair fibre and improve the appearance of density',
-    },
-    longDescription: {
-      fr: "Un sérum concentré en actifs botaniques pour aider à renforcer chaque cheveu de la racine à la pointe et soutenir l'apparence d'une chevelure plus dense.",
-      en: 'A serum concentrated with botanical actives to help reinforce each strand from root to tip and support the appearance of denser-looking hair.',
-    },
-    price: 2790,
-    currency: 'EUR',
-    images: ['/images/products/hair-serum-1.jpg'],
-    category: 'serum',
-    tags: ['sérum', 'fortifiant', 'densité', 'serum', 'strengthening', 'density'],
-    size: '50ml',
-    benefits: {
-      fr: [
-        'Aide à renforcer les cheveux fragiles',
-        "Aide à améliorer l'aspect de la densité",
-        'Nourrit et hydrate en profondeur',
-        'Laisse les cheveux plus doux',
-      ],
-      en: [
-        'Helps strengthen fragile hair',
-        'Helps improve the appearance of density',
-        'Deeply nourishes and moisturises',
-        'Leaves hair softer',
-      ],
-    },
-    keyIngredients: ['amla', 'hibiscus', 'nettle'],
-    ingredients: {
-      fr: 'Aqua, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Urtica Dioica Leaf Extract, Panthenol, Allantoin, Xanthan Gum',
-      en: 'Aqua, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Urtica Dioica Leaf Extract, Panthenol, Allantoin, Xanthan Gum',
-    },
-    howToUse: {
-      fr: 'Appliquer sur cheveux propres et légèrement humides. Masser doucement sur le cuir chevelu et répartir sur les longueurs. Ne pas rincer.',
-      en: 'Apply to clean, slightly damp hair. Gently massage into the scalp and distribute through the lengths. Do not rinse.',
-    },
-    precautions: {
-      fr: "Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.",
-      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
-    },
-    isBestSeller: true,
-    isRoutineProduct: true,
-    stockStatus: 'in_stock',
-    whatsappMessage: {
-      fr: 'Bonjour, je souhaite commander le Sérum Cheveux Fortifiant Pureva (50ml). Pouvez-vous confirmer la disponibilité ?',
-      en: 'Hello, I would like to order the Pureva Strengthening Hair Serum (50ml). Could you confirm availability?',
-    },
-    seoTitle: {
-      fr: 'Sérum Fortifiant Cheveux Naturel | Pureva',
-      en: 'Natural Strengthening Hair Serum | Pureva',
-    },
-    seoDescription: {
-      fr: "Sérum capillaire naturel Pureva. Aide à renforcer les cheveux fragilisés et à améliorer l'apparence de la densité. Formulé avec amla, hibiscus et ortie.",
-      en: 'Pureva natural hair serum. Helps strengthen fragile hair and improve the appearance of density. Formulated with amla, hibiscus and nettle.',
-    },
-  },
-  {
-    id: 'scalp-lotion',
-    slug: { fr: 'lotion-cuir-chevelu', en: 'scalp-lotion' },
-    name: {
-      fr: 'Lotion Cuir Chevelu',
-      en: 'Scalp Lotion',
-    },
-    shortDescription: {
-      fr: 'Soutient le confort du cuir chevelu et prépare les cheveux à la routine',
-      en: 'Supports scalp comfort and prepares hair for the routine',
-    },
-    longDescription: {
-      fr: "Une lotion légère pour soutenir l'équilibre du cuir chevelu, apaiser les sensations d'inconfort et créer les conditions idéales pour une routine capillaire efficace.",
-      en: 'A lightweight lotion to support scalp balance, soothe feelings of discomfort and create ideal conditions for an effective hair care routine.',
-    },
-    price: 2190,
-    currency: 'EUR',
-    images: ['/images/products/scalp-lotion-1.jpg'],
-    category: 'lotion',
-    tags: ['lotion', 'cuir chevelu', 'scalp', 'soin', 'care'],
-    size: '150ml',
-    benefits: {
-      fr: [
-        'Soutient le confort du cuir chevelu',
-        'Aide à équilibrer le cuir chevelu',
-        'Prépare les cheveux à la routine',
-        'Formule légère non grasse',
-      ],
-      en: [
-        'Supports scalp comfort',
-        'Helps balance the scalp',
-        'Prepares hair for the routine',
-        'Lightweight non-greasy formula',
-      ],
-    },
-    keyIngredients: ['rosemary', 'licorice', 'fenugreek'],
-    ingredients: {
-      fr: 'Aqua, Glycerin, Rosmarinus Officinalis Leaf Extract, Glycyrrhiza Glabra Root Extract, Trigonella Foenum-Graecum Seed Extract, Niacinamide, Panthenol',
-      en: 'Aqua, Glycerin, Rosmarinus Officinalis Leaf Extract, Glycyrrhiza Glabra Root Extract, Trigonella Foenum-Graecum Seed Extract, Niacinamide, Panthenol',
-    },
-    howToUse: {
-      fr: "Appliquer directement sur le cuir chevelu sec ou humide. Masser doucement. Peut être utilisé quotidiennement ou avant l'application de l'huile.",
-      en: 'Apply directly to dry or damp scalp. Gently massage. Can be used daily or before applying the oil.',
-    },
-    precautions: {
-      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants.',
-      en: 'Avoid contact with eyes. Keep out of reach of children.',
-    },
-    isBestSeller: false,
-    isRoutineProduct: true,
-    stockStatus: 'in_stock',
-    whatsappMessage: {
-      fr: 'Bonjour, je souhaite commander la Lotion Cuir Chevelu Pureva (150ml). Pouvez-vous confirmer la disponibilité ?',
-      en: 'Hello, I would like to order the Pureva Scalp Lotion (150ml). Could you confirm availability?',
-    },
-    seoTitle: {
-      fr: 'Lotion Cuir Chevelu Naturelle | Pureva',
-      en: 'Natural Scalp Lotion | Pureva',
-    },
-    seoDescription: {
-      fr: 'Lotion cuir chevelu naturelle Pureva. Soutient le confort et l\'équilibre du cuir chevelu. Formulée avec romarin, réglisse et fenugrec.',
-      en: 'Pureva natural scalp lotion. Supports scalp comfort and balance. Formulated with rosemary, licorice and fenugreek.',
-    },
-  },
-  {
-    id: 'hair-mask',
-    slug: { fr: 'masque-soin-cheveux', en: 'hair-care-mask' },
-    name: {
-      fr: 'Masque Soin Cheveux',
-      en: 'Hair Care Mask',
-    },
-    shortDescription: {
-      fr: 'Nourrit en profondeur les cheveux secs et fragilisés, laisse les cheveux plus doux',
-      en: 'Deeply nourishes dry and fragile hair, leaves hair softer',
-    },
-    longDescription: {
-      fr: "Un masque riche en actifs naturels pour une nutrition intense. Aide à restaurer la souplesse et l'éclat des cheveux abîmés ou fragilisés par des agressions extérieures.",
-      en: 'A mask rich in natural actives for intense nourishment. Helps restore softness and shine to damaged or fragile hair weakened by external aggressors.',
-    },
-    price: 2390,
-    currency: 'EUR',
-    images: ['/images/products/hair-mask-1.jpg'],
-    category: 'mask',
-    tags: ['masque', 'nutrition', 'mask', 'nourishing', 'soin'],
-    size: '200ml',
-    benefits: {
-      fr: [
-        'Nourrit en profondeur les cheveux secs',
-        'Laisse les cheveux plus doux et brillants',
-        'Aide à restaurer la souplesse',
-        'Facilite le démêlage',
-      ],
-      en: [
-        'Deeply nourishes dry hair',
-        'Leaves hair softer and shinier',
-        'Helps restore softness',
-        'Eases detangling',
-      ],
-    },
-    keyIngredients: ['amla', 'hibiscus', 'clove'],
-    ingredients: {
-      fr: 'Aqua, Cetearyl Alcohol, Behentrimonium Methosulfate, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Syzygium Aromaticum Flower Extract, Panthenol, Tocopherol',
-      en: 'Aqua, Cetearyl Alcohol, Behentrimonium Methosulfate, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Syzygium Aromaticum Flower Extract, Panthenol, Tocopherol',
-    },
-    howToUse: {
-      fr: "Appliquer généreusement sur cheveux propres et essorés. Laisser poser 10 à 20 minutes. Rincer abondamment à l'eau tiède. Utiliser 1 à 2 fois par semaine.",
-      en: 'Apply generously to clean, towel-dried hair. Leave on for 10 to 20 minutes. Rinse thoroughly with lukewarm water. Use 1 to 2 times per week.',
-    },
-    precautions: {
-      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants.',
-      en: 'Avoid contact with eyes. Keep out of reach of children.',
-    },
-    isBestSeller: true,
-    isRoutineProduct: true,
-    stockStatus: 'in_stock',
-    whatsappMessage: {
-      fr: 'Bonjour, je souhaite commander le Masque Soin Cheveux Pureva (200ml). Pouvez-vous confirmer la disponibilité ?',
-      en: 'Hello, I would like to order the Pureva Hair Care Mask (200ml). Could you confirm availability?',
-    },
-    seoTitle: {
-      fr: 'Masque Soin Cheveux Naturel | Pureva',
-      en: 'Natural Hair Care Mask | Pureva',
-    },
-    seoDescription: {
-      fr: 'Masque cheveux naturel Pureva. Nourrit en profondeur les cheveux secs et fragilisés. Formulé avec amla, hibiscus et clou de girofle.',
-      en: 'Pureva natural hair mask. Deeply nourishes dry and fragile hair. Formulated with amla, hibiscus and clove.',
-    },
-  },
+  // ─── Routine Pack ────────────────────────────────────────────────────────────
   {
     id: 'routine-pack',
     slug: { fr: 'routine-cheveux-fragilises', en: 'weakened-hair-routine' },
     name: {
-      fr: 'Pack Routine Cheveux Fragilisés',
-      en: 'Weakened Hair Routine Pack',
+      fr: 'Routine Cheveux Fragilisés',
+      en: 'Weakened Hair Routine',
     },
     shortDescription: {
-      fr: 'La routine complète Pureva — 4 soins pour des cheveux plus forts, étape par étape',
-      en: 'The complete Pureva routine — 4 treatments for stronger hair, step by step',
+      fr: 'La routine complète Pureva — 4 soins pour aider à fortifier les cheveux fragilisés, étape par étape',
+      en: 'The complete Pureva routine — 4 treatments to help strengthen weakened hair, step by step',
     },
     longDescription: {
-      fr: "Le pack complet Pureva réunit les 4 produits de la routine en une offre avantageuse. Idéal pour les cheveux fragilisés, sujets à la casse et au manque de densité.",
-      en: 'The complete Pureva pack brings together all 4 routine products in one advantageous offer. Ideal for fragile hair prone to breakage and lack of density.',
+      fr: "Le pack complet Pureva réunit les 4 produits de la routine en une offre avantageuse. Pensé pour les cheveux fragilisés, sujets à la casse et au manque de densité apparente.",
+      en: 'The complete Pureva pack brings together all 4 routine products in one offer. Designed for fragile hair prone to breakage and lack of apparent density.',
     },
     price: 7990,
+    priceStatus: 'confirmed',
     compareAtPrice: 8960,
     currency: 'EUR',
-    images: ['/images/products/routine-pack-1.jpg'],
+    images: ['/images/products/routine-cheveux-fragilises.jpg'],
     category: 'pack',
     tags: ['pack', 'routine', 'complet', 'complete', 'bundle'],
-    size: 'Lotion 150ml + Sérum 50ml + Huile 100ml + Masque 200ml',
+    size: 'Lotion + Sérum 50ml + Huile 100ml + Masque',
+    sizeStatus: 'confirmed',
     benefits: {
       fr: [
         'Routine complète pour cheveux fragilisés',
@@ -302,7 +59,7 @@ export const products: Product[] = [
     },
     howToUse: {
       fr: "Étape 1 — Lotion : appliquer sur le cuir chevelu, masser. Étape 2 — Sérum : appliquer sur cheveux humides, ne pas rincer. Étape 3 — Huile : appliquer avant shampooing ou en soin sans rinçage. Étape 4 — Masque : 1 à 2 fois par semaine après shampooing, rincer.",
-      en: 'Step 1 — Lotion: apply to scalp, massage. Step 2 — Serum: apply to damp hair, leave in. Step 3 — Oil: apply before shampoo or as a leave-in treatment. Step 4 — Mask: 1–2 times per week after shampoo, rinse out.',
+      en: 'Step 1 — Lotion: apply to scalp, massage. Step 2 — Serum: apply to damp hair, leave in. Step 3 — Oil: apply before shampoo or as a leave-in. Step 4 — Mask: 1–2 times per week after shampoo, rinse out.',
     },
     precautions: {
       fr: "Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.",
@@ -312,16 +69,434 @@ export const products: Product[] = [
     isRoutineProduct: true,
     stockStatus: 'in_stock',
     whatsappMessage: {
-      fr: "Bonjour, je suis intéressé(e) par le Pack Routine Cheveux Fragilisés Pureva. Pouvez-vous m'en dire plus et confirmer la disponibilité ?",
-      en: 'Hello, I am interested in the Pureva Weakened Hair Routine Pack. Could you tell me more and confirm availability?',
+      fr: "Bonjour, je suis intéressé(e) par la Routine Cheveux Fragilisés Pureva. Pouvez-vous m'en dire plus et confirmer la disponibilité ?",
+      en: 'Hello, I am interested in the Pureva Weakened Hair Routine. Could you tell me more and confirm availability?',
     },
     seoTitle: {
-      fr: 'Pack Routine Complète Cheveux Fragilisés | Pureva',
-      en: 'Complete Weakened Hair Routine Pack | Pureva',
+      fr: 'Routine Complète Cheveux Fragilisés | Pureva',
+      en: 'Complete Weakened Hair Routine | Pureva',
     },
     seoDescription: {
       fr: 'La routine capillaire complète Pureva en pack avantageux. 4 soins naturels pour aider à fortifier les cheveux fragilisés, sujets à la casse.',
-      en: 'The complete Pureva hair routine in an advantageous pack. 4 natural treatments to help strengthen fragile hair prone to breakage.',
+      en: 'The complete Pureva hair routine pack. 4 natural treatments to help strengthen fragile hair prone to breakage.',
+    },
+  },
+
+  // ─── Huile Capillaire ────────────────────────────────────────────────────────
+  {
+    id: 'hair-oil',
+    slug: { fr: 'huile-capillaire-fortifiante', en: 'strengthening-hair-oil' },
+    name: {
+      fr: 'Huile Capillaire Fortifiante',
+      en: 'Fortifying Hair Oil',
+    },
+    shortDescription: {
+      fr: 'Aide à réduire la chute des cheveux due à la casse et à nourrir les longueurs',
+      en: 'Helps reduce hair fall caused by breakage and nourish lengths',
+    },
+    longDescription: {
+      fr: "Une huile légère de 100 ml, enrichie en actifs naturels pour nourrir le cheveu en profondeur, renforcer sa fibre et soutenir la santé du cuir chevelu. À utiliser en soin avant-shampooing ou en finition.",
+      en: 'A lightweight 100 ml oil enriched with natural actives to deeply nourish the hair shaft, strengthen its fibre, and support scalp health. Use as a pre-shampoo treatment or finishing touch.',
+    },
+    price: 2490,
+    priceStatus: 'confirmed',
+    currency: 'EUR',
+    images: ['/images/products/huile-capillaire-fortifiante.jpg'],
+    category: 'oil',
+    tags: ['huile', 'fortifiant', 'cuir chevelu', 'oil', 'strengthening', 'scalp'],
+    size: '100ml',
+    sizeStatus: 'confirmed',
+    benefits: {
+      fr: [
+        'Aide à réduire la chute des cheveux due à la casse',
+        'Aide à nourrir le cuir chevelu et les longueurs',
+        'Soutient le confort du cuir chevelu',
+        'Aide à améliorer l\'apparence de cheveux plus forts et brillants',
+      ],
+      en: [
+        'Helps reduce hair fall caused by breakage',
+        'Helps nourish the scalp and lengths',
+        'Supports scalp comfort',
+        'Helps improve the appearance of stronger, shinier hair',
+      ],
+    },
+    keyIngredients: ['fenugreek', 'nigella', 'rosemary'],
+    ingredients: {
+      fr: 'Ricinus Communis Seed Oil, Argania Spinosa Kernel Oil, Nigella Sativa Seed Oil, Rosmarinus Officinalis Leaf Extract, Trigonella Foenum-Graecum Seed Extract, Tocopherol',
+      en: 'Ricinus Communis Seed Oil, Argania Spinosa Kernel Oil, Nigella Sativa Seed Oil, Rosmarinus Officinalis Leaf Extract, Trigonella Foenum-Graecum Seed Extract, Tocopherol',
+    },
+    howToUse: {
+      fr: "Appliquer quelques gouttes sur le cuir chevelu et les longueurs. Masser doucement. Laisser agir au moins 30 minutes avant le shampooing, ou toute la nuit.",
+      en: 'Apply a few drops to the scalp and lengths. Gently massage. Leave on for at least 30 minutes before shampooing, or overnight.',
+    },
+    precautions: {
+      fr: "Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.",
+      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
+    },
+    isBestSeller: true,
+    isRoutineProduct: true,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: "Bonjour, je souhaite commander l'Huile Capillaire Fortifiante Pureva (100ml). Pouvez-vous confirmer la disponibilité ?",
+      en: 'Hello, I would like to order the Pureva Fortifying Hair Oil (100ml). Could you confirm availability?',
+    },
+    seoTitle: {
+      fr: 'Huile Capillaire Fortifiante | Pureva',
+      en: 'Fortifying Hair Oil | Pureva',
+    },
+    seoDescription: {
+      fr: 'Huile capillaire Pureva 100ml. Aide à réduire la chute due à la casse et à fortifier les cheveux fragilisés. Formulée avec fenugrec, nigelle et romarin.',
+      en: 'Pureva hair oil 100ml. Helps reduce hair fall caused by breakage and strengthen fragile hair. Formulated with fenugreek, nigella and rosemary.',
+    },
+  },
+
+  // ─── Sérum Capillaire ────────────────────────────────────────────────────────
+  {
+    id: 'hair-serum',
+    slug: { fr: 'serum-cheveux-fortifiant', en: 'strengthening-hair-serum' },
+    name: {
+      fr: 'Sérum Capillaire',
+      en: 'Hair Serum',
+    },
+    shortDescription: {
+      fr: 'Sérum léger pour la brillance, la douceur et des cheveux à l\'aspect plus lisse',
+      en: 'Lightweight serum for shine, softness, and smoother-looking hair',
+    },
+    longDescription: {
+      fr: "Un sérum de 50 ml, formulé avec du collagène, des protéines et de la kératine, pour aider à prendre soin des longueurs sèches ou fragilisées. Aide à apporter brillance, lissage et hydratation.",
+      en: 'A 50 ml serum formulated with collagen, proteins and keratin, to help care for dry or fragile lengths. Helps provide shine, smoothing and hydration.',
+    },
+    price: 2790,
+    priceStatus: 'confirmed',
+    currency: 'EUR',
+    images: ['/images/products/serum-cheveux-fortifiant.jpg'],
+    category: 'serum',
+    tags: ['sérum', 'brillance', 'lissage', 'serum', 'shine', 'smoothing'],
+    size: '50ml',
+    sizeStatus: 'confirmed',
+    benefits: {
+      fr: [
+        'Aide à apporter brillance et lissage',
+        'Aide à hydrater les longueurs sèches',
+        'Aide à renforcer la fibre capillaire',
+        'Laisse les cheveux plus doux et faciles à coiffer',
+      ],
+      en: [
+        'Helps provide shine and smoothing',
+        'Helps hydrate dry lengths',
+        'Helps strengthen the hair fibre',
+        'Leaves hair softer and easier to style',
+      ],
+    },
+    keyIngredients: ['amla', 'hibiscus', 'nettle'],
+    ingredients: {
+      fr: 'Aqua, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Urtica Dioica Leaf Extract, Panthenol, Allantoin, Collagen Amino Acids, Keratin Hydrolyzed, Xanthan Gum',
+      en: 'Aqua, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Urtica Dioica Leaf Extract, Panthenol, Allantoin, Collagen Amino Acids, Keratin Hydrolyzed, Xanthan Gum',
+    },
+    howToUse: {
+      fr: 'Appliquer sur cheveux propres et légèrement humides. Masser doucement sur le cuir chevelu et répartir sur les longueurs. Ne pas rincer.',
+      en: 'Apply to clean, slightly damp hair. Gently massage into the scalp and distribute through the lengths. Do not rinse.',
+    },
+    precautions: {
+      fr: "Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.",
+      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
+    },
+    isBestSeller: true,
+    isRoutineProduct: true,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: 'Bonjour, je souhaite commander le Sérum Capillaire Pureva (50ml). Pouvez-vous confirmer la disponibilité ?',
+      en: 'Hello, I would like to order the Pureva Hair Serum (50ml). Could you confirm availability?',
+    },
+    seoTitle: {
+      fr: 'Sérum Capillaire Brillance & Lissage | Pureva',
+      en: 'Hair Serum Shine & Smoothing | Pureva',
+    },
+    seoDescription: {
+      fr: "Sérum capillaire Pureva 50ml. Aide à apporter brillance, lissage et hydratation aux longueurs sèches ou fragilisées.",
+      en: 'Pureva hair serum 50ml. Helps provide shine, smoothing and hydration to dry or fragile lengths.',
+    },
+  },
+
+  // ─── Lotion Cuir Chevelu ─────────────────────────────────────────────────────
+  {
+    id: 'scalp-lotion',
+    slug: { fr: 'lotion-cuir-chevelu', en: 'scalp-lotion' },
+    name: {
+      fr: 'Lotion Cuir Chevelu',
+      en: 'Scalp Lotion',
+    },
+    shortDescription: {
+      fr: 'Lotion capillaire pour soutenir le confort du cuir chevelu et prendre soin des racines fragilisées',
+      en: 'Scalp lotion to support scalp comfort and care for fragile roots',
+    },
+    longDescription: {
+      fr: "Une lotion légère pour soutenir l'équilibre du cuir chevelu, apaiser les sensations d'inconfort et préparer les cheveux à la routine. Formule à confirmer.",
+      en: 'A lightweight lotion to support scalp balance, soothe feelings of discomfort and prepare hair for the routine. Formula to be confirmed.',
+    },
+    price: 2190,
+    priceStatus: 'confirmed',
+    currency: 'EUR',
+    images: ['/images/products/lotion-cuir-chevelu.jpg'],
+    category: 'lotion',
+    tags: ['lotion', 'cuir chevelu', 'scalp', 'soin', 'care'],
+    // TODO: confirm exact volume with brand owner
+    size: '150ml',
+    sizeStatus: 'placeholder',
+    benefits: {
+      fr: [
+        'Soutient le confort du cuir chevelu',
+        'Aide à prendre soin des racines fragilisées',
+        'Prépare les cheveux à la routine',
+        'Formule légère non grasse',
+      ],
+      en: [
+        'Supports scalp comfort',
+        'Helps care for fragile roots',
+        'Prepares hair for the routine',
+        'Lightweight non-greasy formula',
+      ],
+    },
+    keyIngredients: ['rosemary', 'licorice', 'fenugreek'],
+    ingredients: {
+      fr: 'Aqua, Glycerin, Rosmarinus Officinalis Leaf Extract, Glycyrrhiza Glabra Root Extract, Trigonella Foenum-Graecum Seed Extract, Niacinamide, Panthenol',
+      en: 'Aqua, Glycerin, Rosmarinus Officinalis Leaf Extract, Glycyrrhiza Glabra Root Extract, Trigonella Foenum-Graecum Seed Extract, Niacinamide, Panthenol',
+    },
+    howToUse: {
+      fr: "Appliquer directement sur le cuir chevelu sec ou humide. Masser doucement. Peut être utilisé quotidiennement ou avant l'application de l'huile.",
+      en: 'Apply directly to dry or damp scalp. Gently massage. Can be used daily or before applying the oil.',
+    },
+    precautions: {
+      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants.',
+      en: 'Avoid contact with eyes. Keep out of reach of children.',
+    },
+    isBestSeller: false,
+    isRoutineProduct: true,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: 'Bonjour, je souhaite commander la Lotion Cuir Chevelu Pureva. Pouvez-vous confirmer la disponibilité ?',
+      en: 'Hello, I would like to order the Pureva Scalp Lotion. Could you confirm availability?',
+    },
+    seoTitle: {
+      fr: 'Lotion Cuir Chevelu | Pureva',
+      en: 'Scalp Lotion | Pureva',
+    },
+    seoDescription: {
+      fr: 'Lotion cuir chevelu Pureva. Soutient le confort du cuir chevelu et aide à prendre soin des racines fragilisées.',
+      en: 'Pureva scalp lotion. Supports scalp comfort and helps care for fragile roots.',
+    },
+  },
+
+  // ─── Masque Soin Cheveux ─────────────────────────────────────────────────────
+  {
+    id: 'hair-mask',
+    slug: { fr: 'masque-soin-cheveux', en: 'hair-care-mask' },
+    name: {
+      fr: 'Masque Soin Cheveux',
+      en: 'Hair Care Mask',
+    },
+    shortDescription: {
+      fr: 'Masque nourrissant aux protéines et kératine pour aider à adoucir et lisser les cheveux secs ou fragilisés',
+      en: 'Nourishing mask with proteins and keratin to help soften and smooth dry or weakened hair',
+    },
+    longDescription: {
+      fr: "Un masque riche formulé avec du collagène, des protéines, de la kératine et du beurre de karité pour une nutrition intense. Convient à tous types de cheveux. Aide à adoucir, lisser et apporter de la brillance aux cheveux abîmés ou fragilisés.",
+      en: 'A rich mask formulated with collagen, proteins, keratin and shea butter for intense nourishment. Suitable for all hair types. Helps soften, smooth and add shine to damaged or weakened hair.',
+    },
+    price: 2390,
+    priceStatus: 'confirmed',
+    currency: 'EUR',
+    images: ['/images/products/masque-soin-cheveux.jpg'],
+    category: 'mask',
+    tags: ['masque', 'nutrition', 'mask', 'nourishing', 'kératine', 'keratin'],
+    size: '200ml',
+    sizeStatus: 'confirmed',
+    benefits: {
+      fr: [
+        'Aide à adoucir et lisser les cheveux secs',
+        'Aide à améliorer la brillance et la maniabilité',
+        'Nourrit en profondeur grâce au beurre de karité',
+        'Facilite le démêlage',
+      ],
+      en: [
+        'Helps soften and smooth dry hair',
+        'Helps improve shine and manageability',
+        'Deeply nourishes with shea butter',
+        'Eases detangling',
+      ],
+    },
+    keyIngredients: ['amla', 'hibiscus', 'clove'],
+    ingredients: {
+      fr: 'Aqua, Cetearyl Alcohol, Behentrimonium Methosulfate, Butyrospermum Parkii (Shea) Butter, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Syzygium Aromaticum Flower Extract, Collagen Amino Acids, Keratin Hydrolyzed, Panthenol, Tocopherol',
+      en: 'Aqua, Cetearyl Alcohol, Behentrimonium Methosulfate, Butyrospermum Parkii (Shea) Butter, Glycerin, Phyllanthus Emblica Fruit Extract, Hibiscus Sabdariffa Flower Extract, Syzygium Aromaticum Flower Extract, Collagen Amino Acids, Keratin Hydrolyzed, Panthenol, Tocopherol',
+    },
+    howToUse: {
+      fr: "Appliquer généreusement sur cheveux propres et essorés. Laisser poser 10 à 20 minutes. Rincer abondamment à l'eau tiède. Utiliser 1 à 2 fois par semaine.",
+      en: 'Apply generously to clean, towel-dried hair. Leave on for 10 to 20 minutes. Rinse thoroughly with lukewarm water. Use 1 to 2 times per week.',
+    },
+    precautions: {
+      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants.',
+      en: 'Avoid contact with eyes. Keep out of reach of children.',
+    },
+    isBestSeller: true,
+    isRoutineProduct: true,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: 'Bonjour, je souhaite commander le Masque Soin Cheveux Pureva. Pouvez-vous confirmer la disponibilité ?',
+      en: 'Hello, I would like to order the Pureva Hair Care Mask. Could you confirm availability?',
+    },
+    seoTitle: {
+      fr: 'Masque Soin Cheveux Kératine & Protéines | Pureva',
+      en: 'Hair Mask with Keratin & Proteins | Pureva',
+    },
+    seoDescription: {
+      fr: 'Masque cheveux Pureva. Formulé avec collagène, protéines, kératine et beurre de karité. Aide à adoucir, lisser et nourrir les cheveux secs ou fragilisés.',
+      en: 'Pureva hair mask. Formulated with collagen, proteins, keratin and shea butter. Helps soften, smooth and nourish dry or weakened hair.',
+    },
+  },
+
+  // ─── Poudre de Sidr (NEW) ────────────────────────────────────────────────────
+  {
+    id: 'sidr-powder',
+    slug: { fr: 'poudre-de-sidr', en: 'sidr-powder' },
+    name: {
+      fr: 'Poudre de Sidr',
+      en: 'Sidr Powder',
+    },
+    shortDescription: {
+      fr: 'Poudre naturelle multi-usage pour les cheveux, le cuir chevelu et la peau',
+      en: 'Natural multi-use powder for hair, scalp, and skin',
+    },
+    longDescription: {
+      fr: "La poudre de Sidr est un actif botanique traditionnel utilisé dans les soins capillaires et cutanés. Elle aide à nettoyer en douceur, à soutenir le confort du cuir chevelu et à apporter souplesse, éclat et brillance aux cheveux. Peut être intégrée dans un masque maison ou une routine de nettoyage.",
+      en: 'Sidr powder is a traditional botanical active used in hair and skin care. It helps cleanse gently, support scalp comfort and bring softness, radiance and shine to hair. Can be incorporated into a home mask or cleansing routine.',
+    },
+    // TODO: confirm price with brand owner
+    price: 0,
+    priceStatus: 'placeholder',
+    currency: 'EUR',
+    images: ['/images/products/poudre-de-sidr.jpg'],
+    category: 'powder',
+    tags: ['poudre', 'sidr', 'naturel', 'powder', 'natural', 'scalp'],
+    // TODO: confirm size/weight with brand owner
+    size: '',
+    sizeStatus: 'placeholder',
+    benefits: {
+      fr: [
+        'Aide à nettoyer en douceur sans agresser',
+        'Soutient le confort du cuir chevelu',
+        'Aide à réduire l\'apparence des pellicules',
+        'Aide à apporter souplesse, éclat et brillance',
+        'Usage multi-fonctions : cheveux, cuir chevelu, peau',
+      ],
+      en: [
+        'Helps cleanse gently without stripping',
+        'Supports scalp comfort',
+        'Helps reduce the appearance of dandruff',
+        'Helps provide softness, radiance and shine',
+        'Multi-use: hair, scalp, skin',
+      ],
+    },
+    keyIngredients: [],
+    ingredients: {
+      fr: 'Ziziphus Spina-Christi Leaf Powder',
+      en: 'Ziziphus Spina-Christi Leaf Powder',
+    },
+    howToUse: {
+      fr: "Mélanger avec de l'eau pour former une pâte. Appliquer sur les cheveux et le cuir chevelu. Laisser poser 10 à 15 minutes. Rincer abondamment. Peut aussi être ajoutée à un masque ou un soin maison.",
+      en: 'Mix with water to form a paste. Apply to hair and scalp. Leave on for 10 to 15 minutes. Rinse thoroughly. Can also be added to a home mask or treatment.',
+    },
+    precautions: {
+      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.',
+      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
+    },
+    isBestSeller: false,
+    isRoutineProduct: false,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: "Bonjour, je souhaite en savoir plus sur la Poudre de Sidr Pureva. Pouvez-vous me donner plus d'informations ?",
+      en: 'Hello, I would like to know more about Pureva Sidr Powder. Could you give me more information?',
+    },
+    seoTitle: {
+      fr: 'Poudre de Sidr Naturelle | Pureva',
+      en: 'Natural Sidr Powder | Pureva',
+    },
+    seoDescription: {
+      fr: 'Poudre de Sidr Pureva. Aide à nettoyer en douceur, à soutenir le confort du cuir chevelu et à apporter brillance et souplesse aux cheveux.',
+      en: 'Pureva Sidr Powder. Helps cleanse gently, support scalp comfort and bring shine and softness to hair.',
+    },
+  },
+
+  // ─── Poudre de Mashat (NEW) ──────────────────────────────────────────────────
+  {
+    id: 'mashat-powder',
+    slug: { fr: 'poudre-de-mashat', en: 'mashat-powder' },
+    name: {
+      fr: 'Poudre de Mashat',
+      en: 'Mashat Powder',
+    },
+    shortDescription: {
+      fr: 'Poudre capillaire naturelle pour aider à fortifier les cheveux fragilisés et améliorer leur apparence',
+      en: 'Natural hair powder to help strengthen weakened hair and improve its appearance',
+    },
+    longDescription: {
+      fr: "La poudre de Mashat est un actif botanique traditionnel utilisé dans les routines capillaires fortifiantes. Elle aide à renforcer les cheveux fragilisés, à réduire la casse et à améliorer l'apparence de la brillance et de la douceur. Adaptée aux cheveux ternes, fragilisés ou manquant de vitalité.",
+      en: 'Mashat powder is a traditional botanical active used in strengthening hair routines. It helps strengthen weakened hair, reduce breakage and improve the appearance of shine and softness. Suitable for dull, fragile or lacking-vitality hair.',
+    },
+    // TODO: confirm price with brand owner
+    price: 0,
+    priceStatus: 'placeholder',
+    currency: 'EUR',
+    images: ['/images/products/poudre-de-mashat.jpg'],
+    category: 'powder',
+    tags: ['poudre', 'mashat', 'fortifiant', 'powder', 'strengthening'],
+    // TODO: confirm size/weight with brand owner
+    size: '',
+    sizeStatus: 'placeholder',
+    benefits: {
+      fr: [
+        'Aide à renforcer les cheveux fragilisés',
+        'Aide à réduire la casse',
+        'Contribue à une routine fortifiante',
+        'Aide à améliorer l\'apparence de brillance et de douceur',
+        'Adaptée aux cheveux ternes ou manquant de vitalité',
+      ],
+      en: [
+        'Helps strengthen weakened hair',
+        'Helps reduce breakage',
+        'Contributes to a strengthening routine',
+        'Helps improve the appearance of shine and softness',
+        'Suitable for dull or lacking-vitality hair',
+      ],
+    },
+    keyIngredients: [],
+    ingredients: {
+      // TODO: confirm INCI list with formulator
+      fr: 'À confirmer — liste INCI en cours de validation.',
+      en: 'To be confirmed — INCI list pending validation.',
+    },
+    howToUse: {
+      fr: "Mélanger avec de l'eau ou une huile végétale pour former une pâte. Appliquer sur les cheveux et le cuir chevelu. Laisser poser 15 à 20 minutes. Rincer abondamment.",
+      en: 'Mix with water or a vegetable oil to form a paste. Apply to hair and scalp. Leave on for 15 to 20 minutes. Rinse thoroughly.',
+    },
+    precautions: {
+      fr: 'Éviter le contact avec les yeux. Tenir hors de portée des enfants. Faire un test sur une petite zone avant utilisation.',
+      en: 'Avoid contact with eyes. Keep out of reach of children. Perform a patch test before use.',
+    },
+    isBestSeller: false,
+    isRoutineProduct: false,
+    stockStatus: 'in_stock',
+    whatsappMessage: {
+      fr: "Bonjour, je souhaite en savoir plus sur la Poudre de Mashat Pureva. Pouvez-vous me donner plus d'informations ?",
+      en: 'Hello, I would like to know more about Pureva Mashat Powder. Could you give me more information?',
+    },
+    seoTitle: {
+      fr: 'Poudre de Mashat Fortifiante | Pureva',
+      en: 'Fortifying Mashat Powder | Pureva',
+    },
+    seoDescription: {
+      fr: 'Poudre de Mashat Pureva. Aide à renforcer les cheveux fragilisés et à améliorer l\'apparence de la brillance et de la douceur.',
+      en: 'Pureva Mashat Powder. Helps strengthen weakened hair and improve the appearance of shine and softness.',
     },
   },
 ]
@@ -336,4 +511,8 @@ export function getRoutineProducts(): Product[] {
 
 export function getBestSellers(): Product[] {
   return products.filter((p) => p.isBestSeller)
+}
+
+export function getCrossSellProducts(): Product[] {
+  return products.filter((p) => !p.isRoutineProduct && p.category === 'powder')
 }

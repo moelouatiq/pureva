@@ -2,8 +2,12 @@
 User-agent: *
 Allow: /
 
+# *
+User-agent: *
+Disallow: /api/
+
 # Host
-Host: https://pureva.com
+Host: https://pureva.fr
 
 # Sitemaps
-Sitemap: https://pureva.com/sitemap.xml
+Sitemap: https://pureva.fr/sitemap.xml

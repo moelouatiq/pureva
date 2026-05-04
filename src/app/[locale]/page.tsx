@@ -2,6 +2,15 @@ import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import type { Locale } from '@/types/locale'
+import HeroSection from '@/components/home/HeroSection'
+import ProblemSection from '@/components/home/ProblemSection'
+import RoutineStepsSection from '@/components/home/RoutineStepsSection'
+import BestSellersSection from '@/components/home/BestSellersSection'
+import IngredientsPreviewSection from '@/components/home/IngredientsPreviewSection'
+import BenefitsSection from '@/components/home/BenefitsSection'
+import FAQPreviewSection from '@/components/home/FAQPreviewSection'
+import FinalCTASection from '@/components/home/FinalCTASection'
+import JsonLd, { organizationJsonLd } from '@/components/shared/JsonLd'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -21,24 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
-  const t = await getTranslations({ locale, namespace: 'home' })
 
   return (
-    <div className="section-padding">
-      <div className="container-pureva">
-        <h1>{t('hero.headline')}</h1>
-        <p className="mt-4 text-lg" style={{ color: 'var(--color-brown-700)' }}>
-          {t('hero.claim')}
-        </p>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <a href={`/${locale}/routine-pack`} className="btn-primary">
-            {t('hero.cta_primary')}
-          </a>
-          <a href={`/${locale}/shop`} className="btn-secondary">
-            {t('hero.cta_secondary')}
-          </a>
-        </div>
-      </div>
-    </div>
+    <>
+      <JsonLd data={organizationJsonLd()} />
+      <HeroSection />
+      <ProblemSection />
+      <RoutineStepsSection />
+      <BestSellersSection locale={locale} />
+      <IngredientsPreviewSection />
+      <BenefitsSection />
+      <FAQPreviewSection />
+      <FinalCTASection />
+    </>
   )
 }

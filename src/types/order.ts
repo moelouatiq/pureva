@@ -9,8 +9,9 @@ export type OrderFormPayload = {
   message?: string
   consent: true
   _hp: string
+  locale: 'fr' | 'en'
 }
 
 export type OrderApiResponse =
-  | { success: true }
+  | { success: true; orderReference: string }
   | { error: string }

@@ -1,15 +1,17 @@
 /** @type {import('next-sitemap').IConfig} */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva.fr'
+
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva.com',
+  siteUrl,
   generateRobotsTxt: true,
   alternateRefs: [
-    { href: process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva.com', hreflang: 'fr' },
-    {
-      href: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva.com'}/en`,
-      hreflang: 'en',
-    },
+    { href: siteUrl, hreflang: 'fr' },
+    { href: `${siteUrl}/en`, hreflang: 'en' },
   ],
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+    policies: [
+      { userAgent: '*', allow: '/' },
+      { userAgent: '*', disallow: '/api/' },
+    ],
   },
 }
