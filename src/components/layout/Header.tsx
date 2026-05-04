@@ -78,8 +78,11 @@ export default async function Header({ locale }: Props) {
             )}
           </div>
 
-          {/* Mobile menu (handles its own trigger button) */}
-          <MobileMenu navItems={navItems} whatsappUrl={whatsappUrl} />
+          {/* Mobile: language switcher + menu trigger */}
+          <div className="flex lg:hidden items-center gap-1">
+            <LanguageSwitcher />
+            <MobileMenu navItems={navItems} whatsappUrl={whatsappUrl} />
+          </div>
         </div>
       </div>
     </header>
