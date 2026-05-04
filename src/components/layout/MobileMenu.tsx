@@ -48,7 +48,7 @@ export default function MobileMenu({ navItems, whatsappUrl }: Props) {
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 z-[90] lg:hidden"
           onClick={() => setOpen(false)}
           aria-hidden="true"
         />
@@ -61,7 +61,7 @@ export default function MobileMenu({ navItems, whatsappUrl }: Props) {
         role="dialog"
         aria-modal="true"
         aria-label={t('open_menu')}
-        className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-[var(--color-ivory)] shadow-2xl z-50 transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col ${
+        className={`fixed top-0 right-0 h-screen w-72 max-w-[85vw] bg-[var(--color-ivory)] shadow-2xl z-[100] transition-transform duration-300 ease-in-out lg:hidden flex flex-col overflow-hidden ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
