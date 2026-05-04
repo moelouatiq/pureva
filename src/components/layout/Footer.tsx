@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import LanguageSwitcher from './LanguageSwitcher'
+import LogoImage from '@/components/shared/LogoImage'
 import type { Locale } from '@/types/locale'
 
 type Props = {
@@ -24,12 +25,13 @@ export default async function Footer({ locale }: Props) {
 
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <span
-              className="block text-2xl font-bold tracking-tight mb-3"
-              style={{ fontFamily: 'var(--font-heading)' }}
-            >
-              Pureva
-            </span>
+            <Link href="/" className="inline-block mb-3" aria-label={locale === 'fr' ? 'Logo Pureva' : 'Pureva logo'}>
+              <LogoImage
+                alt={locale === 'fr' ? 'Logo Pureva' : 'Pureva logo'}
+                className="w-[100px] h-auto brightness-0 invert"
+                fallbackClassName="block text-2xl font-bold tracking-tight font-heading text-ivory"
+              />
+            </Link>
             <p className="text-sm leading-relaxed text-[var(--color-green-100)] mb-5">
               {t('brand_description')}
             </p>

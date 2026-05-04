@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import type { Locale } from '@/types/locale'
 import HeroSection from '@/components/home/HeroSection'
+import ProductStorySlider from '@/components/home/ProductStorySlider'
 import ProblemSection from '@/components/home/ProblemSection'
 import RoutineStepsSection from '@/components/home/RoutineStepsSection'
 import BestSellersSection from '@/components/home/BestSellersSection'
@@ -35,6 +36,7 @@ export default async function HomePage({ params }: Props) {
     <>
       <JsonLd data={organizationJsonLd()} />
       <HeroSection />
+      <ProductStorySlider />
       <ProblemSection />
       <RoutineStepsSection />
       <BestSellersSection locale={locale} />

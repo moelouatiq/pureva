@@ -3,6 +3,7 @@ import { Link } from '@/i18n/navigation'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import LanguageSwitcher from './LanguageSwitcher'
 import MobileMenu from './MobileMenu'
+import LogoImage from '@/components/shared/LogoImage'
 import type { Locale } from '@/types/locale'
 
 type Props = {
@@ -31,15 +32,18 @@ export default async function Header({ locale }: Props) {
   return (
     <header className="sticky top-0 z-30 bg-[var(--color-ivory)]/95 backdrop-blur-sm border-b border-[var(--color-cream)]">
       <div className="container-pureva">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between py-3 md:py-5">
           {/* Logo */}
           <Link
             href="/"
             aria-label={tHeader('logo_alt')}
-            className="text-2xl font-bold tracking-tight"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-green-800)' }}
+            className="flex items-center shrink-0"
           >
-            Pureva
+            <LogoImage
+              alt={locale === 'fr' ? 'Logo Pureva' : 'Pureva logo'}
+              className="h-[60px] w-auto md:h-[100px] md:w-auto"
+              fallbackClassName="text-2xl font-bold tracking-tight font-heading text-green-800"
+            />
           </Link>
 
           {/* Desktop navigation */}

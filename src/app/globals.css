@@ -32,8 +32,8 @@
   --color-whatsapp:  oklch(0.73 0.19 152);
 
   /* Typography */
-  --font-heading: Georgia, "Times New Roman", serif;
-  --font-body:    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-lora, Georgia, "Times New Roman", serif);
+  --font-body:    var(--font-raleway, system-ui, -apple-system, "Segoe UI", sans-serif);
 
   /* Spacing scale */
   --spacing-section: 5rem;
@@ -181,6 +181,61 @@
   h1 { font-size: clamp(1.875rem, 4vw, 3rem); }
   h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
   h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+}
+
+/* ─── Animation keyframes ────────────────────────────────────────────────── */
+@keyframes heroImageIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+@keyframes heroTextIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll-triggered animation classes (used by AnimateOnScroll client component) */
+.pureva-animate-ready {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.pureva-animate-ready.pureva-animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero entrance animations */
+.hero-text-enter {
+  animation: heroTextIn 0.6s ease both;
+}
+
+.hero-image-enter {
+  animation: heroImageIn 0.75s 0.1s ease both;
+}
+
+/* Staggered children inside hero text block */
+.hero-text-enter > *:nth-child(1) { animation: heroTextIn 0.5s 0.05s ease both; }
+.hero-text-enter > *:nth-child(2) { animation: heroTextIn 0.5s 0.12s ease both; }
+.hero-text-enter > *:nth-child(3) { animation: heroTextIn 0.5s 0.18s ease both; }
+.hero-text-enter > *:nth-child(4) { animation: heroTextIn 0.5s 0.24s ease both; }
+.hero-text-enter > *:nth-child(5) { animation: heroTextIn 0.5s 0.30s ease both; }
+
+/* prefers-reduced-motion: disable all custom keyframe animations */
+@media (prefers-reduced-motion: reduce) {
+  .pureva-animate-ready {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero-text-enter,
+  .hero-image-enter,
+  .hero-text-enter > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ─── Layout utilities ───────────────────────────────────────────────────── */

@@ -23,6 +23,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     '@type': 'Organization',
     name: 'Pureva',
     url: siteUrl,
+    logo: `${siteUrl}/images/brand/logo.png`,
     description:
       'Pureva — soins capillaires naturels pour cheveux fragilisés. Routine complète à base d\'actifs botaniques.',
   }

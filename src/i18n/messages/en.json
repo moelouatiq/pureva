@@ -20,12 +20,23 @@
       "headline": "The natural routine for stronger hair",
       "claim": "Helps reduce hair fall caused by breakage",
       "cta_primary": "See the routine",
-      "cta_secondary": "View products"
+      "cta_secondary": "View products",
+      "benefit_line": "A hair-care routine designed to strengthen, nourish, and enhance weakened hair."
     },
     "problem": {
       "headline": "Concerned about your hair?",
       "body": "Hair fall from breakage, dry and weakened strands, loss of density — these signs call for the right routine, not empty promises.",
-      "note": "Pureva does not promise miracles. Our products are formulated to support a regular hair care routine."
+      "note": "Pureva does not promise miracles. Our products are formulated to support a regular hair care routine.",
+      "card_fragile_label": "Weakened hair",
+      "card_fragile_desc": "Helps strengthen hair that feels fragile and lacks resistance.",
+      "card_casse_label": "Breakage & loss of density",
+      "card_casse_desc": "Helps reduce breakage linked to fragility of the hair fibre.",
+      "card_sec_label": "Dry lengths",
+      "card_sec_desc": "Nourishes and hydrates damaged lengths, leaving them softer.",
+      "card_scalp_label": "Uncomfortable scalp",
+      "card_scalp_desc": "Supports scalp balance and comfort on a daily basis.",
+      "card_brillance_label": "Lack of shine",
+      "card_brillance_desc": "Helps reveal natural radiance and smooth the hair surface."
     },
     "routine_steps": {
       "headline": "The 4-step routine",
@@ -62,18 +73,40 @@
       "sidr_name": "Sidr Powder",
       "sidr_desc": "Long used to cleanse and strengthen the scalp.",
       "keratin_name": "Hydrolysed Keratin",
-      "keratin_desc": "Helps to reinforce the hair fibre structure and reduce breakage."
+      "keratin_desc": "Helps to reinforce the hair fibre structure and reduce breakage.",
+      "hibiscus_name": "Hibiscus",
+      "hibiscus_desc": "Helps soften and hydrate dry lengths.",
+      "nettle_name": "Nettle",
+      "nettle_desc": "Helps revitalise hair and support natural shine.",
+      "licorice_name": "Licorice Root",
+      "licorice_desc": "Helps support scalp comfort and balance.",
+      "clove_name": "Clove",
+      "clove_desc": "Helps protect hair from external aggressors."
+    },
+    "product_story": {
+      "headline": "The Pureva range",
+      "subtitle": "Products formulated for weakened hair, step by step.",
+      "slide_routine_label": "Routine Pack",
+      "slide_routine_desc": "4 complete treatments for weakened hair",
+      "slide_oil_label": "Hair Oil",
+      "slide_oil_desc": "Nourishing pre-shampoo treatment · 100ml",
+      "slide_serum_label": "Hair Serum",
+      "slide_serum_desc": "Shine and smoothing, leave-in · 50ml",
+      "slide_mask_label": "Hair Care Mask",
+      "slide_mask_desc": "Intensive weekly nourishment · 200ml",
+      "slide_powders_label": "Botanical Powders",
+      "slide_powders_desc": "Sidr & Mashat — natural hair rituals"
     },
     "benefits": {
-      "headline": "What the routine aims for",
-      "b1_title": "Reduce breakage",
-      "b1_desc": "Helps reduce hair fall caused by fragility and breakage.",
-      "b2_title": "Deep nourishment",
-      "b2_desc": "Nourishing actives to hydrate the scalp and hair lengths.",
-      "b3_title": "Add shine",
-      "b3_desc": "The serum and oil help smooth the hair fibre and reveal natural radiance.",
-      "b4_title": "A weekly routine",
-      "b4_desc": "Products designed to fit easily into your regular hair care programme.",
+      "headline": "Why Pureva?",
+      "b1_title": "Transparent formulas",
+      "b1_desc": "Every product shows the full INCI list. No vague promises — only identified actives.",
+      "b2_title": "Clear 4-step routine",
+      "b2_desc": "Progressive treatments explained simply and easy to integrate into your weekly hair care.",
+      "b3_title": "Precise usage guidance",
+      "b3_desc": "Each product comes with a detailed usage guide, free of unnecessary jargon.",
+      "b4_title": "Supported orders",
+      "b4_desc": "Order via WhatsApp or form. We confirm every order individually before shipping.",
       "disclaimer": "Results vary between individuals, depending on routine consistency and the underlying cause."
     },
     "faq_preview": {

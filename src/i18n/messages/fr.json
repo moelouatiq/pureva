@@ -20,12 +20,23 @@
       "headline": "La routine naturelle pour des cheveux plus forts",
       "claim": "Aide à réduire la chute des cheveux due à la casse",
       "cta_primary": "Voir la routine",
-      "cta_secondary": "Voir les produits"
+      "cta_secondary": "Voir les produits",
+      "benefit_line": "Une routine capillaire pensée pour renforcer, nourrir et sublimer les cheveux fragilisés."
     },
     "problem": {
       "headline": "Vos cheveux vous préoccupent ?",
       "body": "La chute due à la casse, les cheveux secs et fragilisés, la perte de densité — ces signes méritent une routine adaptée, pas des promesses.",
-      "note": "Pureva ne promet pas de miracle. Nos soins sont formulés pour accompagner une routine régulière."
+      "note": "Pureva ne promet pas de miracle. Nos soins sont formulés pour accompagner une routine régulière.",
+      "card_fragile_label": "Cheveux fragilisés",
+      "card_fragile_desc": "Aide à renforcer les cheveux affaiblis et manquant de résistance.",
+      "card_casse_label": "Casse & perte de densité",
+      "card_casse_desc": "Aide à réduire la casse liée à la fragilité de la fibre capillaire.",
+      "card_sec_label": "Longueurs sèches",
+      "card_sec_desc": "Nourrit et hydrate les longueurs abîmées pour les rendre plus douces.",
+      "card_scalp_label": "Cuir chevelu inconfortable",
+      "card_scalp_desc": "Soutient l'équilibre et le confort du cuir chevelu au quotidien.",
+      "card_brillance_label": "Manque de brillance",
+      "card_brillance_desc": "Aide à révéler l'éclat naturel et à lisser la surface du cheveu."
     },
     "routine_steps": {
       "headline": "La routine en 4 étapes",
@@ -62,18 +73,40 @@
       "sidr_name": "Poudre de Sidr",
       "sidr_desc": "Utilisée de longue date pour nettoyer et fortifier le cuir chevelu.",
       "keratin_name": "Kératine Hydrolysée",
-      "keratin_desc": "Aide à renforcer la structure de la fibre capillaire et à réduire la casse."
+      "keratin_desc": "Aide à renforcer la structure de la fibre capillaire et à réduire la casse.",
+      "hibiscus_name": "Hibiscus",
+      "hibiscus_desc": "Aide à adoucir et à hydrater les longueurs sèches.",
+      "nettle_name": "Ortie",
+      "nettle_desc": "Aide à revitaliser les cheveux et à soutenir l'éclat naturel.",
+      "licorice_name": "Réglisse",
+      "licorice_desc": "Aide à soutenir le confort et l'équilibre du cuir chevelu.",
+      "clove_name": "Clou de girofle",
+      "clove_desc": "Aide à protéger les cheveux des agressions extérieures."
+    },
+    "product_story": {
+      "headline": "La gamme Pureva",
+      "subtitle": "Des soins formulés pour les cheveux fragilisés, étape par étape.",
+      "slide_routine_label": "Pack Routine",
+      "slide_routine_desc": "4 soins complets pour les cheveux fragilisés",
+      "slide_oil_label": "Huile Capillaire",
+      "slide_oil_desc": "Soin pré-shampoing nourrissant · 100ml",
+      "slide_serum_label": "Sérum Capillaire",
+      "slide_serum_desc": "Brillance et lissage sans rinçage · 50ml",
+      "slide_mask_label": "Masque Soin Cheveux",
+      "slide_mask_desc": "Nutrition intensive hebdomadaire · 200ml",
+      "slide_powders_label": "Poudres Botaniques",
+      "slide_powders_desc": "Sidr & Mashat — rituels capillaires naturels"
     },
     "benefits": {
-      "headline": "Ce que la routine vise",
-      "b1_title": "Réduire la casse",
-      "b1_desc": "Aide à réduire la chute des cheveux due à la fragilité et à la casse.",
-      "b2_title": "Nourrir en profondeur",
-      "b2_desc": "Des actifs nourrissants pour hydrater le cuir chevelu et les longueurs.",
-      "b3_title": "Apporter brillance",
-      "b3_desc": "Le sérum et l'huile aident à lisser la fibre et à révéler l'éclat naturel.",
-      "b4_title": "Une routine hebdomadaire",
-      "b4_desc": "Des soins conçus pour s'intégrer facilement dans votre programme capillaire régulier.",
+      "headline": "Pourquoi Pureva ?",
+      "b1_title": "Formules transparentes",
+      "b1_desc": "Chaque produit affiche la liste INCI complète. Pas de promesses vagues, des actifs identifiés.",
+      "b2_title": "Routine claire en 4 étapes",
+      "b2_desc": "Des soins progressifs, expliqués simplement, faciles à intégrer dans votre soin hebdomadaire.",
+      "b3_title": "Conseils d'utilisation précis",
+      "b3_desc": "Chaque soin est accompagné d'une notice détaillée, sans jargon inutile.",
+      "b4_title": "Commande accompagnée",
+      "b4_desc": "Commandez par WhatsApp ou formulaire. Nous confirmons chaque commande avant expédition.",
       "disclaimer": "Les résultats varient selon les individus, la régularité de la routine et la cause du problème."
     },
     "faq_preview": {
