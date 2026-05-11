@@ -30,6 +30,7 @@ export type Product = {
   isBestSeller: boolean
   isRoutineProduct: boolean
   stockStatus: StockStatus
+  hidden?: boolean
   whatsappMessage: LocalizedString
   seoTitle: LocalizedString
   seoDescription: LocalizedString

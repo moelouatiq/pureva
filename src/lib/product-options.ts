@@ -1,4 +1,4 @@
-import { products } from '@/data/products'
+import { getVisibleProducts } from '@/data/products'
 import { formatPrice } from '@/lib/format-price'
 import type { Locale } from '@/types/locale'
 import type { ProductOption } from '@/components/order/OrderForm'
@@ -7,7 +7,7 @@ export function buildProductOptions(
   locale: Locale,
   pricePlaceholderLabel: string
 ): ProductOption[] {
-  return [...products]
+  return getVisibleProducts()
     .sort((a, b) => {
       // Routine pack first, then routine products, then others
       if (a.category === 'pack') return -1

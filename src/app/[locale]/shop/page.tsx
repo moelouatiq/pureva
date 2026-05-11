@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
-import { products } from '@/data/products'
+import { getVisibleProducts } from '@/data/products'
 import ProductGrid from '@/components/product/ProductGrid'
 import type { Locale } from '@/types/locale'
 
@@ -25,8 +25,9 @@ export default async function ShopPage({ params }: Props) {
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'shop' })
 
-  const routineProducts = products.filter((p) => p.isRoutineProduct)
-  const otherProducts = products.filter((p) => !p.isRoutineProduct)
+  const visibleProducts = getVisibleProducts()
+  const routineProducts = visibleProducts.filter((p) => p.isRoutineProduct)
+  const otherProducts = visibleProducts.filter((p) => !p.isRoutineProduct)
 
   return (
     <div className="section-padding">

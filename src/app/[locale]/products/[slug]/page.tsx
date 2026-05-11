@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { products } from '@/data/products'
+import { getVisibleProducts } from '@/data/products'
 import { buildMetadata } from '@/lib/seo'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import { buildProductOptions } from '@/lib/product-options'
@@ -19,7 +19,7 @@ type Props = {
 }
 
 export function generateStaticParams() {
-  return products.flatMap((product) => [
+  return getVisibleProducts().flatMap((product) => [
     { locale: 'fr', slug: product.slug.fr },
     { locale: 'en', slug: product.slug.en },
   ])
@@ -28,7 +28,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const l = locale as Locale
-  const product = products.find((p) => p.slug.fr === slug || p.slug.en === slug)
+  const product = getVisibleProducts().find((p) => p.slug.fr === slug || p.slug.en === slug)
   if (!product) return {}
   return buildMetadata({
     locale: l,
@@ -48,10 +48,11 @@ export default async function ProductPage({ params }: Props) {
   const tOrder = await getTranslations({ locale, namespace: 'order' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
 
-  const product = products.find((p) => p.slug.fr === slug || p.slug.en === slug)
+  const visibleProducts = getVisibleProducts()
+  const product = visibleProducts.find((p) => p.slug.fr === slug || p.slug.en === slug)
   if (!product) notFound()
 
-  const relatedProducts = products
+  const relatedProducts = visibleProducts
     .filter((p) => p.id !== product.id && p.isRoutineProduct === product.isRoutineProduct)
     .slice(0, 3)
 

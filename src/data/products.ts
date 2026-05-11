@@ -273,6 +273,7 @@ export const products: Product[] = [
     isBestSeller: false,
     isRoutineProduct: true,
     stockStatus: 'in_stock',
+    hidden: true,
     whatsappMessage: {
       fr: 'Bonjour, je souhaite commander la Lotion Cuir Chevelu Pureva. Pouvez-vous confirmer la disponibilité ?',
       en: 'Hello, I would like to order the Pureva Scalp Lotion. Could you confirm availability?',
@@ -501,14 +502,22 @@ export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug.fr === slug || p.slug.en === slug)
 }
 
+export function isProductVisible(product: Product): boolean {
+  return product.hidden !== true
+}
+
+export function getVisibleProducts(): Product[] {
+  return products.filter(isProductVisible)
+}
+
 export function getRoutineProducts(): Product[] {
-  return products.filter((p) => p.isRoutineProduct && p.category !== 'pack')
+  return products.filter((p) => isProductVisible(p) && p.isRoutineProduct && p.category !== 'pack')
 }
 
 export function getBestSellers(): Product[] {
-  return products.filter((p) => p.isBestSeller)
+  return products.filter((p) => isProductVisible(p) && p.isBestSeller)
 }
 
 export function getCrossSellProducts(): Product[] {
-  return products.filter((p) => !p.isRoutineProduct && p.category === 'powder')
+  return products.filter((p) => isProductVisible(p) && !p.isRoutineProduct && p.category === 'powder')
 }
