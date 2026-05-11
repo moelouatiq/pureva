@@ -27,14 +27,14 @@ export const products: Product[] = [
       fr: "Le pack complet Pureva réunit les 4 produits de la routine en une offre avantageuse. Pensé pour les cheveux fragilisés, sujets à la casse et au manque de densité apparente.",
       en: 'The complete Pureva pack brings together all 4 routine products in one offer. Designed for fragile hair prone to breakage and lack of apparent density.',
     },
-    price: 7990,
+    price: 7641,
     priceStatus: 'confirmed',
-    compareAtPrice: 8960,
+    compareAtPrice: 8490,
     currency: 'EUR',
     images: ['/images/products/routine-cheveux-fragilises.jpg'],
     category: 'pack',
     tags: ['pack', 'routine', 'complet', 'complete', 'bundle'],
-    size: 'Lotion + Sérum 50ml + Huile 100ml + Masque',
+    size: 'Lotion + Sérum 50 ml + Huile 100 ml + Masque',
     sizeStatus: 'confirmed',
     benefits: {
       fr: [
@@ -98,13 +98,13 @@ export const products: Product[] = [
       fr: "Une huile légère de 100 ml, enrichie en actifs naturels pour nourrir le cheveu en profondeur, renforcer sa fibre et soutenir la santé du cuir chevelu. À utiliser en soin avant-shampooing ou en finition.",
       en: 'A lightweight 100 ml oil enriched with natural actives to deeply nourish the hair shaft, strengthen its fibre, and support scalp health. Use as a pre-shampoo treatment or finishing touch.',
     },
-    price: 2490,
+    price: 3500,
     priceStatus: 'confirmed',
     currency: 'EUR',
     images: ['/images/products/huile-capillaire-fortifiante.jpg'],
     category: 'oil',
     tags: ['huile', 'fortifiant', 'cuir chevelu', 'oil', 'strengthening', 'scalp'],
-    size: '100ml',
+    size: '100 ml',
     sizeStatus: 'confirmed',
     benefits: {
       fr: [
@@ -137,16 +137,16 @@ export const products: Product[] = [
     isRoutineProduct: true,
     stockStatus: 'in_stock',
     whatsappMessage: {
-      fr: "Bonjour, je souhaite commander l'Huile Capillaire Fortifiante Pureva (100ml). Pouvez-vous confirmer la disponibilité ?",
-      en: 'Hello, I would like to order the Pureva Fortifying Hair Oil (100ml). Could you confirm availability?',
+      fr: "Bonjour, je souhaite commander l'Huile Capillaire Fortifiante Pureva (100 ml). Pouvez-vous confirmer la disponibilité ?",
+      en: 'Hello, I would like to order the Pureva Fortifying Hair Oil (100 ml). Could you confirm availability?',
     },
     seoTitle: {
       fr: 'Huile Capillaire Fortifiante | Pureva',
       en: 'Fortifying Hair Oil | Pureva',
     },
     seoDescription: {
-      fr: 'Huile capillaire Pureva 100ml. Aide à réduire la chute due à la casse et à fortifier les cheveux fragilisés. Formulée avec fenugrec, nigelle et romarin.',
-      en: 'Pureva hair oil 100ml. Helps reduce hair fall caused by breakage and strengthen fragile hair. Formulated with fenugreek, nigella and rosemary.',
+      fr: 'Huile capillaire Pureva 100 ml. Aide à réduire la chute due à la casse et à fortifier les cheveux fragilisés. Formulée avec fenugrec, nigelle et romarin.',
+      en: 'Pureva hair oil 100 ml. Helps reduce hair fall caused by breakage and strengthen fragile hair. Formulated with fenugreek, nigella and rosemary.',
     },
   },
 
@@ -166,13 +166,13 @@ export const products: Product[] = [
       fr: "Un sérum de 50 ml, formulé avec du collagène, des protéines et de la kératine, pour aider à prendre soin des longueurs sèches ou fragilisées. Aide à apporter brillance, lissage et hydratation.",
       en: 'A 50 ml serum formulated with collagen, proteins and keratin, to help care for dry or fragile lengths. Helps provide shine, smoothing and hydration.',
     },
-    price: 2790,
+    price: 1300,
     priceStatus: 'confirmed',
     currency: 'EUR',
     images: ['/images/products/serum-cheveux-fortifiant.png'],
     category: 'serum',
     tags: ['sérum', 'brillance', 'lissage', 'serum', 'shine', 'smoothing'],
-    size: '50ml',
+    size: '50 ml',
     sizeStatus: 'confirmed',
     benefits: {
       fr: [
@@ -205,16 +205,16 @@ export const products: Product[] = [
     isRoutineProduct: true,
     stockStatus: 'in_stock',
     whatsappMessage: {
-      fr: 'Bonjour, je souhaite commander le Sérum Capillaire Pureva (50ml). Pouvez-vous confirmer la disponibilité ?',
-      en: 'Hello, I would like to order the Pureva Hair Serum (50ml). Could you confirm availability?',
+      fr: 'Bonjour, je souhaite commander le Sérum Capillaire Pureva (50 ml). Pouvez-vous confirmer la disponibilité ?',
+      en: 'Hello, I would like to order the Pureva Hair Serum (50 ml). Could you confirm availability?',
     },
     seoTitle: {
       fr: 'Sérum Capillaire Brillance & Lissage | Pureva',
       en: 'Hair Serum Shine & Smoothing | Pureva',
     },
     seoDescription: {
-      fr: "Sérum capillaire Pureva 50ml. Aide à apporter brillance, lissage et hydratation aux longueurs sèches ou fragilisées.",
-      en: 'Pureva hair serum 50ml. Helps provide shine, smoothing and hydration to dry or fragile lengths.',
+      fr: "Sérum capillaire Pureva 50 ml. Aide à apporter brillance, lissage et hydratation aux longueurs sèches ou fragilisées.",
+      en: 'Pureva hair serum 50 ml. Helps provide shine, smoothing and hydration to dry or fragile lengths.',
     },
   },
 
@@ -303,13 +303,13 @@ export const products: Product[] = [
       fr: "Un masque riche formulé avec du collagène, des protéines, de la kératine et du beurre de karité pour une nutrition intense. Convient à tous types de cheveux. Aide à adoucir, lisser et apporter de la brillance aux cheveux abîmés ou fragilisés.",
       en: 'A rich mask formulated with collagen, proteins, keratin and shea butter for intense nourishment. Suitable for all hair types. Helps soften, smooth and add shine to damaged or weakened hair.',
     },
-    price: 2390,
+    price: 1500,
     priceStatus: 'confirmed',
     currency: 'EUR',
     images: ['/images/products/masque-soin-cheveux.png'],
     category: 'mask',
     tags: ['masque', 'nutrition', 'mask', 'nourishing', 'kératine', 'keratin'],
-    size: '200ml',
+    size: '200 ml',
     sizeStatus: 'confirmed',
     benefits: {
       fr: [
@@ -371,16 +371,14 @@ export const products: Product[] = [
       fr: "La poudre de Sidr est un actif botanique traditionnel utilisé dans les soins capillaires et cutanés. Elle aide à nettoyer en douceur, à soutenir le confort du cuir chevelu et à apporter souplesse, éclat et brillance aux cheveux. Peut être intégrée dans un masque maison ou une routine de nettoyage.",
       en: 'Sidr powder is a traditional botanical active used in hair and skin care. It helps cleanse gently, support scalp comfort and bring softness, radiance and shine to hair. Can be incorporated into a home mask or cleansing routine.',
     },
-    // TODO: confirm price with brand owner
-    price: 0,
-    priceStatus: 'placeholder',
+    price: 1000,
+    priceStatus: 'confirmed',
     currency: 'EUR',
     images: ['/images/products/poudre-de-sidr.jpg'],
     category: 'powder',
     tags: ['poudre', 'sidr', 'naturel', 'powder', 'natural', 'scalp'],
-    // TODO: confirm size/weight with brand owner
-    size: '',
-    sizeStatus: 'placeholder',
+    size: '100 g',
+    sizeStatus: 'confirmed',
     benefits: {
       fr: [
         'Aide à nettoyer en douceur sans agresser',
@@ -443,16 +441,14 @@ export const products: Product[] = [
       fr: "La poudre de Mashat est un actif botanique traditionnel utilisé dans les routines capillaires fortifiantes. Elle aide à renforcer les cheveux fragilisés, à réduire la casse et à améliorer l'apparence de la brillance et de la douceur. Adaptée aux cheveux ternes, fragilisés ou manquant de vitalité.",
       en: 'Mashat powder is a traditional botanical active used in strengthening hair routines. It helps strengthen weakened hair, reduce breakage and improve the appearance of shine and softness. Suitable for dull, fragile or lacking-vitality hair.',
     },
-    // TODO: confirm price with brand owner
-    price: 0,
-    priceStatus: 'placeholder',
+    price: 1500,
+    priceStatus: 'confirmed',
     currency: 'EUR',
     images: ['/images/products/poudre-de-mashat.jpg'],
     category: 'powder',
     tags: ['poudre', 'mashat', 'fortifiant', 'powder', 'strengthening'],
-    // TODO: confirm size/weight with brand owner
-    size: '',
-    sizeStatus: 'placeholder',
+    size: '100 ml',
+    sizeStatus: 'confirmed',
     benefits: {
       fr: [
         'Aide à renforcer les cheveux fragilisés',
