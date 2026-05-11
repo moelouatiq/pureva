@@ -109,9 +109,9 @@ Images must be placed in `public/images/products/` before launch. The `ProductIm
 |---|---|---|---|
 | `routine-cheveux-fragilises.jpg` | ✅ uploaded | Routine Cheveux Fragilisés (pack) | 800×800px | 200 KB |
 | `huile-capillaire-fortifiante.jpg` | ✅ uploaded | Huile Capillaire Fortifiante | 800×800px | 200 KB |
-| `serum-cheveux-fortifiant.jpg` | ✅ uploaded | Sérum Capillaire | 800×800px | 200 KB |
-| `lotion-cuir-chevelu.jpg` | ✅ uploaded | Lotion Cuir Chevelu | 800×800px | 200 KB |
-| `masque-soin-cheveux.jpg` | ✅ uploaded | Masque Soin Cheveux | 800×800px | 200 KB |
+| `serum-cheveux-fortifiant.png` | ✅ uploaded | Sérum Capillaire | 800×800px | 200 KB |
+| `lotion-cuir-chevelu.png` | ✅ uploaded | Lotion Cuir Chevelu | 800×800px | 200 KB |
+| `masque-soin-cheveux.png` | ✅ uploaded | Masque Soin Cheveux | 800×800px | 200 KB |
 | `poudre-de-sidr.jpg` | ✅ uploaded | Poudre de Sidr | 800×800px | 200 KB |
 | `poudre-de-mashat.jpg` | ✅ uploaded | Poudre de Mashat | 800×800px | 200 KB |
 

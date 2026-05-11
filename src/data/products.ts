@@ -3,9 +3,9 @@ import type { Product } from '@/types/product'
 // Image upload checklist — place files in public/images/products/ before launch:
 //   routine-cheveux-fragilises.jpg  ✓ uploaded — pack hero shot (all 4 products)
 //   huile-capillaire-fortifiante.jpg  — Huile Capillaire Fortifiante 100ml
-//   serum-cheveux-fortifiant.jpg      — Sérum Capillaire 50ml
-//   lotion-cuir-chevelu.jpg           — Lotion Cuir Chevelu
-//   masque-soin-cheveux.jpg           — Masque Soin Cheveux 200ml
+//   serum-cheveux-fortifiant.png      — Sérum Capillaire 50ml
+//   lotion-cuir-chevelu.png           — Lotion Cuir Chevelu
+//   masque-soin-cheveux.png           — Masque Soin Cheveux 200ml
 //   poudre-de-sidr.jpg              ✓ uploaded — Poudre de Sidr
 //   poudre-de-mashat.jpg            ✓ uploaded — Poudre de Mashat
 // Recommended: 800×800px square, JPEG, <200 KB. ProductImage falls back to SVG placeholder if missing.
@@ -169,7 +169,7 @@ export const products: Product[] = [
     price: 2790,
     priceStatus: 'confirmed',
     currency: 'EUR',
-    images: ['/images/products/serum-cheveux-fortifiant.jpg'],
+    images: ['/images/products/serum-cheveux-fortifiant.png'],
     category: 'serum',
     tags: ['sérum', 'brillance', 'lissage', 'serum', 'shine', 'smoothing'],
     size: '50ml',
@@ -237,7 +237,7 @@ export const products: Product[] = [
     price: 2190,
     priceStatus: 'confirmed',
     currency: 'EUR',
-    images: ['/images/products/lotion-cuir-chevelu.jpg'],
+    images: ['/images/products/lotion-cuir-chevelu.png'],
     category: 'lotion',
     tags: ['lotion', 'cuir chevelu', 'scalp', 'soin', 'care'],
     // TODO: confirm exact volume with brand owner
@@ -306,7 +306,7 @@ export const products: Product[] = [
     price: 2390,
     priceStatus: 'confirmed',
     currency: 'EUR',
-    images: ['/images/products/masque-soin-cheveux.jpg'],
+    images: ['/images/products/masque-soin-cheveux.png'],
     category: 'mask',
     tags: ['masque', 'nutrition', 'mask', 'nourishing', 'kératine', 'keratin'],
     size: '200ml',

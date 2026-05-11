@@ -24,7 +24,7 @@ export default async function ProductStorySlider() {
     },
     {
       id: 'serum',
-      image: '/images/products/serum-cheveux-fortifiant.jpg',
+      image: '/images/products/serum-cheveux-fortifiant.png',
       href: '/products/serum-cheveux-fortifiant',
       category: t('slide_serum_label'),
       name: 'Sérum Capillaire',
@@ -32,7 +32,7 @@ export default async function ProductStorySlider() {
     },
     {
       id: 'mask',
-      image: '/images/products/masque-soin-cheveux.jpg',
+      image: '/images/products/masque-soin-cheveux.png',
       href: '/products/masque-soin-cheveux',
       category: t('slide_mask_label'),
       name: 'Masque Soin Cheveux',
