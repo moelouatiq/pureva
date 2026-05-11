@@ -2,7 +2,7 @@ import type { Product } from '@/types/product'
 
 // Image upload checklist — place files in public/images/products/ before launch:
 //   routine-cheveux-fragilises.jpg  ✓ uploaded — pack hero shot (all 4 products)
-//   huile-capillaire-fortifiante.jpg  — Huile Capillaire Fortifiante 100ml
+//   huile-capillaire-fortifiante.png  — Huile Capillaire Fortifiante 100ml
 //   serum-cheveux-fortifiant.png      — Sérum Capillaire 50ml
 //   lotion-cuir-chevelu.png           — Lotion Cuir Chevelu
 //   masque-soin-cheveux.png           — Masque Soin Cheveux 200ml
@@ -101,7 +101,7 @@ export const products: Product[] = [
     price: 3500,
     priceStatus: 'confirmed',
     currency: 'EUR',
-    images: ['/images/products/huile-capillaire-fortifiante.jpg'],
+    images: ['/images/products/huile-capillaire-fortifiante.png'],
     category: 'oil',
     tags: ['huile', 'fortifiant', 'cuir chevelu', 'oil', 'strengthening', 'scalp'],
     size: '100 ml',

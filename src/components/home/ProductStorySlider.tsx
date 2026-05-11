@@ -16,7 +16,7 @@ export default async function ProductStorySlider() {
     },
     {
       id: 'oil',
-      image: '/images/products/huile-capillaire-fortifiante.jpg',
+      image: '/images/products/huile-capillaire-fortifiante.png',
       href: '/products/huile-capillaire-fortifiante',
       category: t('slide_oil_label'),
       name: 'Huile Capillaire Fortifiante',

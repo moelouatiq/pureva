@@ -108,7 +108,7 @@ Images must be placed in `public/images/products/` before launch. The `ProductIm
 | File | Product | Dimensions | Max size |
 |---|---|---|---|
 | `routine-cheveux-fragilises.jpg` | ✅ uploaded | Routine Cheveux Fragilisés (pack) | 800×800px | 200 KB |
-| `huile-capillaire-fortifiante.jpg` | ✅ uploaded | Huile Capillaire Fortifiante | 800×800px | 200 KB |
+| `huile-capillaire-fortifiante.png` | ✅ uploaded | Huile Capillaire Fortifiante | 800×800px | 200 KB |
 | `serum-cheveux-fortifiant.png` | ✅ uploaded | Sérum Capillaire | 800×800px | 200 KB |
 | `lotion-cuir-chevelu.png` | ✅ uploaded | Lotion Cuir Chevelu | 800×800px | 200 KB |
 | `masque-soin-cheveux.png` | ✅ uploaded | Masque Soin Cheveux | 800×800px | 200 KB |
