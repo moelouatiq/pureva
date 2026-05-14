@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { products } from '@/data/products'
+import { isProductVisible, products } from '@/data/products'
 import { orderSchema } from '@/lib/order-schema'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { sendOrderNotification, sendOrderConfirmation } from '@/lib/resend'
 import { formatPrice } from '@/lib/format-price'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
+import { persistOrderEmailEvent, persistOrderWithCreatedEvent } from '@/lib/order-persistence'
 import type { Locale } from '@/types/locale'
+
+export const dynamic = 'force-dynamic'
 
 function generateOrderReference(): string {
   const date = new Date()
@@ -29,6 +32,18 @@ function formatTimestamp(locale: Locale): string {
     dateStyle: 'full',
     timeStyle: 'short',
     timeZone: 'Europe/Paris',
+  })
+}
+
+function logEmailFailure(
+  orderReference: string,
+  stage: 'business_email_failed' | 'customer_email_failed',
+  error?: string
+) {
+  console.warn('[api/order] Email notification failed', {
+    orderReference,
+    stage,
+    error: error ?? 'unknown',
   })
 }
 
@@ -72,26 +87,39 @@ export async function POST(request: NextRequest) {
   }
 
   // 6. Resolve product
-  const product = products.find((p) => p.id === data.product)
+  const product = products.find((p) => p.id === data.product && isProductVisible(p))
   if (!product) {
     return NextResponse.json({ error: 'Product not found' }, { status: 400 })
   }
 
-  // 7. Check required email env vars
-  if (!process.env.RESEND_API_KEY || !process.env.BUSINESS_EMAIL || !process.env.FROM_EMAIL) {
-    console.error('[api/order] Missing required email environment variables')
-    return NextResponse.json(
-      { error: 'Order service is not fully configured. Please contact us via WhatsApp.' },
-      { status: 500 }
-    )
-  }
-
-  // 8. Build order data
+  // 7. Build order data
   const locale = data.locale as Locale
   const orderReference = generateOrderReference()
   const timestamp = formatTimestamp(locale)
 
   const productName = product.name[locale] ?? product.name.fr
+
+  // 8. Persist order before sending any emails.
+  const persisted = await persistOrderWithCreatedEvent({
+    orderReference,
+    locale,
+    customerName: data.name,
+    customerEmail: data.email,
+    customerPhone: data.phone,
+    customerCountry: data.country,
+    customerAddress: data.address,
+    product,
+    quantity: data.quantity,
+    customerMessage: data.message,
+  })
+
+  if (!persisted.success) {
+    console.error('[api/order] Order persistence failed:', persisted.error)
+    return NextResponse.json(
+      { error: 'Failed to process order. Please try again or contact us via WhatsApp.' },
+      { status: 500 }
+    )
+  }
 
   let unitPrice: string | undefined
   let subtotal: string | undefined
@@ -124,24 +152,27 @@ export async function POST(request: NextRequest) {
     waFollowUpUrl: waFollowUpUrl === '#' ? '' : waFollowUpUrl,
   }
 
-  // 9. Send emails (both — if one fails we still return success to avoid double orders)
-  const [notifResult, confirmResult] = await Promise.all([
-    sendOrderNotification(emailData),
-    sendOrderConfirmation(emailData),
-  ])
-
-  if (!notifResult.success) {
-    // Business notification failed — critical, return error
-    console.error('[api/order] Business notification failed:', notifResult.error)
-    return NextResponse.json(
-      { error: 'Failed to process order. Please try again or contact us via WhatsApp.' },
-      { status: 500 }
-    )
+  // 9. Email sending is best-effort after persistence. The database/admin panel
+  // is the source of truth, so email issues must not make customers retry.
+  if (!process.env.RESEND_API_KEY || !process.env.BUSINESS_EMAIL || !process.env.FROM_EMAIL) {
+    logEmailFailure(orderReference, 'business_email_failed', 'email_env_missing')
+    await persistOrderEmailEvent(orderReference, 'business_email_failed')
+    await persistOrderEmailEvent(orderReference, 'customer_email_failed')
+    return NextResponse.json({ success: true, orderReference }, { status: 200 })
   }
 
+  const notifResult = await sendOrderNotification(emailData)
+
+  if (!notifResult.success) {
+    logEmailFailure(orderReference, 'business_email_failed', notifResult.error)
+    await persistOrderEmailEvent(orderReference, 'business_email_failed')
+  }
+
+  const confirmResult = await sendOrderConfirmation(emailData)
+
   if (!confirmResult.success) {
-    // Customer confirmation failed — log but still return success (business was notified)
-    console.warn('[api/order] Customer confirmation failed:', confirmResult.error)
+    logEmailFailure(orderReference, 'customer_email_failed', confirmResult.error)
+    await persistOrderEmailEvent(orderReference, 'customer_email_failed')
   }
 
   // 10. Success
