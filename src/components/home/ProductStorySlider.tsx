@@ -8,7 +8,7 @@ export default async function ProductStorySlider() {
   const slides: SlideData[] = [
     {
       id: 'routine',
-      image: '/images/products/routine-cheveux-fragilises.jpg',
+      image: '/images/products/lotion-cuir-chevelu-10%25.png',
       href: '/routine-pack',
       category: t('slide_routine_label'),
       name: 'Routine Cheveux Fragilisés',

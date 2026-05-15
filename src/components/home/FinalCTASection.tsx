@@ -62,7 +62,7 @@ export default async function FinalCTASection() {
                 style={{ transform: 'rotate(-2deg)' }}
               >
                 <ProductImage
-                  src="/images/products/routine-cheveux-fragilises.jpg"
+                  src="/images/products/lotion-cuir-chevelu-10%25.png"
                   alt="Routine Cheveux Fragilisés — Pureva"
                   className="aspect-square h-full w-full"
                 />

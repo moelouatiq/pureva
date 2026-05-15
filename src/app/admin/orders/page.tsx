@@ -37,6 +37,14 @@ function StatusBadge({ status }: { status: string }) {
   )
 }
 
+function DeletedBadge() {
+  return (
+    <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800">
+      Deleted
+    </span>
+  )
+}
+
 export default async function AdminOrdersPage({ searchParams }: Props) {
   const access = await requireAdmin()
 
@@ -59,7 +67,8 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const params = await searchParams
   const status = valueOf(params.status)
   const search = valueOf(params.search)
-  const orders = await listAdminOrders({ status, search })
+  const showDeleted = valueOf(params.showDeleted) === '1'
+  const orders = await listAdminOrders({ status, search, showDeleted })
 
   return (
     <div className="flex flex-col gap-6">
@@ -103,6 +112,17 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
           />
         </div>
 
+        <label className="flex items-center gap-2 rounded-lg border border-green-900/10 px-3 py-2 text-sm">
+          <input
+            type="checkbox"
+            name="showDeleted"
+            value="1"
+            defaultChecked={showDeleted}
+            className="h-4 w-4 rounded border-green-300"
+          />
+          <span>Afficher les commandes supprimées</span>
+        </label>
+
         <button type="submit" className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white">
           Filtrer
         </button>
@@ -127,25 +147,33 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               </tr>
             </thead>
             <tbody className="divide-y divide-green-900/10">
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{order.order_reference}</td>
-                  <td className="whitespace-nowrap px-4 py-3">{formatDate(order.created_at)}</td>
-                  <td className="px-4 py-3">{order.customer_name}</td>
-                  <td className="px-4 py-3">{order.customer_email}</td>
-                  <td className="px-4 py-3">{order.customer_phone}</td>
-                  <td className="px-4 py-3">{order.product_name}</td>
-                  <td className="px-4 py-3">{order.quantity}</td>
-                  <td className="whitespace-nowrap px-4 py-3">{priceLabel(order)}</td>
-                  <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
-                  <td className="px-4 py-3">{order.customer_country}</td>
-                  <td className="px-4 py-3">
-                    <Link className="font-medium underline" href={`/admin/orders/${order.id}`}>
-                      Ouvrir
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+              {orders.map((order) => {
+                const isDeleted = Boolean(order.deleted_at)
+                return (
+                  <tr key={order.id} className={isDeleted ? 'bg-slate-50 text-green-900/45' : undefined}>
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{order.order_reference}</td>
+                    <td className="whitespace-nowrap px-4 py-3">{formatDate(order.created_at)}</td>
+                    <td className="px-4 py-3">{order.customer_name}</td>
+                    <td className="px-4 py-3">{order.customer_email}</td>
+                    <td className="px-4 py-3">{order.customer_phone}</td>
+                    <td className="px-4 py-3">{order.product_name}</td>
+                    <td className="px-4 py-3">{order.quantity}</td>
+                    <td className="whitespace-nowrap px-4 py-3">{priceLabel(order)}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        <StatusBadge status={order.status} />
+                        {isDeleted && <DeletedBadge />}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">{order.customer_country}</td>
+                    <td className="px-4 py-3">
+                      <Link className="font-medium underline" href={`/admin/orders/${order.id}`}>
+                        Ouvrir
+                      </Link>
+                    </td>
+                  </tr>
+                )
+              })}
               {orders.length === 0 && (
                 <tr>
                   <td className="px-4 py-8 text-center text-green-800/60" colSpan={11}>

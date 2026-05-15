@@ -5,6 +5,7 @@ import { getAdminOrderDetail } from '@/lib/admin/orders'
 import { updateOrderStatusAction } from '@/app/admin/actions'
 import { formatPrice } from '@/lib/format-price'
 import { ORDER_STATUSES, type AdminOrder, type OrderEvent } from '@/types/admin-order'
+import { DeleteOrderForm } from './DeleteOrderForm'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,6 +61,14 @@ function EventItem({ event }: { event: OrderEvent }) {
   )
 }
 
+function DeletedBadge() {
+  return (
+    <span className="w-fit rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-800">
+      Deleted
+    </span>
+  )
+}
+
 export default async function AdminOrderDetailPage({ params, searchParams }: Props) {
   const access = await requireAdmin()
 
@@ -87,6 +96,29 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
   const { order, events } = detail
   const updated = valueOf(query.updated) === '1'
   const updateError = valueOf(query.error) === 'update'
+  const deletedStatusError = valueOf(query.error) === 'deleted'
+  const deleteError = valueOf(query.error) === 'delete'
+  const deleteConfigError = valueOf(query.error) === 'delete_config'
+  const deletedSuccess = valueOf(query.deleted) === '1'
+  const isDeleted = Boolean(order.deleted_at)
+  const deletedCopy =
+    order.locale === 'en'
+      ? {
+          success: 'Order deleted.',
+          metadataTitle: 'Deletion details',
+          deletedAt: 'Deleted at',
+          deletedBy: 'Deleted by',
+          reason: 'Deletion reason',
+          statusDisabled: 'Status updates are disabled for deleted orders.',
+        }
+      : {
+          success: 'Commande supprimée.',
+          metadataTitle: 'Details de suppression',
+          deletedAt: 'Supprimee le',
+          deletedBy: 'Supprimee par',
+          reason: 'Raison de suppression',
+          statusDisabled: 'Les mises a jour de statut sont desactivees pour les commandes supprimees.',
+        }
 
   return (
     <div className="flex flex-col gap-6">
@@ -98,20 +130,57 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           <h1 className="mt-2 text-3xl font-heading font-bold">{order.order_reference}</h1>
           <p className="mt-1 text-sm text-green-800/60">Creee le {formatDate(order.created_at)}</p>
         </div>
-        <span className="w-fit rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
-          {order.status}
-        </span>
+        <div className="flex flex-wrap gap-2">
+          <span className="w-fit rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
+            {order.status}
+          </span>
+          {isDeleted && <DeletedBadge />}
+        </div>
       </div>
 
-      {updated && (
+      {updated && !isDeleted && (
         <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
           Statut mis a jour.
+        </p>
+      )}
+      {deletedSuccess && (
+        <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
+          {deletedCopy.success}
         </p>
       )}
       {updateError && (
         <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           Impossible de mettre a jour le statut.
         </p>
+      )}
+      {deletedStatusError && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {deletedCopy.statusDisabled}
+        </p>
+      )}
+      {deleteError && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          Impossible de supprimer la commande.
+        </p>
+      )}
+      {deleteConfigError && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          Deletion is not configured yet.
+        </p>
+      )}
+
+      {isDeleted && (
+        <section className="rounded-lg border border-red-200 bg-red-50 p-5 shadow-sm">
+          <h2 className="mb-3 text-lg font-semibold text-red-900">{deletedCopy.metadataTitle}</h2>
+          <dl>
+            <DetailRow
+              label={deletedCopy.deletedAt}
+              value={order.deleted_at ? formatDate(order.deleted_at) : null}
+            />
+            <DetailRow label={deletedCopy.deletedBy} value={order.deleted_by} />
+            <DetailRow label={deletedCopy.reason} value={order.delete_reason} />
+          </dl>
+        </section>
       )}
 
       <section className="rounded-lg border border-green-900/10 bg-white p-5 shadow-sm">
@@ -132,6 +201,9 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
 
       <section className="rounded-lg border border-green-900/10 bg-white p-5 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">Mettre a jour le statut</h2>
+        {isDeleted && (
+          <p className="mb-4 text-sm text-green-800/60">{deletedCopy.statusDisabled}</p>
+        )}
         <form action={updateOrderStatusAction} className="flex flex-col gap-4">
           <input type="hidden" name="orderId" value={order.id} />
           <div className="grid gap-4 sm:grid-cols-2">
@@ -143,6 +215,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                 id="status"
                 name="status"
                 defaultValue={order.status}
+                disabled={isDeleted}
                 className="rounded-lg border border-green-200 px-3 py-2 text-sm"
               >
                 {ORDER_STATUSES.map((status) => (
@@ -160,16 +233,23 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
                 id="note"
                 name="note"
                 maxLength={1000}
+                disabled={isDeleted}
                 className="rounded-lg border border-green-200 px-3 py-2 text-sm"
                 placeholder="Optionnel"
               />
             </div>
           </div>
-          <button type="submit" className="self-start rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white">
+          <button
+            type="submit"
+            disabled={isDeleted}
+            className="self-start rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-green-900/30"
+          >
             Enregistrer
           </button>
         </form>
       </section>
+
+      <DeleteOrderForm orderId={order.id} locale={order.locale} isDeleted={isDeleted} />
 
       <section>
         <h2 className="mb-4 text-lg font-semibold">Historique</h2>

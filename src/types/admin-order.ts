@@ -30,6 +30,9 @@ export type AdminOrder = {
   customer_message: string | null
   status: OrderStatus
   source: string
+  deleted_at: string | null
+  deleted_by: string | null
+  delete_reason: string | null
   created_at: string
   updated_at: string
 }

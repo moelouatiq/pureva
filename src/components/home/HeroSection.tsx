@@ -55,7 +55,7 @@ export default async function HeroSection() {
               />
               <div className="overflow-hidden rounded-3xl shadow-2xl shadow-green-900/15 aspect-square">
                 <ProductImage
-                  src="/images/products/routine-cheveux-fragilises.jpg"
+                  src="/images/products/lotion-cuir-chevelu-10%25.png"
                   alt="Routine Cheveux Fragilisés — Pureva"
                   className="h-full w-full"
                 />

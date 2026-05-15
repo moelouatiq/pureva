@@ -1,7 +1,7 @@
 import type { Product } from '@/types/product'
 
 // Image upload checklist — place files in public/images/products/ before launch:
-//   routine-cheveux-fragilises.jpg  ✓ uploaded — pack hero shot (all 4 products)
+//   lotion-cuir-chevelu-10%.png      — Routine Cheveux Fragilisés
 //   huile-capillaire-fortifiante.png  — Huile Capillaire Fortifiante 100ml
 //   serum-cheveux-fortifiant.png      — Sérum Capillaire 50ml
 //   lotion-cuir-chevelu.png           — Lotion Cuir Chevelu
@@ -31,7 +31,7 @@ export const products: Product[] = [
     priceStatus: 'confirmed',
     compareAtPrice: 8490,
     currency: 'EUR',
-    images: ['/images/products/routine-cheveux-fragilises.jpg'],
+    images: ['/images/products/lotion-cuir-chevelu-10%25.png'],
     category: 'pack',
     tags: ['pack', 'routine', 'complet', 'complete', 'bundle'],
     size: 'Lotion + Sérum 50 ml + Huile 100 ml + Masque',

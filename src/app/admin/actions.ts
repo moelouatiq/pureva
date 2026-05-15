@@ -4,8 +4,8 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { getAdminAccess } from '@/lib/admin/auth'
-import { updateOrderStatusSchema } from '@/lib/admin/schemas'
-import { updateAdminOrderStatus } from '@/lib/admin/orders'
+import { deleteOrderSchema, updateOrderStatusSchema } from '@/lib/admin/schemas'
+import { deleteAdminOrder, getAdminOrderDetail, updateAdminOrderStatus } from '@/lib/admin/orders'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 type LoginState = {
@@ -73,6 +73,11 @@ export async function updateOrderStatusAction(formData: FormData) {
     redirect('/admin/orders')
   }
 
+  const detail = await getAdminOrderDetail(parsed.data.orderId)
+  if (!detail || detail.order.deleted_at) {
+    redirect(`/admin/orders/${parsed.data.orderId}?error=deleted`)
+  }
+
   const result = await updateAdminOrderStatus(
     parsed.data.orderId,
     parsed.data.status,
@@ -87,4 +92,37 @@ export async function updateOrderStatusAction(formData: FormData) {
   }
 
   redirect(`/admin/orders/${parsed.data.orderId}?updated=1`)
+}
+
+export async function deleteOrderAction(formData: FormData) {
+  const access = await getAdminAccess()
+  if (access.status !== 'ok') {
+    redirect('/admin/login')
+  }
+
+  const parsed = deleteOrderSchema.safeParse({
+    orderId: formData.get('orderId'),
+    reason: formData.get('reason') || undefined,
+    confirmDelete: formData.get('confirmDelete'),
+  })
+
+  if (!parsed.success) {
+    redirect('/admin/orders?error=delete')
+  }
+
+  const result = await deleteAdminOrder(
+    parsed.data.orderId,
+    access.profile.auth_user_id,
+    parsed.data.reason
+  )
+
+  revalidatePath('/admin/orders')
+  revalidatePath(`/admin/orders/${parsed.data.orderId}`)
+
+  if (!result.success) {
+    const errorParam = result.error === 'not_configured' ? 'delete_config' : 'delete'
+    redirect(`/admin/orders/${parsed.data.orderId}?error=${errorParam}`)
+  }
+
+  redirect(`/admin/orders/${parsed.data.orderId}?deleted=1`)
 }
