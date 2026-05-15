@@ -33,6 +33,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Link href="/admin/orders" className="font-medium hover:underline">
                   Commandes
                 </Link>
+                <Link href="/admin/products" className="font-medium hover:underline">
+                  Produits
+                </Link>
                 <form action={logoutAdmin}>
                   <button type="submit" className="text-green-800/70 hover:text-green-900">
                     Deconnexion
