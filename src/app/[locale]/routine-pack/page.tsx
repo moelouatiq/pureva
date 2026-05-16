@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
-import { getRoutineProducts, getCrossSellProducts } from '@/data/products'
-import { buildProductOptions } from '@/lib/product-options'
+import {
+  buildPublicProductOptions,
+  getPublicCrossSellProducts,
+  getPublicRoutineProducts,
+} from '@/lib/products/public-products'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import Disclaimer from '@/components/shared/Disclaimer'
 import RoutineSteps from '@/components/routine/RoutineSteps'
@@ -13,6 +16,8 @@ import type { Locale } from '@/types/locale'
 type Props = {
   params: Promise<{ locale: string }>
 }
+
+export const revalidate = 300
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -34,11 +39,11 @@ export default async function RoutinePackPage({ params }: Props) {
   const tWa = await getTranslations({ locale, namespace: 'whatsapp' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
 
-  const routineProducts = getRoutineProducts()
-  const crossSellProducts = getCrossSellProducts()
+  const routineProducts = await getPublicRoutineProducts()
+  const crossSellProducts = await getPublicCrossSellProducts()
   const waUrl = buildWhatsAppUrl(tWa('routine'))
 
-  const productOptions = buildProductOptions(l, tProduct('price_placeholder'))
+  const productOptions = await buildPublicProductOptions(l, tProduct('price_placeholder'))
 
   return (
     <div className="section-padding">

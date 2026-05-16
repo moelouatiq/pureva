@@ -31,10 +31,10 @@ export default async function ProductCard({ product, locale }: Props) {
   return (
     <article className="group flex flex-col rounded-2xl overflow-hidden border border-cream bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
 
-      {/* Image — aspect-[3/4] for taller, more editorial cards */}
+      {/* Image — padded packshot frame so the full product remains visible. */}
       <Link
         href={`/products/${slug}`}
-        className="relative block overflow-hidden bg-cream"
+        className="relative block overflow-hidden bg-cream p-5"
         style={{ aspectRatio: '3/4' }}
         tabIndex={-1}
         aria-hidden
@@ -42,7 +42,7 @@ export default async function ProductCard({ product, locale }: Props) {
         <ProductImage
           src={product.images[0] ?? ''}
           alt={name}
-          className="h-full w-full transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full"
         />
 
         {/* Category pill (top-left) */}

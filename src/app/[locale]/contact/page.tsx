@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
-import { buildProductOptions } from '@/lib/product-options'
+import { buildPublicProductOptions } from '@/lib/products/public-products'
 import WhatsAppCTA from '@/components/shared/WhatsAppCTA'
 import OrderForm from '@/components/order/OrderForm'
 import type { Locale } from '@/types/locale'
@@ -9,6 +9,8 @@ import type { Locale } from '@/types/locale'
 type Props = {
   params: Promise<{ locale: string }>
 }
+
+export const revalidate = 300
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -31,7 +33,7 @@ export default async function ContactPage({ params }: Props) {
   const tCommon = await getTranslations({ locale, namespace: 'common' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
 
-  const productOptions = buildProductOptions(l, tProduct('price_placeholder'))
+  const productOptions = await buildPublicProductOptions(l, tProduct('price_placeholder'))
 
   return (
     <div className="section-padding">

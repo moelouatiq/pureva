@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
-import { getVisibleProducts } from '@/data/products'
+import { getPublicVisibleProducts } from '@/lib/products/public-products'
 import ProductGrid from '@/components/product/ProductGrid'
 import type { Locale } from '@/types/locale'
 
 type Props = {
   params: Promise<{ locale: string }>
 }
+
+export const revalidate = 300
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -25,7 +27,7 @@ export default async function ShopPage({ params }: Props) {
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'shop' })
 
-  const visibleProducts = getVisibleProducts()
+  const visibleProducts = await getPublicVisibleProducts()
   const routineProducts = visibleProducts.filter((p) => p.isRoutineProduct)
   const otherProducts = visibleProducts.filter((p) => !p.isRoutineProduct)
 

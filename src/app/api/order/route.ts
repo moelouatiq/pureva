@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isProductVisible, products } from '@/data/products'
 import { orderSchema } from '@/lib/order-schema'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { sendOrderNotification, sendOrderConfirmation } from '@/lib/resend'
 import { formatPrice } from '@/lib/format-price'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import { persistOrderEmailEvent, persistOrderWithCreatedEvent } from '@/lib/order-persistence'
+import { resolvePublicOrderProduct } from '@/lib/products/public-products'
 import type { Locale } from '@/types/locale'
 
 export const dynamic = 'force-dynamic'
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 6. Resolve product
-  const product = products.find((p) => p.id === data.product && isProductVisible(p))
+  const product = await resolvePublicOrderProduct(data.product)
   if (!product) {
     return NextResponse.json({ error: 'Product not found' }, { status: 400 })
   }

@@ -58,7 +58,7 @@ export default async function FinalCTASection() {
                 className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-400/20 to-transparent blur-2xl"
               />
               <div
-                className="overflow-hidden rounded-3xl shadow-2xl shadow-black/30"
+                className="overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-black/30"
                 style={{ transform: 'rotate(-2deg)' }}
               >
                 <ProductImage

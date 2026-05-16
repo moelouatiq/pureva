@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState, type FormEvent } from 'react'
+import { useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import Link from 'next/link'
 import ProductImage from '@/components/product/ProductImage'
 import { detectForbiddenClaims, type ClaimWarning } from '@/lib/admin/product-claims'
@@ -13,10 +13,14 @@ import {
   type AdminProduct,
 } from '@/types/admin-product'
 import { createProductAction, updateProductAction } from './actions'
+import { uploadProductImageAction } from './image-actions'
 
 type ProductFormProps = {
   product?: AdminProduct
 }
+
+const MAX_UPLOAD_SIZE_BYTES = 5 * 1024 * 1024
+const ALLOWED_UPLOAD_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
 function listValue(value: string[] | undefined): string {
   return value?.join('\n') ?? ''
@@ -139,9 +143,13 @@ function TextArea({
 
 export default function ProductForm({ product }: ProductFormProps) {
   const formRef = useRef<HTMLFormElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [tab, setTab] = useState<'fr' | 'en'>('fr')
   const [warnings, setWarnings] = useState<ClaimWarning[]>(() => claimWarningsForProduct(product))
   const [imageText, setImageText] = useState(listValue(product?.images))
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const action = product ? updateProductAction : createProductAction
   const imagePaths = useMemo(
     () => imageText.split(/\r?\n/).map((item) => item.trim()).filter(Boolean),
@@ -159,6 +167,80 @@ export default function ProductForm({ product }: ProductFormProps) {
     if (target instanceof HTMLTextAreaElement && target.name === 'images') {
       setImageText(target.value)
     }
+  }
+
+  function setImages(paths: string[]) {
+    setImageText(listValue(paths.map((path) => path.trim()).filter(Boolean)))
+  }
+
+  async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    setUploadMessage(null)
+    setUploadError(null)
+
+    if (!ALLOWED_UPLOAD_TYPES.includes(file.type)) {
+      setUploadError('Format accepté : JPG, PNG ou WebP.')
+      event.target.value = ''
+      return
+    }
+
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+      setUploadError('Taille max : 5 Mo.')
+      event.target.value = ''
+      return
+    }
+
+    const formData = new FormData()
+    formData.set('image', file)
+    if (product?.id) {
+      formData.set('productId', product.id)
+    }
+
+    setIsUploading(true)
+    let result: Awaited<ReturnType<typeof uploadProductImageAction>>
+    try {
+      result = await uploadProductImageAction(formData)
+    } catch {
+      setIsUploading(false)
+      event.target.value = ''
+      setUploadError('Upload impossible pour le moment.')
+      return
+    }
+    setIsUploading(false)
+    event.target.value = ''
+
+    if (!result.success) {
+      setUploadError(result.error)
+      return
+    }
+
+    setImages([...imagePaths, result.url])
+    setUploadMessage('Image uploadée.')
+  }
+
+  function removeImage(index: number) {
+    setImages(imagePaths.filter((_, itemIndex) => itemIndex !== index))
+  }
+
+  function setMainImage(index: number) {
+    const nextImages = [...imagePaths]
+    const [selected] = nextImages.splice(index, 1)
+    if (!selected) return
+    setImages([selected, ...nextImages])
+  }
+
+  function moveImage(index: number, direction: -1 | 1) {
+    const nextIndex = index + direction
+    if (nextIndex < 0 || nextIndex >= imagePaths.length) return
+    const nextImages = [...imagePaths]
+    const current = nextImages[index]
+    const next = nextImages[nextIndex]
+    if (!current || !next) return
+    nextImages[index] = next
+    nextImages[nextIndex] = current
+    setImages(nextImages)
   }
 
   return (
@@ -277,20 +359,119 @@ export default function ProductForm({ product }: ProductFormProps) {
       </section>
 
       <section className="rounded-lg border border-green-900/10 bg-white p-5 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold">Images</h2>
-        <TextArea
-          label="Chemins d’image (un par ligne)"
-          name="images"
-          defaultValue={listValue(product?.images)}
-          rows={4}
-        />
-        <div className="mt-4 grid gap-3 sm:grid-cols-4">
-          {imagePaths.map((path) => (
-            <div key={path} className="overflow-hidden rounded-lg border border-green-900/10 bg-cream">
-              <ProductImage src={path} alt={path} className="aspect-square h-full w-full" />
-            </div>
-          ))}
+        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold">Images produit</h2>
+            <p className="mt-1 text-sm text-green-900/65">
+              Format accepté : JPG, PNG ou WebP. Taille max : 5 Mo.
+            </p>
+          </div>
+          <div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleImageUpload}
+              className="sr-only"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isUploading ? 'Upload en cours...' : 'Uploader une image'}
+            </button>
+          </div>
         </div>
+
+        {uploadError && (
+          <p className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
+            {uploadError}
+          </p>
+        )}
+        {uploadMessage && (
+          <p className="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-900">
+            {uploadMessage}
+          </p>
+        )}
+
+        {imagePaths.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {imagePaths.map((path, index) => (
+              <div key={`${path}-${index}`} className="overflow-hidden rounded-lg border border-green-900/10 bg-cream">
+                <div className="relative p-3">
+                  <ProductImage src={path} alt={path} className="aspect-square h-full w-full" />
+                  {index === 0 && (
+                    <span className="absolute left-2 top-2 rounded bg-white/95 px-2 py-1 text-xs font-semibold text-green-900 shadow-sm">
+                      Image principale
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2 bg-white p-3">
+                  <p className="break-all text-xs text-green-900/65">{path}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {index !== 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setMainImage(index)}
+                        className="rounded border border-green-900/15 px-2 py-1 text-xs font-semibold text-green-900"
+                      >
+                        Définir principale
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => moveImage(index, -1)}
+                      disabled={index === 0}
+                      className="rounded border border-green-900/15 px-2 py-1 text-xs font-semibold text-green-900 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Monter
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveImage(index, 1)}
+                      disabled={index === imagePaths.length - 1}
+                      className="rounded border border-green-900/15 px-2 py-1 text-xs font-semibold text-green-900 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Descendre
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="rounded border border-red-200 px-2 py-1 text-xs font-semibold text-red-700"
+                    >
+                      Supprimer de ce produit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-lg border border-dashed border-green-900/15 bg-cream px-3 py-8 text-center text-sm text-green-900/65">
+            Aucune image produit.
+          </p>
+        )}
+
+        <details className="mt-5 rounded-lg border border-green-900/10 bg-green-50/40 p-4">
+          <summary className="cursor-pointer text-sm font-semibold text-green-900">
+            Chemins d’image avancés
+          </summary>
+          <div className="mt-3 flex flex-col gap-1.5">
+            <label htmlFor="images" className="text-sm font-medium">
+              Chemins d’image (un par ligne)
+            </label>
+            <textarea
+              id="images"
+              name="images"
+              value={imageText}
+              onChange={(event) => setImageText(event.target.value)}
+              rows={4}
+              className="rounded-lg border border-green-200 px-3 py-2 text-sm"
+            />
+          </div>
+        </details>
       </section>
 
       <div className="flex flex-wrap gap-3">

@@ -87,11 +87,11 @@ export default function ProductStorySliderClient({ slides, headline, subtitle, c
                 aria-label={slide.name}
               >
                 {/* Image */}
-                <div className="relative aspect-square overflow-hidden bg-cream">
+                <div className="relative aspect-square overflow-hidden bg-cream p-5">
                   <ProductImage
                     src={slide.image}
                     alt={slide.name}
-                    className="h-full w-full transition-transform duration-300 group-hover:scale-105"
+                    className="h-full w-full"
                   />
                   {/* Category pill */}
                   <span className="absolute left-3 top-3 rounded-full bg-green-900/80 px-2.5 py-0.5 text-xs font-medium text-ivory backdrop-blur-sm">

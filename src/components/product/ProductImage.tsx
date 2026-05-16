@@ -41,7 +41,7 @@ export default function ProductImage({ src, alt, className = '' }: Props) {
       src={src}
       alt={alt}
       onError={() => setFailed(true)}
-      className={`object-cover ${className}`}
+      className={`object-contain object-center ${className}`}
     />
   )
 }

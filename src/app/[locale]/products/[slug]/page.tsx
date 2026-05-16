@@ -4,7 +4,11 @@ import { notFound } from 'next/navigation'
 import { getVisibleProducts } from '@/data/products'
 import { buildMetadata } from '@/lib/seo'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
-import { buildProductOptions } from '@/lib/product-options'
+import {
+  buildPublicProductOptions,
+  getPublicProductBySlug,
+  getPublicVisibleProducts,
+} from '@/lib/products/public-products'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import ProductImage from '@/components/product/ProductImage'
 import ProductInfo from '@/components/product/ProductInfo'
@@ -18,6 +22,8 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>
 }
 
+export const revalidate = 300
+
 export function generateStaticParams() {
   return getVisibleProducts().flatMap((product) => [
     { locale: 'fr', slug: product.slug.fr },
@@ -28,12 +34,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const l = locale as Locale
-  const product = getVisibleProducts().find((p) => p.slug.fr === slug || p.slug.en === slug)
+  const product = await getPublicProductBySlug(slug)
   if (!product) return {}
+  const title = product.seoTitle[l] || product.name[l] || product.name.fr
+  const description = product.seoDescription[l] || product.shortDescription[l] || product.shortDescription.fr
   return buildMetadata({
     locale: l,
-    title: product.seoTitle[l],
-    description: product.seoDescription[l],
+    title,
+    description,
     path: `/products/${product.slug[l]}`,
   })
 }
@@ -48,7 +56,7 @@ export default async function ProductPage({ params }: Props) {
   const tOrder = await getTranslations({ locale, namespace: 'order' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
 
-  const visibleProducts = getVisibleProducts()
+  const visibleProducts = await getPublicVisibleProducts()
   const product = visibleProducts.find((p) => p.slug.fr === slug || p.slug.en === slug)
   if (!product) notFound()
 
@@ -65,7 +73,7 @@ export default async function ProductPage({ params }: Props) {
   const waMsg = product.whatsappMessage[l] ?? product.whatsappMessage.fr
   const waUrl = buildWhatsAppUrl(waMsg)
 
-  const productOptions = buildProductOptions(l, tProduct('price_placeholder'))
+  const productOptions = await buildPublicProductOptions(l, tProduct('price_placeholder'))
 
   return (
     <>
@@ -79,7 +87,7 @@ export default async function ProductPage({ params }: Props) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
             {/* Image */}
-            <div className="aspect-square rounded-2xl overflow-hidden bg-cream">
+            <div className="aspect-square rounded-2xl overflow-hidden bg-cream p-6 md:p-8">
               <ProductImage
                 src={product.images[0] ?? ''}
                 alt={product.name[l]}

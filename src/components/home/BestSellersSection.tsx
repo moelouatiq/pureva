@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { getBestSellers } from '@/data/products'
+import { getPublicBestSellers } from '@/lib/products/public-products'
 import ProductCard from '@/components/product/ProductCard'
 import AnimateOnScroll from '@/components/shared/AnimateOnScroll'
 
@@ -8,7 +8,7 @@ type Props = { locale: string }
 
 export default async function BestSellersSection({ locale }: Props) {
   const t = await getTranslations('home.best_sellers')
-  const products = getBestSellers()
+  const products = await getPublicBestSellers()
 
   if (products.length === 0) return null
 

@@ -53,7 +53,7 @@ export default async function HeroSection() {
                 aria-hidden
                 className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-100/60 to-cream blur-2xl"
               />
-              <div className="overflow-hidden rounded-3xl shadow-2xl shadow-green-900/15 aspect-square">
+              <div className="aspect-square overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-green-900/15">
                 <ProductImage
                   src="/images/products/lotion-cuir-chevelu-10%25.png"
                   alt="Routine Cheveux Fragilisés — Pureva"

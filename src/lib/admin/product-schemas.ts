@@ -22,17 +22,72 @@ const nullableInteger = z.preprocess((value) => {
   return value
 }, z.number().int().nullable())
 
+const allowedImageExtensions = ['.jpg', '.jpeg', '.png', '.webp'] as const
+const blockedImageExtensions = [
+  '.svg',
+  '.gif',
+  '.pdf',
+  '.mp4',
+  '.mov',
+  '.avi',
+  '.webm',
+  '.mkv',
+  '.exe',
+  '.bat',
+  '.cmd',
+  '.sh',
+  '.ps1',
+  '.php',
+  '.js',
+  '.html',
+  '.htm',
+] as const
+
+function hasAllowedImageExtension(pathname: string): boolean {
+  const lowerPath = pathname.toLowerCase()
+  return allowedImageExtensions.some((extension) => lowerPath.endsWith(extension))
+}
+
+function hasBlockedImageExtension(pathname: string): boolean {
+  const lowerPath = pathname.toLowerCase()
+  return blockedImageExtensions.some((extension) => lowerPath.endsWith(extension))
+}
+
+function isSafeLocalProductImagePath(value: string): boolean {
+  if (!value.startsWith('/images/products/')) return false
+  if (value.includes('\\') || value.includes('..')) return false
+  const pathname = value.split(/[?#]/)[0] ?? ''
+  return hasAllowedImageExtension(pathname) && !hasBlockedImageExtension(pathname)
+}
+
+function isSafeRemoteProductImageUrl(value: string): boolean {
+  let url: URL
+  try {
+    url = new URL(value)
+  } catch {
+    return false
+  }
+
+  if (url.protocol !== 'https:') return false
+  if (url.username || url.password) return false
+  if (url.pathname.includes('\\') || url.pathname.includes('..')) return false
+  if (!hasAllowedImageExtension(url.pathname) || hasBlockedImageExtension(url.pathname)) {
+    return false
+  }
+
+  return true
+}
+
 const imagePathSchema = z
   .string()
   .trim()
   .min(1)
-  .max(500)
-  .refine((value) => {
-    const withoutQuery = value.split(/[?#]/)[0]?.toLowerCase() ?? ''
-    return !withoutQuery.endsWith('.svg')
-  }, 'SVG images are not allowed.')
-  .refine((value) => value.startsWith('/images/products/') || /^https?:\/\//i.test(value), {
-    message: 'Use a local /images/products/... path or a valid URL.',
+  .max(1000)
+  .refine((value) => !/^(javascript|data):/i.test(value), {
+    message: 'Image URLs must not use javascript: or data: schemes.',
+  })
+  .refine((value) => isSafeLocalProductImagePath(value) || isSafeRemoteProductImageUrl(value), {
+    message: 'Use a safe /images/products/... path or an HTTPS JPG, PNG or WebP URL.',
   })
 
 function splitLines(value: FormDataEntryValue | null): string[] {
