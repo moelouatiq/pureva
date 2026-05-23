@@ -11,7 +11,7 @@ import IngredientsPreviewSection from '@/components/home/IngredientsPreviewSecti
 import BenefitsSection from '@/components/home/BenefitsSection'
 import FAQPreviewSection from '@/components/home/FAQPreviewSection'
 import FinalCTASection from '@/components/home/FinalCTASection'
-import JsonLd, { organizationJsonLd } from '@/components/shared/JsonLd'
+import JsonLd, { organizationJsonLd, websiteJsonLd } from '@/components/shared/JsonLd'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -33,10 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
+  const l = locale as Locale
 
   return (
     <>
       <JsonLd data={organizationJsonLd()} />
+      <JsonLd data={websiteJsonLd(l)} />
       <HeroSection />
       <ProductStorySlider />
       <ProblemSection />

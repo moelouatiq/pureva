@@ -6,13 +6,13 @@ Work through this list in order before going live. Each item must be explicitly 
 
 ## 1. Domain and DNS
 
-- [ ] Domain registered (`pureva.fr` or final domain)
+- [ ] Domain registered (`pureva-cosmetics.fr`)
 - [ ] Domain pointing to Vercel (A/CNAME DNS records set)
 - [ ] HTTPS certificate issued and valid (Vercel provisions automatically)
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the live domain in Vercel env vars — **no trailing slash**
-  - Example: `https://pureva.fr`
+  - Example: `https://pureva-cosmetics.fr`
   - This controls: sitemap URLs, canonical links, OpenGraph URLs, JSON-LD `url` fields
-  - If this variable is missing in production, all SEO URLs fall back to `https://pureva.fr`
+  - If this variable is missing in production, all SEO URLs fall back to `https://pureva-cosmetics.fr`
 - [ ] www → apex redirect configured if needed (Vercel settings → Domains)
 - [ ] Visit the live URL and confirm no mixed-content warnings in browser console
 
@@ -66,13 +66,13 @@ The following information must be gathered and inserted into the legal pages by 
 ## 3. Email — Resend configuration
 
 - [ ] Create a Resend account at resend.com
-- [ ] Add the sending domain (`pureva.fr` or final domain) in Resend → Domains
+- [ ] Add the sending domain (`pureva-cosmetics.fr`) in Resend → Domains
 - [ ] Configure DNS records in your domain registrar:
   - SPF record (TXT): as shown in Resend dashboard
   - DKIM record (TXT): as shown in Resend dashboard
 - [ ] Wait for Resend to show domain status as "Verified"
 - [ ] Set `FROM_EMAIL` in Vercel env vars — must use the verified domain
-  - Example: `commandes@pureva.fr`
+  - Example: `orders@pureva-cosmetics.fr`
 - [ ] Set `RESEND_API_KEY` in Vercel env vars — scoped API key from Resend dashboard
 - [ ] Set `BUSINESS_EMAIL` in Vercel env vars — the inbox that receives order notifications
 - [ ] Submit a test order from the live staging URL
@@ -168,15 +168,18 @@ Rate limiting is **silently disabled** when these vars are absent. The order for
   ```
   npm run build
   ```
-  This regenerates `public/sitemap-0.xml`, `public/sitemap.xml`, and `public/robots.txt`
-- [ ] Open `public/robots.txt` and verify:
+  Sitemap and robots are served by Next.js Metadata Routes: `src/app/sitemap.ts` and `src/app/robots.ts`.
+- [ ] Visit `/robots.txt` and verify:
   - `Allow: /` is present
-  - `Disallow: /api/` is present
+  - `Disallow: /admin` is present
+  - `Disallow: /api` is present
   - Sitemap URL points to the live domain
-- [ ] Open `public/sitemap-0.xml` and verify URLs use the live domain (not `pureva.com` or `localhost`)
+- [ ] Visit `/sitemap.xml` and verify URLs use the live domain (not `pureva.com` or `localhost`)
 - [ ] Submit sitemap to Google Search Console
 - [ ] Check hreflang links in product page source (`/fr/products/...` and `/en/products/...`)
 - [ ] Confirm canonical URL in `<head>` matches the live domain
+- [ ] Affiliate tracking example uses the live domain:
+  `https://pureva-cosmetics.fr/fr/shop?ref=amina&utm_source=instagram&utm_medium=influencer&utm_campaign=lancement`
 
 ---
 
@@ -199,8 +202,8 @@ Run locally against a production-like env (`npm run build && npm run start`) bef
 
 ## 10. Smoke test — post-deploy (on live URL)
 
-- [ ] Visit `https://pureva.fr` → 200, no redirect loop
-- [ ] Visit `https://pureva.fr/en` → English version loads
+- [ ] Visit `https://pureva-cosmetics.fr` → 200, no redirect loop
+- [ ] Visit `https://pureva-cosmetics.fr/en` → English version loads
 - [ ] Submit a live order and confirm emails arrive
 - [ ] Submit a WhatsApp inquiry from a mobile device
 - [ ] Run Lighthouse on homepage (target: Performance > 80, SEO = 100)

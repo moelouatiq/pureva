@@ -24,7 +24,14 @@ function formatDate(value: string): string {
 }
 
 function trackingLink(code: string): string {
-  return `${getSiteUrl().replace(/\/$/, '')}/fr?ref=${encodeURIComponent(code)}`
+  const params = new URLSearchParams({
+    ref: code,
+    utm_source: 'instagram',
+    utm_medium: 'influencer',
+    utm_campaign: 'lancement',
+  })
+
+  return `${getSiteUrl().replace(/\/$/, '')}/fr/shop?${params.toString()}`
 }
 
 function StatusBadge({ status }: { status: string }) {

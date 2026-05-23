@@ -3,7 +3,7 @@
 // The build must not fail when email vars are absent.
 
 export function getSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3010'
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pureva-cosmetics.fr'
 }
 
 export type EmailEnvCheck = {

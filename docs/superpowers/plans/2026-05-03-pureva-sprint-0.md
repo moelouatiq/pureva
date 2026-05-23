@@ -1278,7 +1278,7 @@ type BuildMetadataParams = {
   ogImage?: string
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pureva.fr'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pureva-cosmetics.fr'
 
 export function buildMetadata({
   locale,
@@ -1735,7 +1735,7 @@ Create `next-sitemap.config.js` at the project root:
 ```javascript
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva.fr',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://pureva-cosmetics.fr',
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
@@ -1776,14 +1776,14 @@ Create `.env.example` at the project root:
 
 # Required — order email flow (Resend)
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-BUSINESS_EMAIL=orders@pureva.fr
-FROM_EMAIL=noreply@pureva.fr
+BUSINESS_EMAIL=orders@pureva-cosmetics.fr
+FROM_EMAIL=orders@pureva-cosmetics.fr
 
 # Required — WhatsApp CTA links (international format, no + or spaces)
 NEXT_PUBLIC_WHATSAPP_NUMBER=33XXXXXXXXX
 
 # Required — site URL (no trailing slash)
-NEXT_PUBLIC_SITE_URL=https://pureva.fr
+NEXT_PUBLIC_SITE_URL=https://pureva-cosmetics.fr
 
 # Optional — enables rate limiting on the order API (Upstash Redis)
 # If not set, the API works without rate limiting (Zod + honeypot remain active)

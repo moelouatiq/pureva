@@ -452,10 +452,10 @@ If Upstash env vars missing:
 
 ```
 RESEND_API_KEY=                     # required
-BUSINESS_EMAIL=orders@pureva.fr     # required
-FROM_EMAIL=noreply@pureva.fr        # required
+BUSINESS_EMAIL=orders@pureva-cosmetics.fr     # required
+FROM_EMAIL=orders@pureva-cosmetics.fr        # required
 NEXT_PUBLIC_WHATSAPP_NUMBER=33XXXXXXXXX   # required
-NEXT_PUBLIC_SITE_URL=https://pureva.fr    # required
+NEXT_PUBLIC_SITE_URL=https://pureva-cosmetics.fr    # required
 UPSTASH_REDIS_REST_URL=             # optional — enables rate limiting
 UPSTASH_REDIS_REST_TOKEN=           # optional — enables rate limiting
 ```
@@ -766,7 +766,7 @@ No cart is required: Stripe Checkout handles multi-product orders via line items
 
 | Branch | Purpose |
 |---|---|
-| `main` | Production — auto-deploys to `pureva.fr` |
+| `main` | Production — auto-deploys to `pureva-cosmetics.fr` |
 | `develop` | Staging — auto-deploys to preview URL |
 | Feature branches | Per task, PRs into `develop` |
 
@@ -778,7 +778,7 @@ No cart is required: Stripe Checkout handles multi-product orders via line items
 | Build command | `next build && next-sitemap` |
 | Output directory | `.next` (Next.js default) |
 | Environment variables | Configured per environment (Production / Preview) in Vercel dashboard |
-| Custom domain | Add `pureva.fr` in Vercel; update A/CNAME at DNS registrar |
+| Custom domain | Add `pureva-cosmetics.fr` in Vercel; update A/CNAME at DNS registrar |
 | Preview deploys | Every PR gets a unique preview URL |
 
 ### Environment Variables to Configure in Vercel
@@ -798,13 +798,13 @@ UPSTASH_REDIS_REST_TOKEN
 
 ### Post-Launch Checklist
 
-- [ ] Custom domain resolves correctly in both `pureva.fr` and `www.pureva.fr`
+- [ ] Custom domain resolves correctly in both `pureva-cosmetics.fr` and `www.pureva-cosmetics.fr`
 - [ ] Default locale redirect `/` → `/fr` works
 - [ ] Language switcher navigates correctly between locales
 - [ ] Order form submits and business receives email
 - [ ] Customer receives confirmation email
 - [ ] WhatsApp links open with correct pre-filled message
-- [ ] `sitemap.xml` accessible at `pureva.fr/sitemap.xml`
+- [ ] `sitemap.xml` accessible at `pureva-cosmetics.fr/sitemap.xml`
 - [ ] Honeypot field is hidden and not visible to real users
 - [ ] Disclaimer appears on all product pages and routine pack page
 - [ ] No fake reviews rendered publicly

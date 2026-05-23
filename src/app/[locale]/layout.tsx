@@ -4,6 +4,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Lora, Raleway } from 'next/font/google'
 import { routing } from '@/i18n/routing'
+import { getCanonicalSiteUrl } from '@/lib/seo'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import CookieBanner from '@/components/shared/CookieBanner'
@@ -25,12 +26,16 @@ const raleway = Raleway({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getCanonicalSiteUrl()),
   title: {
     template: '%s | Pureva',
-    default: 'Pureva — Routine naturelle pour des cheveux plus forts',
+    default: 'Pureva - Routine naturelle pour des cheveux plus forts',
   },
   description:
-    'Pureva — soins capillaires naturels pour les cheveux fragilisés. Aide à réduire la casse et à fortifier les cheveux.',
+    'Pureva - soins capillaires naturels pour les cheveux fragilises. Aide a reduire la casse et a fortifier les cheveux.',
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
 }
 
 export function generateStaticParams() {

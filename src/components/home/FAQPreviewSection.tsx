@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import FAQAccordionClient, { type FAQItem } from './FAQAccordionClient'
 import AnimateOnScroll from '@/components/shared/AnimateOnScroll'
+import JsonLd, { faqItemsJsonLd } from '@/components/shared/JsonLd'
 
 const FAQ_KEYS = ['q1', 'q2', 'q3', 'q4'] as const
 
@@ -15,6 +16,7 @@ export default async function FAQPreviewSection() {
 
   return (
     <section className="section-padding bg-cream">
+      <JsonLd data={faqItemsJsonLd(items.map((item) => ({ question: item.q, answer: item.a })))} />
       <div className="container-pureva max-w-2xl mx-auto">
 
         <AnimateOnScroll className="mb-8 text-center">
