@@ -9,6 +9,8 @@ export const ORDER_STATUSES = [
 ] as const
 
 export type OrderStatus = (typeof ORDER_STATUSES)[number]
+export const COMMISSION_STATUSES = ['none', 'pending', 'approved', 'rejected', 'paid'] as const
+export type CommissionStatus = (typeof COMMISSION_STATUSES)[number]
 
 export type AdminOrder = {
   id: string
@@ -30,6 +32,18 @@ export type AdminOrder = {
   customer_message: string | null
   status: OrderStatus
   source: string
+  affiliate_id?: string | null
+  affiliate_code?: string | null
+  utm_source?: string | null
+  utm_medium?: string | null
+  utm_campaign?: string | null
+  utm_content?: string | null
+  utm_term?: string | null
+  landing_path?: string | null
+  attribution_source?: string | null
+  commission_status?: CommissionStatus
+  commission_amount_cents?: number | null
+  commission_currency?: 'EUR'
   deleted_at: string | null
   deleted_by: string | null
   delete_reason: string | null
@@ -42,8 +56,8 @@ export type OrderEvent = {
   order_id: string
   admin_user_id: string | null
   event_type: string
-  old_status: OrderStatus | null
-  new_status: OrderStatus | null
+  old_status: string | null
+  new_status: string | null
   note: string | null
   created_at: string
 }

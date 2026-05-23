@@ -2,7 +2,7 @@ import 'server-only'
 
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { orderListFilterSchema } from '@/lib/admin/schemas'
-import type { AdminOrder, OrderEvent, OrderStatus } from '@/types/admin-order'
+import type { AdminOrder, CommissionStatus, OrderEvent, OrderStatus } from '@/types/admin-order'
 
 type ListOrdersInput = {
   status?: string
@@ -13,6 +13,7 @@ type ListOrdersInput = {
 export type OrderDetail = {
   order: AdminOrder
   events: OrderEvent[]
+  affiliate: { id: string; code: string; name: string } | null
 }
 
 function sanitizeSearch(value: string): string {
@@ -22,6 +23,10 @@ function sanitizeSearch(value: string): string {
 function isMissingSoftDeleteColumn(error: { code?: string; message?: string } | null): boolean {
   if (!error) return false
   return error.code === '42703' || error.message?.includes('deleted_at') === true
+}
+
+function isMissingRpc(error: { code?: string; message?: string } | null): boolean {
+  return error?.code === 'PGRST202' || error?.code === '42883'
 }
 
 export async function listAdminOrders(input: ListOrdersInput): Promise<AdminOrder[]> {
@@ -95,9 +100,29 @@ export async function getAdminOrderDetail(id: string): Promise<OrderDetail | nul
 
   if (eventsError || !events) return null
 
+  let affiliate: { id: string; code: string; name: string } | null = null
+  const affiliateId = (order as AdminOrder).affiliate_id
+
+  if (affiliateId) {
+    const { data: affiliateData } = await supabase
+      .from('affiliates')
+      .select('id, code, name')
+      .eq('id', affiliateId)
+      .maybeSingle()
+
+    if (affiliateData) {
+      affiliate = {
+        id: String(affiliateData.id),
+        code: String(affiliateData.code),
+        name: String(affiliateData.name),
+      }
+    }
+  }
+
   return {
     order: order as AdminOrder,
     events: events as OrderEvent[],
+    affiliate,
   }
 }
 
@@ -142,6 +167,27 @@ export async function deleteAdminOrder(
     }
 
     return { success: false, error: 'delete_failed' }
+  }
+
+  return { success: true }
+}
+
+export async function updateAdminOrderCommissionStatus(
+  orderId: string,
+  status: Extract<CommissionStatus, 'approved' | 'rejected' | 'paid'>,
+  note?: string
+): Promise<{ success: boolean; error?: 'setup_required' | 'not_configured' | 'update_failed' }> {
+  const supabase = await createSupabaseServerClient()
+  if (!supabase) return { success: false, error: 'setup_required' }
+
+  const { error } = await supabase.rpc('update_order_commission_status_with_event', {
+    p_order_id: orderId,
+    p_new_status: status,
+    p_note: note || null,
+  })
+
+  if (error) {
+    return { success: false, error: isMissingRpc(error) ? 'not_configured' : 'update_failed' }
   }
 
   return { success: true }

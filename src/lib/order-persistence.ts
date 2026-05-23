@@ -2,6 +2,7 @@ import 'server-only'
 
 import type { Product } from '@/types/product'
 import type { Locale } from '@/types/locale'
+import type { OrderAffiliateAttribution } from '@/lib/affiliate-tracking'
 import { createSupabaseServiceClient } from '@/lib/supabase/service'
 
 type PersistOrderInput = {
@@ -15,6 +16,12 @@ type PersistOrderInput = {
   product: Product
   quantity: number
   customerMessage?: string
+  affiliateAttribution?: OrderAffiliateAttribution | null
+}
+
+function isMissingUpdatedOrderRpc(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false
+  return error.code === 'PGRST202' || error.code === '42883' || error.code === '42703'
 }
 
 export async function persistOrderWithCreatedEvent(input: PersistOrderInput): Promise<{
@@ -30,7 +37,7 @@ export async function persistOrderWithCreatedEvent(input: PersistOrderInput): Pr
   const unitPriceCents = hasConfirmedPrice ? input.product.price : null
   const subtotalCents = hasConfirmedPrice ? input.product.price * input.quantity : null
 
-  const { error } = await supabase.rpc('create_order_with_event', {
+  const baseParams = {
     p_order_reference: input.orderReference,
     p_locale: input.locale,
     p_customer_name: input.customerName,
@@ -48,7 +55,33 @@ export async function persistOrderWithCreatedEvent(input: PersistOrderInput): Pr
     p_currency: input.product.currency,
     p_customer_message: input.customerMessage || null,
     p_source: 'website',
-  })
+  }
+
+  const attribution = input.affiliateAttribution
+  const params = attribution
+    ? {
+        ...baseParams,
+        p_affiliate_id: attribution.affiliateId,
+        p_affiliate_code: attribution.affiliateCode,
+        p_utm_source: attribution.utmSource,
+        p_utm_medium: attribution.utmMedium,
+        p_utm_campaign: attribution.utmCampaign,
+        p_utm_content: attribution.utmContent,
+        p_utm_term: attribution.utmTerm,
+        p_landing_path: attribution.landingPath,
+        p_attribution_source: attribution.attributionSource,
+        p_commission_status: attribution.commissionStatus,
+        p_commission_amount_cents: attribution.commissionAmountCents,
+        p_commission_currency: attribution.commissionCurrency,
+      }
+    : baseParams
+
+  let { error } = await supabase.rpc('create_order_with_event', params)
+
+  if (error && attribution && isMissingUpdatedOrderRpc(error)) {
+    const fallback = await supabase.rpc('create_order_with_event', baseParams)
+    error = fallback.error
+  }
 
   if (error) {
     return { success: false, error: 'insert_failed' }

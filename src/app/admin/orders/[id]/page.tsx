@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { requireAdmin } from '@/lib/admin/auth'
 import { getAdminOrderDetail } from '@/lib/admin/orders'
-import { updateOrderStatusAction } from '@/app/admin/actions'
+import { updateCommissionStatusAction, updateOrderStatusAction } from '@/app/admin/actions'
 import { formatPrice } from '@/lib/format-price'
-import { ORDER_STATUSES, type AdminOrder, type OrderEvent } from '@/types/admin-order'
+import { ORDER_STATUSES, type AdminOrder, type CommissionStatus, type OrderEvent } from '@/types/admin-order'
 import { DeleteOrderForm } from './DeleteOrderForm'
 
 export const dynamic = 'force-dynamic'
@@ -29,6 +29,18 @@ function priceLabel(order: AdminOrder): string {
 
   if (!unit || !subtotal) return 'Prix a confirmer'
   return `${unit} x ${order.quantity} = ${subtotal}`
+}
+
+function commissionAmountLabel(order: AdminOrder): string {
+  if (!order.commission_status || order.commission_status === 'none') return '-'
+  if (order.commission_amount_cents === null || order.commission_amount_cents === undefined) return '-'
+  return formatPrice(order.commission_amount_cents, 'fr')
+}
+
+function nextCommissionStatuses(status: CommissionStatus | undefined): Array<'approved' | 'rejected' | 'paid'> {
+  if (status === 'pending') return ['approved', 'rejected']
+  if (status === 'approved') return ['paid']
+  return []
 }
 
 function valueOf(value: string | string[] | undefined): string {
@@ -93,9 +105,12 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
   const detail = await getAdminOrderDetail(id)
   if (!detail) notFound()
 
-  const { order, events } = detail
+  const { order, events, affiliate } = detail
   const updated = valueOf(query.updated) === '1'
+  const commissionUpdated = valueOf(query.commission_updated) === '1'
   const updateError = valueOf(query.error) === 'update'
+  const commissionError = valueOf(query.error) === 'commission'
+  const commissionConfigError = valueOf(query.error) === 'commission_config'
   const deletedStatusError = valueOf(query.error) === 'deleted'
   const deleteError = valueOf(query.error) === 'delete'
   const deleteConfigError = valueOf(query.error) === 'delete_config'
@@ -143,6 +158,11 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           Statut mis a jour.
         </p>
       )}
+      {commissionUpdated && !isDeleted && (
+        <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
+          Commission mise a jour.
+        </p>
+      )}
       {deletedSuccess && (
         <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800">
           {deletedCopy.success}
@@ -151,6 +171,16 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
       {updateError && (
         <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           Impossible de mettre a jour le statut.
+        </p>
+      )}
+      {commissionError && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          Transition de commission impossible.
+        </p>
+      )}
+      {commissionConfigError && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          Commission tracking is not configured yet.
         </p>
       )}
       {deletedStatusError && (
@@ -196,6 +226,32 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           <DetailRow label="Prix" value={priceLabel(order)} />
           <DetailRow label="Message" value={order.customer_message} />
           <DetailRow label="Source" value={order.source} />
+        </dl>
+      </section>
+
+      <section className="rounded-lg border border-green-900/10 bg-white p-5 shadow-sm">
+        <h2 className="mb-3 text-lg font-semibold">Attribution affiliée</h2>
+        <dl>
+          <DetailRow label="Code affilié" value={order.affiliate_code} />
+          <DetailRow
+            label="Influenceur"
+            value={
+              affiliate ? (
+                <Link href={`/admin/affiliates/${affiliate.id}`} className="underline">
+                  {affiliate.name}
+                </Link>
+              ) : null
+            }
+          />
+          <DetailRow label="Commission" value={commissionAmountLabel(order)} />
+          <DetailRow label="Statut commission" value={order.commission_status ?? 'none'} />
+          <DetailRow label="Source attribution" value={order.attribution_source} />
+          <DetailRow label="Landing path" value={order.landing_path} />
+          <DetailRow label="utm_source" value={order.utm_source} />
+          <DetailRow label="utm_medium" value={order.utm_medium} />
+          <DetailRow label="utm_campaign" value={order.utm_campaign} />
+          <DetailRow label="utm_content" value={order.utm_content} />
+          <DetailRow label="utm_term" value={order.utm_term} />
         </dl>
       </section>
 
@@ -247,6 +303,40 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
             Enregistrer
           </button>
         </form>
+      </section>
+
+      <section className="rounded-lg border border-green-900/10 bg-white p-5 shadow-sm">
+        <h2 className="mb-4 text-lg font-semibold">Commission</h2>
+        <div className="mb-4 grid gap-2 text-sm sm:grid-cols-3">
+          <p>
+            <span className="text-green-800/60">Statut: </span>
+            <span className="font-semibold">{order.commission_status ?? 'none'}</span>
+          </p>
+          <p>
+            <span className="text-green-800/60">Montant: </span>
+            <span className="font-semibold">{commissionAmountLabel(order)}</span>
+          </p>
+          <p>
+            <span className="text-green-800/60">Devise: </span>
+            <span className="font-semibold">{order.commission_currency ?? 'EUR'}</span>
+          </p>
+        </div>
+        {nextCommissionStatuses(order.commission_status).length > 0 && !isDeleted ? (
+          <div className="flex flex-wrap gap-3">
+            {nextCommissionStatuses(order.commission_status).map((status) => (
+              <form key={status} action={updateCommissionStatusAction} className="flex flex-wrap gap-2">
+                <input type="hidden" name="orderId" value={order.id} />
+                <input type="hidden" name="status" value={status} />
+                <input type="hidden" name="note" value={`Commission ${order.commission_status ?? 'none'} -> ${status}`} />
+                <button type="submit" className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white">
+                  {status}
+                </button>
+              </form>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-green-800/60">Aucune transition disponible.</p>
+        )}
       </section>
 
       <DeleteOrderForm orderId={order.id} locale={order.locale} isDeleted={isDeleted} />

@@ -141,6 +141,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                 <th className="px-4 py-3">Produit</th>
                 <th className="px-4 py-3">Qte</th>
                 <th className="px-4 py-3">Total</th>
+                <th className="px-4 py-3">Affilié</th>
                 <th className="px-4 py-3">Statut</th>
                 <th className="px-4 py-3">Pays</th>
                 <th className="px-4 py-3">Detail</th>
@@ -159,6 +160,9 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                     <td className="px-4 py-3">{order.product_name}</td>
                     <td className="px-4 py-3">{order.quantity}</td>
                     <td className="whitespace-nowrap px-4 py-3">{priceLabel(order)}</td>
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
+                      {order.affiliate_code || '-'}
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
                         <StatusBadge status={order.status} />
@@ -176,7 +180,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
               })}
               {orders.length === 0 && (
                 <tr>
-                  <td className="px-4 py-8 text-center text-green-800/60" colSpan={11}>
+                  <td className="px-4 py-8 text-center text-green-800/60" colSpan={12}>
                     Aucune commande trouvee.
                   </td>
                 </tr>

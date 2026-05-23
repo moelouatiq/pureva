@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/format-price'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import { persistOrderEmailEvent, persistOrderWithCreatedEvent } from '@/lib/order-persistence'
 import { resolvePublicOrderProduct } from '@/lib/products/public-products'
+import { AFFILIATE_COOKIE_NAME, buildOrderAffiliateAttribution } from '@/lib/affiliate-tracking'
 import type { Locale } from '@/types/locale'
 
 export const dynamic = 'force-dynamic'
@@ -98,6 +99,12 @@ export async function POST(request: NextRequest) {
   const timestamp = formatTimestamp(locale)
 
   const productName = product.name[locale] ?? product.name.fr
+  const hasConfirmedPrice = product.priceStatus === 'confirmed' && product.price > 0
+  const subtotalCents = hasConfirmedPrice ? product.price * data.quantity : null
+  const affiliateAttribution = await buildOrderAffiliateAttribution(
+    request.cookies.get(AFFILIATE_COOKIE_NAME)?.value,
+    subtotalCents
+  )
 
   // 8. Persist order before sending any emails.
   const persisted = await persistOrderWithCreatedEvent({
@@ -111,6 +118,7 @@ export async function POST(request: NextRequest) {
     product,
     quantity: data.quantity,
     customerMessage: data.message,
+    affiliateAttribution,
   })
 
   if (!persisted.success) {
@@ -123,7 +131,7 @@ export async function POST(request: NextRequest) {
 
   let unitPrice: string | undefined
   let subtotal: string | undefined
-  if (product.priceStatus === 'confirmed' && product.price > 0) {
+  if (hasConfirmedPrice) {
     unitPrice = formatPrice(product.price, locale)
     subtotal = formatPrice(product.price * data.quantity, locale)
   }
