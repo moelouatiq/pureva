@@ -477,7 +477,7 @@ export default function ProductForm({ product }: ProductFormProps) {
       <div className="flex flex-wrap gap-3">
         <button
           type="submit"
-          className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white hover:cursor-pointer"
         >
           Enregistrer
         </button>
