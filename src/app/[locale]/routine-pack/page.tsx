@@ -10,7 +10,6 @@ import {
 import { formatPrice } from '@/lib/format-price'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import Disclaimer from '@/components/shared/Disclaimer'
-import RoutineSteps from '@/components/routine/RoutineSteps'
 import ProductGrid from '@/components/product/ProductGrid'
 import ProductImage from '@/components/product/ProductImage'
 import OrderForm from '@/components/order/OrderForm'
@@ -35,6 +34,20 @@ function getProductPriceLabel(product: Product, locale: Locale, placeholder: str
   }
 
   return placeholder
+}
+
+function textLines(value: string): string[] {
+  return value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+function logRoutinePackDiagnostic(
+  details: Record<string, string | number | boolean | null | undefined>
+) {
+  if (process.env.NODE_ENV !== 'development') return
+  console.info('[routine-pack]', details)
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -116,12 +129,22 @@ export default async function RoutinePackPage({ params }: Props) {
     packProduct.longDescription.fr
   const packLongDescription = packProduct.longDescription[l] || packProduct.longDescription.fr
   const packBenefits = packProduct.benefits[l] ?? packProduct.benefits.fr
+  const packHowToUse = packProduct.howToUse[l] ?? ''
+  const packHowToUseLines = textLines(packHowToUse)
   const packSize = packProduct.sizeStatus === 'confirmed' ? packProduct.size : ''
   const packPriceLabel = getProductPriceLabel(packProduct, l, tProduct('price_placeholder'))
   routineWhatsApp.message = packProduct.whatsappMessage[l] || packProduct.whatsappMessage.fr || rawTWa('routine')
   const waUrl = buildWhatsAppUrl(routineWhatsApp.message)
 
   const productOptions = await buildPublicProductOptions(l, tProduct('price_placeholder'))
+
+  logRoutinePackDiagnostic({
+    source: routinePack.source,
+    fallbackReason: routinePack.fallbackReason,
+    productIdOrLegacyId: packProduct.id,
+    hasHowToUse: packHowToUseLines.length > 0,
+    howToUseLength: packHowToUse.length,
+  })
 
   return (
     <div className="section-padding">
@@ -189,10 +212,18 @@ export default async function RoutinePackPage({ params }: Props) {
         )}
 
         {/* How to use */}
-        <section className="mb-8">
-          <h2 className="font-semibold text-green-900 mb-4">{t('how_title')}</h2>
-          <RoutineSteps />
-        </section>
+        {packHowToUseLines.length > 0 && (
+          <section className="mb-8">
+            <h2 className="font-semibold text-green-900 mb-4">{t('how_title')}</h2>
+            <div className="flex flex-col gap-3">
+              {packHowToUseLines.map((line, index) => (
+                <p key={`${line}-${index}`} className="text-green-800/80 leading-relaxed">
+                  {line}
+                </p>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Timeline */}
         <section className="mb-8 p-6 bg-cream rounded-2xl">
