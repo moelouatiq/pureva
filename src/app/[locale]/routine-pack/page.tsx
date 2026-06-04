@@ -4,29 +4,71 @@ import { buildMetadata } from '@/lib/seo'
 import {
   buildPublicProductOptions,
   getPublicCrossSellProducts,
+  getPublicRoutinePackProduct,
   getPublicRoutineProducts,
 } from '@/lib/products/public-products'
+import { formatPrice } from '@/lib/format-price'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import Disclaimer from '@/components/shared/Disclaimer'
 import RoutineSteps from '@/components/routine/RoutineSteps'
 import ProductGrid from '@/components/product/ProductGrid'
+import ProductImage from '@/components/product/ProductImage'
 import OrderForm from '@/components/order/OrderForm'
 import type { Locale } from '@/types/locale'
+import type { Product } from '@/types/product'
 
 type Props = {
   params: Promise<{ locale: string }>
 }
 
+// Product catalog pages use ISR. In production, admin changes may take up to
+// 300 seconds to appear unless the route is manually revalidated.
 export const revalidate = 300
+
+function getLocalized(value: Product['name'], locale: Locale): string {
+  return value[locale] || value.fr
+}
+
+function getProductPriceLabel(product: Product, locale: Locale, placeholder: string): string {
+  if (product.priceStatus === 'confirmed' && product.price > 0) {
+    return formatPrice(product.price, locale)
+  }
+
+  return placeholder
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'pages.routine_pack' })
+  const l = locale as Locale
+  const routinePack = await getPublicRoutinePackProduct()
+
+  if (!routinePack.product) {
+    return buildMetadata({
+      locale: l,
+      title: l === 'fr' ? 'Pack routine indisponible | Pureva' : 'Routine pack unavailable | Pureva',
+      description:
+        l === 'fr'
+          ? "Le pack routine n'est pas disponible pour le moment."
+          : 'The routine pack is not available right now.',
+      path: '/routine-pack',
+    })
+  }
+
+  const product = routinePack.product
+  const title = product.seoTitle[l] || product.name[l] || product.name.fr
+  const description =
+    product.seoDescription[l] ||
+    product.shortDescription[l] ||
+    product.shortDescription.fr ||
+    product.longDescription[l] ||
+    product.longDescription.fr
+
   return buildMetadata({
-    locale: locale as Locale,
-    title: t('meta_title'),
-    description: t('meta_description'),
+    locale: l,
+    title,
+    description,
     path: '/routine-pack',
+    ogImage: product.images[0],
   })
 }
 
@@ -36,23 +78,86 @@ export default async function RoutinePackPage({ params }: Props) {
 
   const l = locale as Locale
   const t = await getTranslations({ locale, namespace: 'routine_pack' })
-  const tWa = await getTranslations({ locale, namespace: 'whatsapp' })
+  const rawTWa = await getTranslations({ locale, namespace: 'whatsapp' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
+  const routineWhatsApp = { message: undefined as string | undefined }
+  const tWa = ((key: Parameters<typeof rawTWa>[0]) =>
+    key === 'routine' && routineWhatsApp.message ? routineWhatsApp.message : rawTWa(key)) as typeof rawTWa
+
+  const routinePack = await getPublicRoutinePackProduct()
+  const packProduct = routinePack.product
+
+  if (!packProduct) {
+    return (
+      <div className="section-padding">
+        <div className="container-pureva max-w-3xl">
+          <div className="rounded-2xl border border-cream bg-white p-6">
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-green-900 mb-3">
+              {l === 'fr' ? 'Pack routine indisponible' : 'Routine pack unavailable'}
+            </h1>
+            <p className="text-green-800/70 leading-relaxed">
+              {l === 'fr'
+                ? "Ce produit n'est pas publie pour le moment. Revenez bientot ou contactez-nous pour plus d'informations."
+                : 'This product is not published right now. Please check back soon or contact us for more information.'}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const routineProducts = await getPublicRoutineProducts()
   const crossSellProducts = await getPublicCrossSellProducts()
-  const waUrl = buildWhatsAppUrl(tWa('routine'))
+  const packName = getLocalized(packProduct.name, l)
+  const packShortDescription =
+    packProduct.shortDescription[l] ||
+    packProduct.shortDescription.fr ||
+    packProduct.longDescription[l] ||
+    packProduct.longDescription.fr
+  const packLongDescription = packProduct.longDescription[l] || packProduct.longDescription.fr
+  const packBenefits = packProduct.benefits[l] ?? packProduct.benefits.fr
+  const packSize = packProduct.sizeStatus === 'confirmed' ? packProduct.size : ''
+  const packPriceLabel = getProductPriceLabel(packProduct, l, tProduct('price_placeholder'))
+  routineWhatsApp.message = packProduct.whatsappMessage[l] || packProduct.whatsappMessage.fr || rawTWa('routine')
+  const waUrl = buildWhatsAppUrl(routineWhatsApp.message)
 
   const productOptions = await buildPublicProductOptions(l, tProduct('price_placeholder'))
 
   return (
     <div className="section-padding">
-      <div className="container-pureva max-w-3xl">
-        <header className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-heading font-bold text-green-900 mb-3">
-            {t('headline')}
-          </h1>
-          <p className="text-green-800/70 text-lg">{t('subtitle')}</p>
+      <div className="container-pureva max-w-5xl">
+        <header className="mb-10 grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center">
+          <div className="aspect-square overflow-hidden rounded-2xl bg-cream p-6 md:p-8">
+            <ProductImage
+              src={packProduct.images[0] ?? ''}
+              alt={packName}
+              className="h-full w-full"
+            />
+          </div>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-green-900 mb-3">
+              {packName}
+            </h1>
+            {packShortDescription && (
+              <p className="text-green-800/70 text-lg leading-relaxed">{packShortDescription}</p>
+            )}
+            {packLongDescription && (
+              <p className="mt-4 text-green-800/80 leading-relaxed">{packLongDescription}</p>
+            )}
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <span className="rounded-full bg-green-900 px-4 py-2 text-sm font-semibold text-white">
+                {packPriceLabel}
+              </span>
+              {packProduct.compareAtPrice &&
+                packProduct.priceStatus === 'confirmed' &&
+                packProduct.compareAtPrice > packProduct.price && (
+                  <span className="text-sm text-green-800/45 line-through">
+                    {formatPrice(packProduct.compareAtPrice, l)}
+                  </span>
+                )}
+              {packSize && <span className="text-sm text-green-800/60">{packSize}</span>}
+            </div>
+          </div>
         </header>
 
         {/* Who it's for */}
@@ -61,20 +166,20 @@ export default async function RoutinePackPage({ params }: Props) {
           <p className="text-green-800/80 leading-relaxed">{t('who_body')}</p>
         </section>
 
-        {/* What's included */}
-        <section className="mb-8">
+        {/* Product benefits */}
+        {packBenefits.length > 0 && (
+          <section className="mb-8">
           <h2 className="font-semibold text-green-900 mb-4">{t('includes_title')}</h2>
           <ul className="flex flex-col gap-2">
-            {(['includes_oil', 'includes_mask', 'includes_lotion', 'includes_serum'] as const).map(
-              (key) => (
-                <li key={key} className="flex gap-3 text-sm text-green-800/80">
+            {packBenefits.map((benefit) => (
+                <li key={benefit} className="flex gap-3 text-sm text-green-800/80">
                   <span className="text-gold-400 shrink-0 mt-0.5" aria-hidden="true">✦</span>
-                  {t(key)}
+                  {benefit}
                 </li>
-              )
-            )}
+              ))}
           </ul>
-        </section>
+          </section>
+        )}
 
         {/* Routine products grid */}
         {routineProducts.length > 0 && (
@@ -119,7 +224,7 @@ export default async function RoutinePackPage({ params }: Props) {
           <h2 className="text-xl font-heading font-bold text-green-900 mb-6">
             {t('order_cta')}
           </h2>
-          <OrderForm productOptions={productOptions} defaultProduct="routine-pack" />
+          <OrderForm productOptions={productOptions} defaultProduct={packProduct.id} />
 
           {/* WhatsApp secondary CTA */}
           {waUrl !== '#' && (

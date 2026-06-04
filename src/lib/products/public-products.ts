@@ -27,9 +27,9 @@ type PublicProductRow = {
   size: string | null
   size_status: Product['sizeStatus']
   stock_status: Product['stockStatus']
-  images: string[]
-  benefits_fr: string[]
-  benefits_en: string[]
+  images: unknown
+  benefits_fr: unknown
+  benefits_en: unknown
   ingredients_inci_fr: string | null
   ingredients_inci_en: string | null
   how_to_use_fr: string | null
@@ -49,7 +49,16 @@ type PublicProductRow = {
 
 type ProductLoadResult =
   | { source: 'db'; products: Product[] }
-  | { source: 'static'; products: Product[] }
+  | { source: 'static'; products: Product[]; fallbackReason: 'missing_env' | 'query_error' }
+
+export type PublicRoutinePackProductResult = {
+  source: ProductLoadResult['source']
+  product: Product | undefined
+  fallbackReason?: 'missing_env' | 'query_error'
+}
+
+const ROUTINE_PACK_LEGACY_ID = 'routine-pack'
+const ROUTINE_PACK_SLUGS = ['routine-cheveux-fragilises', 'weakened-hair-routine']
 
 function createPublicCatalogClient() {
   const config = getSupabasePublicConfig()
@@ -65,7 +74,48 @@ function createPublicCatalogClient() {
 }
 
 function arrayOfStrings(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === 'string')
+  }
+
+  if (typeof value !== 'string') return []
+
+  const trimmed = value.trim()
+  if (!trimmed) return []
+
+  try {
+    const parsed: unknown = JSON.parse(trimmed)
+    return Array.isArray(parsed)
+      ? parsed.filter((item): item is string => typeof item === 'string')
+      : [trimmed]
+  } catch {
+    return [trimmed]
+  }
+}
+
+function isDevelopment() {
+  return process.env.NODE_ENV === 'development'
+}
+
+function logPublicProductsDiagnostic(
+  message: string,
+  details: Record<string, string | number | boolean | null | undefined>
+) {
+  if (!isDevelopment()) return
+  console.info('[public-products]', message, details)
+}
+
+function findRoutinePackProduct(products: Product[]): Product | undefined {
+  return (
+    products.find(
+      (product) =>
+        product.id === ROUTINE_PACK_LEGACY_ID ||
+        ROUTINE_PACK_SLUGS.includes(product.slug.fr) ||
+        ROUTINE_PACK_SLUGS.includes(product.slug.en)
+    ) ??
+    products.find((product) => product.category === 'pack' && product.isRoutineProduct) ??
+    products.find((product) => product.category === 'pack')
+  )
 }
 
 export function mapPublicProductRow(row: PublicProductRow): Product {
@@ -134,7 +184,7 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
 async function loadPublishedProducts(): Promise<ProductLoadResult> {
   const supabase = createPublicCatalogClient()
   if (!supabase) {
-    return { source: 'static', products: getStaticVisibleProducts() }
+    return { source: 'static', products: getStaticVisibleProducts(), fallbackReason: 'missing_env' }
   }
 
   const { data, error } = await supabase
@@ -145,7 +195,13 @@ async function loadPublishedProducts(): Promise<ProductLoadResult> {
     .order('created_at', { ascending: true })
 
   if (error) {
-    return { source: 'static', products: getStaticVisibleProducts() }
+    if (isDevelopment()) {
+      console.warn('[public-products] Supabase published products query failed', {
+        code: error.code,
+        message: error.message,
+      })
+    }
+    return { source: 'static', products: getStaticVisibleProducts(), fallbackReason: 'query_error' }
   }
 
   // Important: a successful empty DB result is treated as intentional catalog
@@ -176,6 +232,32 @@ export async function getPublicRoutineProducts(): Promise<Product[]> {
   return (await getPublicProducts()).filter(
     (product) => product.isRoutineProduct && product.category !== 'pack'
   )
+}
+
+export async function getPublicRoutinePackProduct(): Promise<PublicRoutinePackProductResult> {
+  const result = await loadPublishedProducts()
+  const product = findRoutinePackProduct(result.products)
+
+  logPublicProductsDiagnostic('routine pack product resolved', {
+    source: result.source,
+    fallbackReason: result.source === 'static' ? result.fallbackReason : undefined,
+    productIdOrLegacyId: product?.id,
+    imageUrl: product?.images[0],
+    found: Boolean(product),
+  })
+
+  if (result.source === 'static') {
+    return {
+      source: result.source,
+      product,
+      fallbackReason: result.fallbackReason,
+    }
+  }
+
+  return {
+    source: result.source,
+    product,
+  }
 }
 
 export async function getPublicCrossSellProducts(): Promise<Product[]> {
