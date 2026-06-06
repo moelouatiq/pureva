@@ -1,13 +1,22 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import ProductImage from '@/components/product/ProductImage'
+import type { Locale } from '@/types/locale'
+import type { Product } from '@/types/product'
 
-export default async function HeroSection() {
+type Props = {
+  locale: Locale
+  routinePackProduct?: Product
+}
+
+export default async function HeroSection({ locale, routinePackProduct }: Props) {
   const t = await getTranslations('home.hero')
+  const routinePackName = routinePackProduct?.name[locale] || routinePackProduct?.name.fr
+  const routinePackImage = routinePackProduct?.images[0]
 
   return (
     <section className="relative overflow-hidden bg-ivory">
-      {/* Decorative blobs — aria-hidden, no layout impact */}
+      {/* Decorative blobs - aria-hidden, no layout impact */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full bg-gold-100/50 blur-3xl" />
         <div className="absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-green-100/40 blur-3xl" />
@@ -36,7 +45,7 @@ export default async function HeroSection() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-3 pt-1 md:justify-start">
-              <Link href="/routine-pack" className="btn-primary">
+              <Link href={routinePackProduct ? '/routine-pack' : '/shop'} className="btn-primary">
                 {t('cta_primary')}
               </Link>
               <Link href="/shop" className="btn-secondary">
@@ -46,22 +55,24 @@ export default async function HeroSection() {
           </div>
 
           {/* Image column */}
-          <div className="hero-image-enter flex w-full justify-center md:w-[45%] md:justify-end">
-            <div className="relative w-full max-w-[340px] md:max-w-[420px]">
-              {/* Soft glow behind image */}
-              <div
-                aria-hidden
-                className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-100/60 to-cream blur-2xl"
-              />
-              <div className="aspect-square overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-green-900/15">
-                <ProductImage
-                  src="/images/products/lotion-cuir-chevelu-10%25.png"
-                  alt="Routine Cheveux Fragilisés — Pureva"
-                  className="h-full w-full"
+          {routinePackImage && routinePackName && (
+            <div className="hero-image-enter flex w-full justify-center md:w-[45%] md:justify-end">
+              <div className="relative w-full max-w-[340px] md:max-w-[420px]">
+                {/* Soft glow behind image */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-100/60 to-cream blur-2xl"
                 />
+                <div className="aspect-square overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-green-900/15">
+                  <ProductImage
+                    src={routinePackImage}
+                    alt={`${routinePackName} - Pureva`}
+                    className="h-full w-full"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
         </div>
       </div>

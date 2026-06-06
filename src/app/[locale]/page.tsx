@@ -12,6 +12,11 @@ import BenefitsSection from '@/components/home/BenefitsSection'
 import FAQPreviewSection from '@/components/home/FAQPreviewSection'
 import FinalCTASection from '@/components/home/FinalCTASection'
 import JsonLd, { organizationJsonLd, websiteJsonLd } from '@/components/shared/JsonLd'
+import {
+  findPublicRoutinePackProduct,
+  getPublicBestSellers,
+  getPublicProductLoadResult,
+} from '@/lib/products/public-products'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -34,20 +39,43 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
   const l = locale as Locale
+  const productLoadResult = await getPublicProductLoadResult()
+  const products = productLoadResult.products
+  const routinePackProduct = findPublicRoutinePackProduct(products)
+  const routineProducts = products.filter(
+    (product) => product.isRoutineProduct && product.category !== 'pack'
+  )
+  const bestSellerProducts = await getPublicBestSellers()
+
+  if (process.env.NODE_ENV === 'development') {
+    console.info('[home-products]', {
+      source: productLoadResult.source,
+      fallbackReason:
+        productLoadResult.source === 'static' ? productLoadResult.fallbackReason : undefined,
+      productCount: products.length,
+      routinePackId: routinePackProduct?.id,
+      routineProductCount: routineProducts.length,
+      bestSellerCount: bestSellerProducts.length,
+    })
+  }
 
   return (
     <>
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd(l)} />
-      <HeroSection />
-      <ProductStorySlider />
+      <HeroSection locale={l} routinePackProduct={routinePackProduct} />
+      <ProductStorySlider locale={l} products={products} routinePackProduct={routinePackProduct} />
       <ProblemSection />
-      <RoutineStepsSection />
-      <BestSellersSection locale={locale} />
+      <RoutineStepsSection
+        locale={l}
+        routineProducts={routineProducts}
+        routinePackProduct={routinePackProduct}
+      />
+      <BestSellersSection locale={locale} products={bestSellerProducts} />
       <IngredientsPreviewSection />
       <BenefitsSection />
       <FAQPreviewSection />
-      <FinalCTASection />
+      <FinalCTASection locale={l} routinePackProduct={routinePackProduct} />
     </>
   )
 }

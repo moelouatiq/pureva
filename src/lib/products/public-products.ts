@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { cache } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { products as staticProducts, getVisibleProducts as getStaticVisibleProducts } from '@/data/products'
 import { formatPrice } from '@/lib/format-price'
@@ -47,14 +48,16 @@ type PublicProductRow = {
   created_at: string
 }
 
-type ProductLoadResult =
+export type PublicProductFallbackReason = 'missing_env' | 'query_error'
+
+export type PublicProductLoadResult =
   | { source: 'db'; products: Product[] }
-  | { source: 'static'; products: Product[]; fallbackReason: 'missing_env' | 'query_error' }
+  | { source: 'static'; products: Product[]; fallbackReason: PublicProductFallbackReason }
 
 export type PublicRoutinePackProductResult = {
-  source: ProductLoadResult['source']
+  source: PublicProductLoadResult['source']
   product: Product | undefined
-  fallbackReason?: 'missing_env' | 'query_error'
+  fallbackReason?: PublicProductFallbackReason
 }
 
 const ROUTINE_PACK_LEGACY_ID = 'routine-pack'
@@ -105,7 +108,7 @@ function logPublicProductsDiagnostic(
   console.info('[public-products]', message, details)
 }
 
-function findRoutinePackProduct(products: Product[]): Product | undefined {
+export function findPublicRoutinePackProduct(products: Product[]): Product | undefined {
   return (
     products.find(
       (product) =>
@@ -181,10 +184,16 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
   }
 }
 
-async function loadPublishedProducts(): Promise<ProductLoadResult> {
+async function loadPublishedProducts(): Promise<PublicProductLoadResult> {
   const supabase = createPublicCatalogClient()
   if (!supabase) {
-    return { source: 'static', products: getStaticVisibleProducts(), fallbackReason: 'missing_env' }
+    const products = getStaticVisibleProducts()
+    logPublicProductsDiagnostic('using static fallback', {
+      source: 'static',
+      fallbackReason: 'missing_env',
+      productCount: products.length,
+    })
+    return { source: 'static', products, fallbackReason: 'missing_env' }
   }
 
   const { data, error } = await supabase
@@ -201,17 +210,30 @@ async function loadPublishedProducts(): Promise<ProductLoadResult> {
         message: error.message,
       })
     }
-    return { source: 'static', products: getStaticVisibleProducts(), fallbackReason: 'query_error' }
+    const products = getStaticVisibleProducts()
+    logPublicProductsDiagnostic('using static fallback', {
+      source: 'static',
+      fallbackReason: 'query_error',
+      productCount: products.length,
+    })
+    return { source: 'static', products, fallbackReason: 'query_error' }
   }
 
   // Important: a successful empty DB result is treated as intentional catalog
   // state. If admins archive/unpublish every product, do not revive static
   // fallback products and accidentally show old catalog content.
-  return { source: 'db', products: ((data ?? []) as PublicProductRow[]).map(mapPublicProductRow) }
+  const products = ((data ?? []) as PublicProductRow[]).map(mapPublicProductRow)
+  logPublicProductsDiagnostic('loaded published products', {
+    source: 'db',
+    productCount: products.length,
+  })
+  return { source: 'db', products }
 }
 
+export const getPublicProductLoadResult = cache(loadPublishedProducts)
+
 export async function getPublicProducts(): Promise<Product[]> {
-  const result = await loadPublishedProducts()
+  const result = await getPublicProductLoadResult()
   return result.products
 }
 
@@ -225,7 +247,37 @@ export async function getPublicProductBySlug(slug: string): Promise<Product | un
 }
 
 export async function getPublicBestSellers(): Promise<Product[]> {
-  return (await getPublicProducts()).filter((product) => product.isBestSeller)
+  const result = await getPublicProductLoadResult()
+  const bestSellers = result.products.filter((product) => product.isBestSeller)
+
+  if (bestSellers.length > 0) {
+    logPublicProductsDiagnostic('best sellers resolved', {
+      source: result.source,
+      fallbackReason: result.source === 'static' ? result.fallbackReason : undefined,
+      bestSellerCount: bestSellers.length,
+      productCount: result.products.length,
+    })
+    return bestSellers
+  }
+
+  if (result.source === 'db') {
+    const firstPublishedProducts = result.products.slice(0, 4)
+    logPublicProductsDiagnostic('best sellers fell back to first published db products', {
+      source: result.source,
+      bestSellerCount: 0,
+      productCount: result.products.length,
+      returnedCount: firstPublishedProducts.length,
+    })
+    return firstPublishedProducts
+  }
+
+  logPublicProductsDiagnostic('best sellers empty from static fallback', {
+    source: result.source,
+    fallbackReason: result.fallbackReason,
+    bestSellerCount: 0,
+    productCount: result.products.length,
+  })
+  return []
 }
 
 export async function getPublicRoutineProducts(): Promise<Product[]> {
@@ -234,9 +286,20 @@ export async function getPublicRoutineProducts(): Promise<Product[]> {
   )
 }
 
+export async function getPublicFeaturedProducts(limit = 5): Promise<Product[]> {
+  const products = await getPublicProducts()
+  const routinePack = findPublicRoutinePackProduct(products)
+  const sortedProducts = [
+    ...(routinePack ? [routinePack] : []),
+    ...products.filter((product) => product.id !== routinePack?.id),
+  ]
+
+  return sortedProducts.slice(0, limit)
+}
+
 export async function getPublicRoutinePackProduct(): Promise<PublicRoutinePackProductResult> {
-  const result = await loadPublishedProducts()
-  const product = findRoutinePackProduct(result.products)
+  const result = await getPublicProductLoadResult()
+  const product = findPublicRoutinePackProduct(result.products)
 
   logPublicProductsDiagnostic('routine pack product resolved', {
     source: result.source,

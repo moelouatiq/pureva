@@ -1,52 +1,58 @@
 import { getTranslations } from 'next-intl/server'
 import ProductStorySliderClient, { type SlideData } from './ProductStorySliderClient'
+import type { Locale } from '@/types/locale'
+import type { Product } from '@/types/product'
 
-export default async function ProductStorySlider() {
+type Props = {
+  locale: Locale
+  products: Product[]
+  routinePackProduct?: Product
+}
+
+function productHref(product: Product, locale: Locale, routinePackProduct?: Product) {
+  if (routinePackProduct?.id === product.id) return '/routine-pack'
+
+  const slug = product.slug[locale] || product.slug.fr
+  return `/products/${slug}`
+}
+
+function productDescription(product: Product, locale: Locale) {
+  return (
+    product.shortDescription[locale] ||
+    product.shortDescription.fr ||
+    product.longDescription[locale] ||
+    product.longDescription.fr
+  )
+}
+
+export default async function ProductStorySlider({ locale, products, routinePackProduct }: Props) {
   const t = await getTranslations('home.product_story')
   const tCommon = await getTranslations('common')
 
-  const slides: SlideData[] = [
-    {
-      id: 'routine',
-      image: '/images/products/lotion-cuir-chevelu-10%25.png',
-      href: '/routine-pack',
-      category: t('slide_routine_label'),
-      name: 'Routine Cheveux Fragilisés',
-      desc: t('slide_routine_desc'),
-    },
-    {
-      id: 'oil',
-      image: '/images/products/huile-capillaire-fortifiante.png',
-      href: '/products/huile-capillaire-fortifiante',
-      category: t('slide_oil_label'),
-      name: 'Huile Capillaire Fortifiante',
-      desc: t('slide_oil_desc'),
-    },
-    {
-      id: 'serum',
-      image: '/images/products/serum-cheveux-fortifiant.png',
-      href: '/products/serum-cheveux-fortifiant',
-      category: t('slide_serum_label'),
-      name: 'Sérum Capillaire',
-      desc: t('slide_serum_desc'),
-    },
-    {
-      id: 'mask',
-      image: '/images/products/masque-soin-cheveux.png',
-      href: '/products/masque-soin-cheveux',
-      category: t('slide_mask_label'),
-      name: 'Masque Soin Cheveux',
-      desc: t('slide_mask_desc'),
-    },
-    {
-      id: 'powders',
-      image: '/images/products/poudre-de-sidr.jpg',
-      href: '/products/poudre-de-sidr',
-      category: t('slide_powders_label'),
-      name: 'Poudres de Sidr & Mashat',
-      desc: t('slide_powders_desc'),
-    },
-  ]
+  if (products.length === 0) return null
+
+  const categoryLabels: Record<Product['category'], string> = {
+    pack: locale === 'fr' ? 'Pack' : 'Pack',
+    oil: locale === 'fr' ? 'Huile' : 'Oil',
+    serum: locale === 'fr' ? 'Serum' : 'Serum',
+    lotion: locale === 'fr' ? 'Lotion' : 'Lotion',
+    mask: locale === 'fr' ? 'Masque' : 'Mask',
+    powder: locale === 'fr' ? 'Poudre' : 'Powder',
+  }
+
+  const productsForSlider = [
+    ...(routinePackProduct ? [routinePackProduct] : []),
+    ...products.filter((product) => product.id !== routinePackProduct?.id),
+  ].slice(0, 5)
+
+  const slides: SlideData[] = productsForSlider.map((product) => ({
+    id: product.id,
+    image: product.images[0] ?? '',
+    href: productHref(product, locale, routinePackProduct),
+    category: categoryLabels[product.category],
+    name: product.name[locale] || product.name.fr,
+    desc: productDescription(product, locale),
+  }))
 
   return (
     <ProductStorySliderClient

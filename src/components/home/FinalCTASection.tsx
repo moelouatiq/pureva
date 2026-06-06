@@ -1,13 +1,47 @@
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
+import { formatPrice } from '@/lib/format-price'
 import ProductImage from '@/components/product/ProductImage'
 import AnimateOnScroll from '@/components/shared/AnimateOnScroll'
+import type { Locale } from '@/types/locale'
+import type { Product } from '@/types/product'
 
-export default async function FinalCTASection() {
+type Props = {
+  locale: Locale
+  routinePackProduct?: Product
+}
+
+export default async function FinalCTASection({ locale, routinePackProduct }: Props) {
   const t = await getTranslations('home.final_cta')
   const tWa = await getTranslations('whatsapp')
-  const waUrl = buildWhatsAppUrl(tWa('routine'))
+  const tProduct = await getTranslations('product')
+  const routinePackName = routinePackProduct?.name[locale] || routinePackProduct?.name.fr
+  const routinePackImage = routinePackProduct?.images[0]
+  const routinePackDescription =
+    routinePackProduct?.shortDescription[locale] ||
+    routinePackProduct?.shortDescription.fr ||
+    routinePackProduct?.longDescription[locale] ||
+    routinePackProduct?.longDescription.fr
+  const routinePackBenefits =
+    routinePackProduct?.benefits[locale] || routinePackProduct?.benefits.fr || []
+  const routinePackSize =
+    routinePackProduct?.sizeStatus === 'confirmed' ? routinePackProduct.size : undefined
+  const routinePackPrice =
+    routinePackProduct?.priceStatus === 'confirmed' && routinePackProduct.price > 0
+      ? formatPrice(routinePackProduct.price, locale)
+      : tProduct('price_placeholder')
+  const routinePackCompareAtPrice =
+    routinePackProduct?.compareAtPrice &&
+    routinePackProduct.priceStatus === 'confirmed' &&
+    routinePackProduct.compareAtPrice > routinePackProduct.price
+      ? formatPrice(routinePackProduct.compareAtPrice, locale)
+      : undefined
+  const routineMessage =
+    routinePackProduct?.whatsappMessage[locale] ||
+    routinePackProduct?.whatsappMessage.fr ||
+    tWa('routine')
+  const waUrl = buildWhatsAppUrl(routineMessage)
 
   return (
     <section className="relative overflow-hidden bg-green-900 text-ivory section-padding">
@@ -28,10 +62,41 @@ export default async function FinalCTASection() {
             <h2 className="font-heading text-2xl font-bold leading-tight md:text-3xl lg:text-4xl">
               {t('headline')}
             </h2>
-            <p className="text-ivory/70 leading-relaxed">{t('body')}</p>
+            {routinePackName && (
+              <h3 className="text-lg font-semibold text-gold-300">{routinePackName}</h3>
+            )}
+            <p className="text-ivory/70 leading-relaxed">
+              {routinePackDescription || t('body')}
+            </p>
+            {routinePackProduct && (
+              <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                <span className="rounded-full bg-ivory px-4 py-2 text-sm font-semibold text-green-900">
+                  {routinePackPrice}
+                </span>
+                {routinePackCompareAtPrice && (
+                  <span className="text-sm text-ivory/45 line-through">
+                    {routinePackCompareAtPrice}
+                  </span>
+                )}
+                {routinePackSize && <span className="text-sm text-ivory/60">{routinePackSize}</span>}
+                <span className="text-sm text-ivory/60">
+                  {tProduct(routinePackProduct.stockStatus)}
+                </span>
+              </div>
+            )}
+            {routinePackBenefits.length > 0 && (
+              <ul className="flex flex-col gap-2 text-left">
+                {routinePackBenefits.slice(0, 3).map((benefit) => (
+                  <li key={benefit} className="flex gap-2 text-sm text-ivory/70">
+                    <span className="text-gold-400 shrink-0" aria-hidden="true">+</span>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="flex flex-wrap justify-center gap-3 md:justify-start">
-              <Link href="/routine-pack" className="btn-primary">
+              <Link href={routinePackProduct ? '/routine-pack' : '/shop'} className="btn-primary">
                 {t('cta_primary')}
               </Link>
               {waUrl !== '#' && (
@@ -48,27 +113,29 @@ export default async function FinalCTASection() {
           </AnimateOnScroll>
 
           {/* Product image */}
-          <AnimateOnScroll
-            delay={120}
-            className="hidden md:flex md:w-[45%] justify-end"
-          >
-            <div className="relative w-full max-w-[360px]">
-              <div
-                aria-hidden
-                className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-400/20 to-transparent blur-2xl"
-              />
-              <div
-                className="overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-black/30"
-                style={{ transform: 'rotate(-2deg)' }}
-              >
-                <ProductImage
-                  src="/images/products/lotion-cuir-chevelu-10%25.png"
-                  alt="Routine Cheveux Fragilisés — Pureva"
-                  className="aspect-square h-full w-full"
+          {routinePackImage && routinePackName && (
+            <AnimateOnScroll
+              delay={120}
+              className="hidden md:flex md:w-[45%] justify-end"
+            >
+              <div className="relative w-full max-w-[360px]">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-br from-gold-400/20 to-transparent blur-2xl"
                 />
+                <div
+                  className="overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-black/30"
+                  style={{ transform: 'rotate(-2deg)' }}
+                >
+                  <ProductImage
+                    src={routinePackImage}
+                    alt={`${routinePackName} - Pureva`}
+                    className="aspect-square h-full w-full"
+                  />
+                </div>
               </div>
-            </div>
-          </AnimateOnScroll>
+            </AnimateOnScroll>
+          )}
 
         </div>
       </div>
