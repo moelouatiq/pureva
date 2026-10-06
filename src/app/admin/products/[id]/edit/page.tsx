@@ -112,6 +112,11 @@ export default async function EditAdminProductPage({ params, searchParams }: Pro
           La publication est bloquée par des claims à vérifier. Enregistrez en brouillon ou ajustez la copie.
         </p>
       )}
+      {error === 'price' && (
+        <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          La publication nécessite un prix positif confirmé. Le produit reste en brouillon.
+        </p>
+      )}
       {error === 'config' && (
         <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           Product management is not configured yet.

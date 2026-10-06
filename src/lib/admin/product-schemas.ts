@@ -1,8 +1,10 @@
 import { z } from 'zod'
 import {
+  CHECKBOX_PRESENT_SUFFIX,
   PRODUCT_CATEGORIES,
   PRODUCT_PRICE_STATUSES,
   PRODUCT_PUBLICATION_STATUSES,
+  PRODUCT_ROUTINE_STEPS,
   PRODUCT_SIZE_STATUSES,
   PRODUCT_STOCK_STATUSES,
 } from '@/types/admin-product'
@@ -109,8 +111,7 @@ export const adminProductIdSchema = z.object({
   note: z.string().trim().max(1000).optional(),
 })
 
-export const adminProductInputSchema = z
-  .object({
+const adminProductFieldsSchema = z.object({
     legacy_id: z.preprocess(emptyToNull, z.string().max(100).nullable()),
     slug_fr: requiredText,
     slug_en: requiredText,
@@ -129,16 +130,42 @@ export const adminProductInputSchema = z
     size_status: z.enum(PRODUCT_SIZE_STATUSES),
     stock_status: z.enum(PRODUCT_STOCK_STATUSES),
     images: z.array(imagePathSchema).max(12),
+    image_alt_fr: z.array(z.string().trim().min(1).max(500)).max(12),
+    image_alt_en: z.array(z.string().trim().min(1).max(500)).max(12),
     benefits_fr: z.array(z.string().trim().min(1).max(500)).max(20),
     benefits_en: z.array(z.string().trim().min(1).max(500)).max(20),
+    key_ingredients_fr: z.array(z.string().trim().min(1).max(500)).max(40),
+    key_ingredients_en: z.array(z.string().trim().min(1).max(500)).max(40),
+    composition_note_fr: optionalText,
+    composition_note_en: optionalText,
     ingredients_inci_fr: optionalText,
     ingredients_inci_en: optionalText,
     how_to_use_fr: optionalText,
     how_to_use_en: optionalText,
     precautions_fr: optionalText,
     precautions_en: optionalText,
+    target_audience_fr: optionalText,
+    target_audience_en: optionalText,
+    usage_area_fr: optionalText,
+    usage_area_en: optionalText,
+    texture_fr: optionalText,
+    texture_en: optionalText,
+    color_fr: optionalText,
+    color_en: optionalText,
+    fragrance_fr: optionalText,
+    fragrance_en: optionalText,
+    packaging_fr: optionalText,
+    packaging_en: optionalText,
+    storage_instructions_fr: optionalText,
+    storage_instructions_en: optionalText,
     is_best_seller: z.boolean(),
     is_routine_product: z.boolean(),
+    show_on_homepage: z.boolean(),
+    show_in_shop: z.boolean(),
+    homepage_order: nullableInteger,
+    shop_order: nullableInteger,
+    routine_order: nullableInteger,
+    routine_step: z.preprocess(emptyToNull, z.enum(PRODUCT_ROUTINE_STEPS).nullable()),
     status: z.enum(PRODUCT_PUBLICATION_STATUSES),
     sort_order: z.preprocess((value) => Number(value || 0), z.number().int()),
     seo_title_fr: optionalText,
@@ -146,8 +173,18 @@ export const adminProductInputSchema = z
     seo_description_fr: optionalText,
     seo_description_en: optionalText,
   })
-  .superRefine((data, ctx) => {
-    if (data.price_status === 'confirmed' && (!data.price_cents || data.price_cents <= 0)) {
+
+type AdminProductFields = z.infer<typeof adminProductFieldsSchema>
+
+// Cross-field checks. Written for partial (PATCH) input too: a rule only
+// applies when the fields it compares are present in the payload. The DB RPC
+// re-checks the publication price rule against the merged row.
+function refineProductFields(data: Partial<AdminProductFields>, ctx: z.RefinementCtx) {
+    if (
+      data.price_status === 'confirmed' &&
+      data.price_cents !== undefined &&
+      (!data.price_cents || data.price_cents <= 0)
+    ) {
       ctx.addIssue({
         code: 'custom',
         path: ['price_cents'],
@@ -157,8 +194,8 @@ export const adminProductInputSchema = z
 
     if (
       data.price_status === 'confirmed' &&
-      data.compare_at_price_cents !== null &&
-      data.price_cents !== null &&
+      data.compare_at_price_cents != null &&
+      data.price_cents != null &&
       data.compare_at_price_cents <= data.price_cents
     ) {
       ctx.addIssue({
@@ -167,45 +204,80 @@ export const adminProductInputSchema = z
         message: 'Compare-at price must be greater than the confirmed price.',
       })
     }
-  })
+
+    if (
+      data.status === 'published' &&
+      data.price_status !== undefined &&
+      data.price_cents !== undefined &&
+      (data.price_status !== 'confirmed' || data.price_cents === null || data.price_cents <= 0)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['status'],
+        message: 'A product needs a confirmed positive price before publication.',
+      })
+    }
+
+    if (
+      data.images !== undefined &&
+      ((data.image_alt_fr?.length ?? 0) > data.images.length ||
+        (data.image_alt_en?.length ?? 0) > data.images.length)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['images'],
+        message: 'Image alt text entries must match an existing image.',
+      })
+    }
+}
+
+// Create: every required field must be present.
+export const adminProductInputSchema = adminProductFieldsSchema.superRefine(refineProductFields)
+
+// Update: PATCH semantics. Fields absent from the form are not sent, so the
+// RPC keeps their stored value instead of overwriting them with null.
+export const adminProductPatchSchema = adminProductFieldsSchema.partial().superRefine(refineProductFields)
 
 export type AdminProductInput = z.infer<typeof adminProductInputSchema>
+export type AdminProductPatch = z.infer<typeof adminProductPatchSchema>
 
+const LIST_FIELDS = [
+  'images',
+  'image_alt_fr',
+  'image_alt_en',
+  'benefits_fr',
+  'benefits_en',
+  'key_ingredients_fr',
+  'key_ingredients_en',
+] as const
+
+const CHECKBOX_FIELDS = ['is_best_seller', 'is_routine_product', 'show_on_homepage', 'show_in_shop'] as const
+
+// Builds the product payload from the admin form. Only fields that the form
+// actually rendered are included, so a form that lacks a field (older UI,
+// partial form) can never wipe its stored value.
 export function productInputFromFormData(formData: FormData): Record<string, unknown> {
-  return {
-    legacy_id: formData.get('legacy_id'),
-    slug_fr: String(formData.get('slug_fr') ?? ''),
-    slug_en: String(formData.get('slug_en') ?? ''),
-    name_fr: String(formData.get('name_fr') ?? ''),
-    name_en: String(formData.get('name_en') ?? ''),
-    short_description_fr: formData.get('short_description_fr'),
-    short_description_en: formData.get('short_description_en'),
-    long_description_fr: formData.get('long_description_fr'),
-    long_description_en: formData.get('long_description_en'),
-    category: String(formData.get('category') ?? ''),
-    price_cents: formData.get('price_cents'),
-    price_status: String(formData.get('price_status') ?? ''),
-    compare_at_price_cents: formData.get('compare_at_price_cents'),
-    currency: 'EUR',
-    size: formData.get('size'),
-    size_status: String(formData.get('size_status') ?? ''),
-    stock_status: String(formData.get('stock_status') ?? ''),
-    images: splitLines(formData.get('images')),
-    benefits_fr: splitLines(formData.get('benefits_fr')),
-    benefits_en: splitLines(formData.get('benefits_en')),
-    ingredients_inci_fr: formData.get('ingredients_inci_fr'),
-    ingredients_inci_en: formData.get('ingredients_inci_en'),
-    how_to_use_fr: formData.get('how_to_use_fr'),
-    how_to_use_en: formData.get('how_to_use_en'),
-    precautions_fr: formData.get('precautions_fr'),
-    precautions_en: formData.get('precautions_en'),
-    is_best_seller: formData.get('is_best_seller') === 'on',
-    is_routine_product: formData.get('is_routine_product') === 'on',
-    status: String(formData.get('status') ?? ''),
-    sort_order: formData.get('sort_order') ?? '0',
-    seo_title_fr: formData.get('seo_title_fr'),
-    seo_title_en: formData.get('seo_title_en'),
-    seo_description_fr: formData.get('seo_description_fr'),
-    seo_description_en: formData.get('seo_description_en'),
+  const input: Record<string, unknown> = {}
+  const listFields: readonly string[] = LIST_FIELDS
+  const checkboxFields: readonly string[] = CHECKBOX_FIELDS
+
+  for (const key of Object.keys(adminProductFieldsSchema.shape)) {
+    if (checkboxFields.includes(key)) {
+      if (formData.has(key) || formData.has(`${key}${CHECKBOX_PRESENT_SUFFIX}`)) {
+        input[key] = formData.get(key) === 'on'
+      }
+      continue
+    }
+
+    if (!formData.has(key)) continue
+
+    if (listFields.includes(key)) {
+      input[key] = splitLines(formData.get(key))
+    } else {
+      input[key] = formData.get(key)
+    }
   }
+
+  input.currency = 'EUR'
+  return input
 }

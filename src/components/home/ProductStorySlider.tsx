@@ -38,16 +38,16 @@ export default async function ProductStorySlider({ locale, products, routinePack
     lotion: locale === 'fr' ? 'Lotion' : 'Lotion',
     mask: locale === 'fr' ? 'Masque' : 'Mask',
     powder: locale === 'fr' ? 'Poudre' : 'Powder',
+    hair_care: locale === 'fr' ? 'Soin capillaire' : 'Hair care',
+    foot_care: locale === 'fr' ? 'Soin des pieds' : 'Foot care',
+    body_care: locale === 'fr' ? 'Soin du corps' : 'Body care',
   }
 
-  const productsForSlider = [
-    ...(routinePackProduct ? [routinePackProduct] : []),
-    ...products.filter((product) => product.id !== routinePackProduct?.id),
-  ].slice(0, 5)
-
-  const slides: SlideData[] = productsForSlider.map((product) => ({
+  // Products arrive already filtered (show_on_homepage) and ordered (homepage_order).
+  const slides: SlideData[] = products.map((product) => ({
     id: product.id,
     image: product.images[0] ?? '',
+    imageAlt: product.imageAlts?.[locale]?.[0] || product.name[locale] || product.name.fr,
     href: productHref(product, locale, routinePackProduct),
     category: categoryLabels[product.category],
     name: product.name[locale] || product.name.fr,

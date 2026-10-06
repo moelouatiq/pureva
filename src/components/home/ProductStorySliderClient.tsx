@@ -8,6 +8,7 @@ import { Link } from '@/i18n/navigation'
 export type SlideData = {
   id: string
   image: string
+  imageAlt: string
   href: string
   category: string
   name: string
@@ -90,7 +91,7 @@ export default function ProductStorySliderClient({ slides, headline, subtitle, c
                 <div className="relative aspect-square overflow-hidden bg-cream p-5">
                   <ProductImage
                     src={slide.image}
-                    alt={slide.name}
+                    alt={slide.imageAlt}
                     className="h-full w-full"
                   />
                   {/* Category pill */}

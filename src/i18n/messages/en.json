@@ -39,16 +39,8 @@
       "card_brillance_desc": "Helps reveal natural radiance and smooth the hair surface."
     },
     "routine_steps": {
-      "headline": "The 4-step routine",
+      "headline": "The {count}-step routine",
       "subtitle": "A progressive approach designed to fit into your weekly hair care routine.",
-      "step1_label": "1. Hair oil",
-      "step1_desc": "Apply the oil to your scalp and lengths before shampooing. Helps to nourish and prepare the hair.",
-      "step2_label": "2. Mask or powder",
-      "step2_desc": "Apply the mask or a powder (Sidr or Mashat) to damp hair. Leave on, then rinse.",
-      "step3_label": "3. Hair lotion",
-      "step3_desc": "After shampooing, apply the lotion to lengths and scalp. No rinsing needed.",
-      "step4_label": "4. Hair serum",
-      "step4_desc": "Finish with a few drops of serum on the ends to hydrate and add shine.",
       "cta": "Discover the full routine"
     },
     "best_sellers": {
@@ -138,8 +130,16 @@
     "out_of_stock": "Out of stock",
     "benefits_label": "Benefits",
     "how_to_use_label": "How to use",
+    "target_audience_label": "Who is it for?",
+    "usage_area_label": "Application area",
+    "texture_label": "Texture / appearance",
+    "color_label": "Colour",
+    "fragrance_label": "Fragrance",
+    "packaging_label": "Packaging",
+    "composition_label": "Highlighted ingredients and supplied composition",
     "ingredients_label": "Ingredients (INCI)",
     "precautions_label": "Precautions",
+    "storage_label": "Storage",
     "order_cta": "Order",
     "whatsapp_cta": "Order on WhatsApp",
     "ask_question": "Ask a question",
@@ -160,6 +160,7 @@
     "who_title": "Who is it for?",
     "who_body": "This pack is designed for people whose hair is weakened and prone to breakage. It is not intended for severe hair loss or medical scalp conditions — in those cases, please consult a healthcare professional.",
     "includes_title": "What's included",
+    "steps_title": "The routine steps",
     "includes_oil": "Hair oil (100 ml) — pre-shampoo nourishing treatment",
     "includes_mask": "Hair mask — weekly treatment for all hair types",
     "includes_lotion": "Hair lotion — leave-in treatment after shampooing",
@@ -408,5 +409,15 @@
     "whatsapp_label": "Message us on WhatsApp",
     "copyright": "© {year} Pureva. All rights reserved.",
     "language_label": "Language"
+  },
+  "routine_step_labels": {
+    "shampoo": "Shampoo",
+    "treatment": "Treatment",
+    "mask": "Mask",
+    "serum": "Serum",
+    "oil": "Oil",
+    "spray": "Spray",
+    "finishing": "Finishing",
+    "other": "Complementary care"
   }
 }

@@ -39,16 +39,8 @@
       "card_brillance_desc": "Aide à révéler l'éclat naturel et à lisser la surface du cheveu."
     },
     "routine_steps": {
-      "headline": "La routine en 4 étapes",
+      "headline": "La routine en {count} étapes",
       "subtitle": "Une approche progressive, à intégrer dans votre soin hebdomadaire.",
-      "step1_label": "1. Huile capillaire",
-      "step1_desc": "Appliquez l'huile sur le cuir chevelu et les longueurs avant le shampoing. Aide à nourrir et à préparer les cheveux.",
-      "step2_label": "2. Masque ou poudre",
-      "step2_desc": "Appliquez le masque ou une poudre (Sidr ou Mashat) sur cheveux humides. Laissez poser puis rincez.",
-      "step3_label": "3. Lotion capillaire",
-      "step3_desc": "Après le shampoing, appliquez la lotion sur les longueurs et le cuir chevelu. Ne pas rincer.",
-      "step4_label": "4. Sérum capillaire",
-      "step4_desc": "Terminez par quelques gouttes de sérum sur les pointes pour hydrater et apporter brillance.",
       "cta": "Découvrir la routine complète"
     },
     "best_sellers": {
@@ -138,8 +130,16 @@
     "out_of_stock": "Rupture de stock",
     "benefits_label": "Bénéfices",
     "how_to_use_label": "Comment utiliser",
+    "target_audience_label": "Pour qui ?",
+    "usage_area_label": "Zone d’utilisation",
+    "texture_label": "Texture / aspect",
+    "color_label": "Couleur",
+    "fragrance_label": "Parfum",
+    "packaging_label": "Conditionnement",
+    "composition_label": "Actifs et composition fournie",
     "ingredients_label": "Composition (INCI)",
     "precautions_label": "Précautions d'emploi",
+    "storage_label": "Conservation",
     "order_cta": "Commander",
     "whatsapp_cta": "Commander par WhatsApp",
     "ask_question": "Poser une question",
@@ -160,6 +160,7 @@
     "who_title": "Pour qui ?",
     "who_body": "Ce pack est conçu pour les personnes dont les cheveux sont fragilisés et sujets à la casse. Il ne s'adresse pas aux chutes sévères ou aux problèmes médicaux du cuir chevelu — dans ces cas, consultez un professionnel de santé.",
     "includes_title": "Ce que comprend le pack",
+    "steps_title": "Les étapes de la routine",
     "includes_oil": "Huile capillaire (100 ml) — soin pré-shampoing nourrissant",
     "includes_mask": "Masque capillaire — soin hebdomadaire pour tous types de cheveux",
     "includes_lotion": "Lotion capillaire — soin sans rinçage après shampoing",
@@ -408,5 +409,15 @@
     "whatsapp_label": "Écrire sur WhatsApp",
     "copyright": "© {year} Pureva. Tous droits réservés.",
     "language_label": "Langue"
+  },
+  "routine_step_labels": {
+    "shampoo": "Shampoing",
+    "treatment": "Soin",
+    "mask": "Masque",
+    "serum": "Sérum",
+    "oil": "Huile",
+    "spray": "Spray",
+    "finishing": "Finition",
+    "other": "Soin complémentaire"
   }
 }

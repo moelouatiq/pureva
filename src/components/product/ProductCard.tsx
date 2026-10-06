@@ -19,13 +19,16 @@ export default async function ProductCard({ product, locale }: Props) {
   const shortDesc = product.shortDescription[loc] ?? product.shortDescription.fr
   const slug = product.slug[loc] ?? product.slug.fr
 
-  const categoryLabel: Record<string, string> = {
-    pack:   'Pack Routine',
-    oil:    'Huile',
-    serum:  'Sérum',
-    lotion: 'Lotion',
-    mask:   'Masque',
-    powder: 'Poudre',
+  const categoryLabel: Record<string, Record<Locale, string>> = {
+    pack: { fr: 'Pack routine', en: 'Routine pack' },
+    oil: { fr: 'Huile', en: 'Oil' },
+    serum: { fr: 'Sérum', en: 'Serum' },
+    lotion: { fr: 'Lotion', en: 'Lotion' },
+    mask: { fr: 'Masque', en: 'Mask' },
+    powder: { fr: 'Poudre', en: 'Powder' },
+    hair_care: { fr: 'Soin capillaire', en: 'Hair care' },
+    foot_care: { fr: 'Soin des pieds', en: 'Foot care' },
+    body_care: { fr: 'Soin du corps', en: 'Body care' },
   }
 
   return (
@@ -41,14 +44,14 @@ export default async function ProductCard({ product, locale }: Props) {
       >
         <ProductImage
           src={product.images[0] ?? ''}
-          alt={name}
+          alt={product.imageAlts?.[loc]?.[0] || name}
           className="h-full w-full"
         />
 
         {/* Category pill (top-left) */}
         {product.category && (
           <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-semibold text-green-800 shadow-sm backdrop-blur-sm">
-            {categoryLabel[product.category] ?? product.category}
+            {categoryLabel[product.category]?.[loc] ?? product.category}
           </span>
         )}
 

@@ -1,7 +1,11 @@
 import 'server-only'
 
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { adminProductListFilterSchema, type AdminProductInput } from '@/lib/admin/product-schemas'
+import {
+  adminProductListFilterSchema,
+  type AdminProductInput,
+  type AdminProductPatch,
+} from '@/lib/admin/product-schemas'
 import type { AdminProduct, AdminProductEvent } from '@/types/admin-product'
 
 export type AdminProductDetail = {
@@ -118,12 +122,14 @@ export async function createAdminProduct(
 export async function updateAdminProduct(
   productId: string,
   adminUserId: string,
-  product: AdminProductInput,
+  product: AdminProductPatch,
   note?: string
 ): Promise<ProductMutationResult> {
   const supabase = await createSupabaseServerClient()
   if (!supabase) return { success: false, error: 'setup_required' }
 
+  // PATCH: keys missing from `product` keep their stored value (see
+  // supabase/migrations/20261006153000_product_payload_patch_semantics.sql).
   const { data, error } = await supabase.rpc('update_product_with_event', {
     p_product_id: productId,
     p_admin_user_id: adminUserId,

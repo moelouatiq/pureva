@@ -18,7 +18,18 @@ export default async function ProductInfo({ product, locale }: Props) {
   const benefits = product.benefits[loc] ?? product.benefits.fr
   const howToUse = product.howToUse[loc] ?? product.howToUse.fr
   const ingredients = product.ingredients[loc] ?? product.ingredients.fr
+  const highlightedIngredients =
+    product.highlightedIngredients?.[loc] ?? product.highlightedIngredients?.fr ?? []
+  const compositionNote = product.compositionNote?.[loc] ?? product.compositionNote?.fr ?? ''
   const precautions = product.precautions[loc] ?? product.precautions.fr
+  const targetAudience = product.targetAudience?.[loc] ?? product.targetAudience?.fr ?? ''
+  const usageArea = product.usageArea?.[loc] ?? product.usageArea?.fr ?? ''
+  const texture = product.texture?.[loc] ?? product.texture?.fr ?? ''
+  const color = product.color?.[loc] ?? product.color?.fr ?? ''
+  const fragrance = product.fragrance?.[loc] ?? product.fragrance?.fr ?? ''
+  const packaging = product.packaging?.[loc] ?? product.packaging?.fr ?? ''
+  const storageInstructions =
+    product.storageInstructions?.[loc] ?? product.storageInstructions?.fr ?? ''
   const waMsg = product.whatsappMessage[loc] ?? product.whatsappMessage.fr
   const waUrl = buildWhatsAppUrl(waMsg)
 
@@ -58,6 +69,47 @@ export default async function ProductInfo({ product, locale }: Props) {
 
       {/* Description */}
       <p className="text-green-800/80 leading-relaxed">{longDesc}</p>
+
+      {(targetAudience || usageArea || texture || color || fragrance || packaging) && (
+        <dl className="grid gap-3 rounded-xl bg-cream p-4 text-sm sm:grid-cols-2">
+          {targetAudience && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('target_audience_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{targetAudience}</dd>
+            </div>
+          )}
+          {usageArea && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('usage_area_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{usageArea}</dd>
+            </div>
+          )}
+          {texture && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('texture_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{texture}</dd>
+            </div>
+          )}
+          {color && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('color_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{color}</dd>
+            </div>
+          )}
+          {fragrance && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('fragrance_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{fragrance}</dd>
+            </div>
+          )}
+          {packaging && (
+            <div>
+              <dt className="font-semibold text-green-900">{t('packaging_label')}</dt>
+              <dd className="mt-1 text-green-800/75">{packaging}</dd>
+            </div>
+          )}
+        </dl>
+      )}
 
       {/* CTA */}
       {waUrl !== '#' && product.stockStatus !== 'out_of_stock' && (
@@ -99,6 +151,24 @@ export default async function ProductInfo({ product, locale }: Props) {
       )}
 
       {/* Ingredients */}
+      {(highlightedIngredients.length > 0 || compositionNote) && (
+        <section>
+          <h2 className="font-semibold text-green-900 mb-2">{t('composition_label')}</h2>
+          {highlightedIngredients.length > 0 && (
+            <ul className="flex flex-wrap gap-2">
+              {highlightedIngredients.map((ingredient) => (
+                <li key={ingredient} className="rounded-full bg-cream px-3 py-1 text-xs text-green-800/80">
+                  {ingredient}
+                </li>
+              ))}
+            </ul>
+          )}
+          {compositionNote && (
+            <p className="mt-2 text-xs leading-relaxed text-green-800/60">{compositionNote}</p>
+          )}
+        </section>
+      )}
+
       {ingredients && (
         <section>
           <h2 className="font-semibold text-green-900 mb-2">{t('ingredients_label')}</h2>
@@ -111,6 +181,13 @@ export default async function ProductInfo({ product, locale }: Props) {
         <section>
           <h2 className="font-semibold text-green-900 mb-2">{t('precautions_label')}</h2>
           <p className="text-sm text-green-800/70 leading-relaxed">{precautions}</p>
+        </section>
+      )}
+
+      {storageInstructions && (
+        <section>
+          <h2 className="font-semibold text-green-900 mb-2">{t('storage_label')}</h2>
+          <p className="text-sm text-green-800/70 leading-relaxed">{storageInstructions}</p>
         </section>
       )}
 

@@ -36,6 +36,17 @@ function sizeLabel(product: AdminProduct): string {
   return product.size
 }
 
+function VisibilityFlag({ label, active, order }: { label: string; active: boolean; order?: number | null }) {
+  return (
+    <span className={active ? 'text-emerald-800' : 'text-green-900/40'}>
+      {label} {active ? '✓' : '-'}
+      {active && order !== null && order !== undefined && (
+        <span className="text-green-900/50"> #{order}</span>
+      )}
+    </span>
+  )
+}
+
 function StatusBadge({ status }: { status: string }) {
   const classes =
     status === 'published'
@@ -79,7 +90,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
         <div>
           <h1 className="text-3xl font-heading font-bold">Produits</h1>
           <p className="mt-1 text-sm text-green-800/60">
-            Catalogue administrable. Le site public reste basé sur les fichiers statiques pour cette phase.
+            Supabase est la source du catalogue public. Les brouillons et archives restent masqués du site.
           </p>
         </div>
         <Link href="/admin/products/new" className="rounded-lg bg-green-900 px-4 py-2 text-sm font-semibold text-white">
@@ -134,7 +145,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                 <th className="px-4 py-3">Format</th>
                 <th className="px-4 py-3">Stock</th>
                 <th className="px-4 py-3">Publication</th>
-                <th className="px-4 py-3">Flags</th>
+                <th className="px-4 py-3">Visibilité</th>
                 <th className="px-4 py-3">Ordre</th>
                 <th className="px-4 py-3">MAJ</th>
                 <th className="px-4 py-3">Actions</th>
@@ -153,9 +164,11 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                   <td className="px-4 py-3">{product.stock_status}</td>
                   <td className="px-4 py-3"><StatusBadge status={product.status} /></td>
                   <td className="px-4 py-3">
-                    <div className="flex flex-col gap-1 text-xs">
-                      {product.is_best_seller && <span>best seller</span>}
-                      {product.is_routine_product && <span>routine</span>}
+                    <div className="flex flex-col gap-1 whitespace-nowrap text-xs">
+                      <VisibilityFlag label="Accueil" active={product.show_on_homepage} order={product.homepage_order} />
+                      <VisibilityFlag label="Shop" active={product.show_in_shop} order={product.shop_order} />
+                      <VisibilityFlag label="Routine" active={product.is_routine_product} order={product.routine_order} />
+                      <VisibilityFlag label="Best seller" active={product.is_best_seller} />
                     </div>
                   </td>
                   <td className="px-4 py-3">{product.sort_order}</td>

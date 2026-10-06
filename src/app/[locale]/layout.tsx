@@ -62,8 +62,8 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${lora.variable} ${raleway.variable}`}>
-      <body>
+    <html lang={locale} className={`${lora.variable} ${raleway.variable} overflow-x-clip`}>
+      <body className="overflow-x-clip">
         <NextIntlClientProvider messages={messages}>
           <Header locale={locale as Locale} />
           <main id="main-content">{children}</main>

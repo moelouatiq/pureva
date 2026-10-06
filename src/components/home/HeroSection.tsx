@@ -13,6 +13,9 @@ export default async function HeroSection({ locale, routinePackProduct }: Props)
   const t = await getTranslations('home.hero')
   const routinePackName = routinePackProduct?.name[locale] || routinePackProduct?.name.fr
   const routinePackImage = routinePackProduct?.images[0]
+  const routinePackImageAlt =
+    routinePackProduct?.imageAlts?.[locale]?.[0] ||
+    (routinePackName ? `${routinePackName} - Pureva` : '')
 
   return (
     <section className="relative overflow-hidden bg-ivory">
@@ -66,7 +69,7 @@ export default async function HeroSection({ locale, routinePackProduct }: Props)
                 <div className="aspect-square overflow-hidden rounded-3xl bg-cream p-6 shadow-2xl shadow-green-900/15">
                   <ProductImage
                     src={routinePackImage}
-                    alt={`${routinePackName} - Pureva`}
+                    alt={routinePackImageAlt}
                     className="h-full w-full"
                   />
                 </div>

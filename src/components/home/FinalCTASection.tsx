@@ -18,6 +18,9 @@ export default async function FinalCTASection({ locale, routinePackProduct }: Pr
   const tProduct = await getTranslations('product')
   const routinePackName = routinePackProduct?.name[locale] || routinePackProduct?.name.fr
   const routinePackImage = routinePackProduct?.images[0]
+  const routinePackImageAlt =
+    routinePackProduct?.imageAlts?.[locale]?.[0] ||
+    (routinePackName ? `${routinePackName} - Pureva` : '')
   const routinePackDescription =
     routinePackProduct?.shortDescription[locale] ||
     routinePackProduct?.shortDescription.fr ||
@@ -129,7 +132,7 @@ export default async function FinalCTASection({ locale, routinePackProduct }: Pr
                 >
                   <ProductImage
                     src={routinePackImage}
-                    alt={`${routinePackName} - Pureva`}
+                    alt={routinePackImageAlt}
                     className="aspect-square h-full w-full"
                   />
                 </div>

@@ -60,9 +60,11 @@ export default function MobileMenu({ navItems, whatsappUrl }: Props) {
         ref={menuRef}
         role="dialog"
         aria-modal="true"
+        aria-hidden={!open}
+        inert={!open}
         aria-label={t('open_menu')}
         className={`fixed top-0 right-0 h-screen w-72 max-w-[85vw] bg-[var(--color-ivory)] shadow-2xl z-[100] transition-transform duration-300 ease-in-out lg:hidden flex flex-col overflow-hidden ${
-          open ? 'translate-x-0' : 'translate-x-full'
+          open ? 'visible translate-x-0' : 'invisible translate-x-full pointer-events-none'
         }`}
       >
         {/* Drawer header */}

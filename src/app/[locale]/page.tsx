@@ -15,7 +15,9 @@ import JsonLd, { organizationJsonLd, websiteJsonLd } from '@/components/shared/J
 import {
   findPublicRoutinePackProduct,
   getPublicBestSellers,
+  getPublicHomepageProducts,
   getPublicProductLoadResult,
+  getPublicRoutineProducts,
 } from '@/lib/products/public-products'
 
 type Props = {
@@ -42,9 +44,8 @@ export default async function HomePage({ params }: Props) {
   const productLoadResult = await getPublicProductLoadResult()
   const products = productLoadResult.products
   const routinePackProduct = findPublicRoutinePackProduct(products)
-  const routineProducts = products.filter(
-    (product) => product.isRoutineProduct && product.category !== 'pack'
-  )
+  const homepageProducts = await getPublicHomepageProducts()
+  const routineProducts = await getPublicRoutineProducts()
   const bestSellerProducts = await getPublicBestSellers()
 
   if (process.env.NODE_ENV === 'development') {
@@ -54,6 +55,7 @@ export default async function HomePage({ params }: Props) {
         productLoadResult.source === 'static' ? productLoadResult.fallbackReason : undefined,
       productCount: products.length,
       routinePackId: routinePackProduct?.id,
+      homepageProductCount: homepageProducts.length,
       routineProductCount: routineProducts.length,
       bestSellerCount: bestSellerProducts.length,
     })
@@ -64,7 +66,7 @@ export default async function HomePage({ params }: Props) {
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd(l)} />
       <HeroSection locale={l} routinePackProduct={routinePackProduct} />
-      <ProductStorySlider locale={l} products={products} routinePackProduct={routinePackProduct} />
+      <ProductStorySlider locale={l} products={homepageProducts} routinePackProduct={routinePackProduct} />
       <ProblemSection />
       <RoutineStepsSection
         locale={l}

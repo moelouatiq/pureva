@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { getVisibleProducts } from '@/data/products'
 import { buildMetadata } from '@/lib/seo'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import {
@@ -24,8 +23,9 @@ type Props = {
 
 export const revalidate = 300
 
-export function generateStaticParams() {
-  return getVisibleProducts().flatMap((product) => [
+export async function generateStaticParams() {
+  const products = await getPublicVisibleProducts()
+  return products.flatMap((product) => [
     { locale: 'fr', slug: product.slug.fr },
     { locale: 'en', slug: product.slug.en },
   ])
@@ -66,7 +66,12 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound()
 
   const relatedProducts = visibleProducts
-    .filter((p) => p.id !== product.id && p.isRoutineProduct === product.isRoutineProduct)
+    .filter(
+      (p) =>
+        p.id !== product.id &&
+        p.showInShop !== false &&
+        p.isRoutineProduct === product.isRoutineProduct
+    )
     .slice(0, 3)
 
   const breadcrumbItems = [
@@ -95,7 +100,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="aspect-square rounded-2xl overflow-hidden bg-cream p-6 md:p-8">
               <ProductImage
                 src={product.images[0] ?? ''}
-                alt={product.name[l]}
+                alt={product.imageAlts?.[l]?.[0] || product.name[l] || product.name.fr}
                 className="w-full h-full"
               />
             </div>

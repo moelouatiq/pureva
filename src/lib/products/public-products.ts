@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { products as staticProducts, getVisibleProducts as getStaticVisibleProducts } from '@/data/products'
 import { formatPrice } from '@/lib/format-price'
 import { getSupabasePublicConfig } from '@/lib/supabase/config'
-import type { Product } from '@/types/product'
+import type { Product, RoutineStep } from '@/types/product'
 import type { Locale } from '@/types/locale'
 import type { ProductOption } from '@/components/order/OrderForm'
 
@@ -29,16 +29,43 @@ type PublicProductRow = {
   size_status: Product['sizeStatus']
   stock_status: Product['stockStatus']
   images: unknown
+  image_alt_fr?: unknown
+  image_alt_en?: unknown
   benefits_fr: unknown
   benefits_en: unknown
+  key_ingredients_fr?: unknown
+  key_ingredients_en?: unknown
+  composition_note_fr?: string | null
+  composition_note_en?: string | null
   ingredients_inci_fr: string | null
   ingredients_inci_en: string | null
   how_to_use_fr: string | null
   how_to_use_en: string | null
   precautions_fr: string | null
   precautions_en: string | null
+  target_audience_fr?: string | null
+  target_audience_en?: string | null
+  usage_area_fr?: string | null
+  usage_area_en?: string | null
+  texture_fr?: string | null
+  texture_en?: string | null
+  color_fr?: string | null
+  color_en?: string | null
+  fragrance_fr?: string | null
+  fragrance_en?: string | null
+  packaging_fr?: string | null
+  packaging_en?: string | null
+  storage_instructions_fr?: string | null
+  storage_instructions_en?: string | null
   is_best_seller: boolean
   is_routine_product: boolean
+  // Optional so rows still map before the visibility migration is applied.
+  show_on_homepage?: boolean
+  show_in_shop?: boolean
+  homepage_order?: number | null
+  shop_order?: number | null
+  routine_order?: number | null
+  routine_step?: RoutineStep | null
   status: 'published'
   sort_order: number
   seo_title_fr: string | null
@@ -59,6 +86,10 @@ export type PublicRoutinePackProductResult = {
   product: Product | undefined
   fallbackReason?: PublicProductFallbackReason
 }
+
+// Number of products the homepage slider showed before visibility was
+// admin-managed; only used when a product carries no explicit homepage flag.
+const LEGACY_HOMEPAGE_PRODUCT_COUNT = 5
 
 const ROUTINE_PACK_LEGACY_ID = 'routine-pack'
 const ROUTINE_PACK_SLUGS = ['routine-cheveux-fragilises', 'weakened-hair-routine']
@@ -145,6 +176,10 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
     compareAtPrice: row.compare_at_price_cents ?? undefined,
     currency: row.currency,
     images: arrayOfStrings(row.images),
+    imageAlts: {
+      fr: arrayOfStrings(row.image_alt_fr),
+      en: arrayOfStrings(row.image_alt_en),
+    },
     category: row.category,
     tags: [],
     size: row.size ?? '',
@@ -154,6 +189,14 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
       en: arrayOfStrings(row.benefits_en),
     },
     keyIngredients: [],
+    highlightedIngredients: {
+      fr: arrayOfStrings(row.key_ingredients_fr),
+      en: arrayOfStrings(row.key_ingredients_en),
+    },
+    compositionNote: {
+      fr: row.composition_note_fr ?? '',
+      en: row.composition_note_en ?? '',
+    },
     ingredients: {
       fr: row.ingredients_inci_fr ?? '',
       en: row.ingredients_inci_en ?? '',
@@ -166,8 +209,42 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
       fr: row.precautions_fr ?? '',
       en: row.precautions_en ?? '',
     },
+    targetAudience: {
+      fr: row.target_audience_fr ?? '',
+      en: row.target_audience_en ?? '',
+    },
+    usageArea: {
+      fr: row.usage_area_fr ?? '',
+      en: row.usage_area_en ?? '',
+    },
+    texture: {
+      fr: row.texture_fr ?? '',
+      en: row.texture_en ?? '',
+    },
+    color: {
+      fr: row.color_fr ?? '',
+      en: row.color_en ?? '',
+    },
+    fragrance: {
+      fr: row.fragrance_fr ?? '',
+      en: row.fragrance_en ?? '',
+    },
+    packaging: {
+      fr: row.packaging_fr ?? '',
+      en: row.packaging_en ?? '',
+    },
+    storageInstructions: {
+      fr: row.storage_instructions_fr ?? '',
+      en: row.storage_instructions_en ?? '',
+    },
     isBestSeller: row.is_best_seller,
     isRoutineProduct: row.is_routine_product,
+    showOnHomepage: row.show_on_homepage,
+    showInShop: row.show_in_shop,
+    homepageOrder: row.homepage_order ?? null,
+    shopOrder: row.shop_order ?? null,
+    routineOrder: row.routine_order ?? null,
+    routineStep: row.routine_step ?? null,
     stockStatus: row.stock_status,
     whatsappMessage: {
       fr: `Bonjour, je souhaite commander ${row.name_fr} Pureva. Pouvez-vous confirmer la disponibilité ?`,
@@ -184,10 +261,49 @@ export function mapPublicProductRow(row: PublicProductRow): Product {
   }
 }
 
+function legacyRoutineStep(product: Product): RoutineStep | null {
+  if (!product.isRoutineProduct || product.category === 'pack') return null
+  if (product.category === 'oil' || product.category === 'serum' || product.category === 'mask') {
+    return product.category
+  }
+  return product.category === 'lotion' ? 'treatment' : 'other'
+}
+
+// Products without explicit visibility flags (static fallback catalog, or DB
+// rows read before the visibility migration) keep their historical placement.
+// Explicit DB values are never overridden.
+function withVisibilityDefaults(products: Product[]): Product[] {
+  return products.map((product, index) => ({
+    ...product,
+    showOnHomepage: product.showOnHomepage ?? index < LEGACY_HOMEPAGE_PRODUCT_COUNT,
+    showInShop: product.showInShop ?? true,
+    homepageOrder: product.homepageOrder ?? null,
+    shopOrder: product.shopOrder ?? null,
+    routineOrder: product.routineOrder ?? null,
+    routineStep: product.routineStep === undefined ? legacyRoutineStep(product) : product.routineStep,
+  }))
+}
+
+// Stable sort: products with an explicit order come first (ascending); the
+// rest keep the catalog order (sort_order, then created_at).
+function sortByOptionalOrder(
+  products: Product[],
+  orderOf: (product: Product) => number | null | undefined
+): Product[] {
+  return [...products].sort((a, b) => {
+    const orderA = orderOf(a)
+    const orderB = orderOf(b)
+    if (orderA == null && orderB == null) return 0
+    if (orderA == null) return 1
+    if (orderB == null) return -1
+    return orderA - orderB
+  })
+}
+
 async function loadPublishedProducts(): Promise<PublicProductLoadResult> {
   const supabase = createPublicCatalogClient()
   if (!supabase) {
-    const products = getStaticVisibleProducts()
+    const products = withVisibilityDefaults(getStaticVisibleProducts())
     logPublicProductsDiagnostic('using static fallback', {
       source: 'static',
       fallbackReason: 'missing_env',
@@ -210,7 +326,7 @@ async function loadPublishedProducts(): Promise<PublicProductLoadResult> {
         message: error.message,
       })
     }
-    const products = getStaticVisibleProducts()
+    const products = withVisibilityDefaults(getStaticVisibleProducts())
     logPublicProductsDiagnostic('using static fallback', {
       source: 'static',
       fallbackReason: 'query_error',
@@ -222,7 +338,7 @@ async function loadPublishedProducts(): Promise<PublicProductLoadResult> {
   // Important: a successful empty DB result is treated as intentional catalog
   // state. If admins archive/unpublish every product, do not revive static
   // fallback products and accidentally show old catalog content.
-  const products = ((data ?? []) as PublicProductRow[]).map(mapPublicProductRow)
+  const products = withVisibilityDefaults(((data ?? []) as PublicProductRow[]).map(mapPublicProductRow))
   logPublicProductsDiagnostic('loaded published products', {
     source: 'db',
     productCount: products.length,
@@ -246,55 +362,36 @@ export async function getPublicProductBySlug(slug: string): Promise<Product | un
   return products.find((product) => product.slug.fr === slug || product.slug.en === slug)
 }
 
+export async function getPublicShopProducts(): Promise<Product[]> {
+  const products = (await getPublicProducts()).filter((product) => product.showInShop !== false)
+  return sortByOptionalOrder(products, (product) => product.shopOrder)
+}
+
+export async function getPublicHomepageProducts(): Promise<Product[]> {
+  const products = (await getPublicProducts()).filter((product) => product.showOnHomepage === true)
+  return sortByOptionalOrder(products, (product) => product.homepageOrder)
+}
+
+// An empty selection stays empty: the section is hidden rather than filled
+// with other products.
 export async function getPublicBestSellers(): Promise<Product[]> {
   const result = await getPublicProductLoadResult()
   const bestSellers = result.products.filter((product) => product.isBestSeller)
 
-  if (bestSellers.length > 0) {
-    logPublicProductsDiagnostic('best sellers resolved', {
-      source: result.source,
-      fallbackReason: result.source === 'static' ? result.fallbackReason : undefined,
-      bestSellerCount: bestSellers.length,
-      productCount: result.products.length,
-    })
-    return bestSellers
-  }
-
-  if (result.source === 'db') {
-    const firstPublishedProducts = result.products.slice(0, 4)
-    logPublicProductsDiagnostic('best sellers fell back to first published db products', {
-      source: result.source,
-      bestSellerCount: 0,
-      productCount: result.products.length,
-      returnedCount: firstPublishedProducts.length,
-    })
-    return firstPublishedProducts
-  }
-
-  logPublicProductsDiagnostic('best sellers empty from static fallback', {
+  logPublicProductsDiagnostic('best sellers resolved', {
     source: result.source,
-    fallbackReason: result.fallbackReason,
-    bestSellerCount: 0,
+    fallbackReason: result.source === 'static' ? result.fallbackReason : undefined,
+    bestSellerCount: bestSellers.length,
     productCount: result.products.length,
   })
-  return []
+  return bestSellers
 }
 
 export async function getPublicRoutineProducts(): Promise<Product[]> {
-  return (await getPublicProducts()).filter(
+  const products = (await getPublicProducts()).filter(
     (product) => product.isRoutineProduct && product.category !== 'pack'
   )
-}
-
-export async function getPublicFeaturedProducts(limit = 5): Promise<Product[]> {
-  const products = await getPublicProducts()
-  const routinePack = findPublicRoutinePackProduct(products)
-  const sortedProducts = [
-    ...(routinePack ? [routinePack] : []),
-    ...products.filter((product) => product.id !== routinePack?.id),
-  ]
-
-  return sortedProducts.slice(0, limit)
+  return sortByOptionalOrder(products, (product) => product.routineOrder)
 }
 
 export async function getPublicRoutinePackProduct(): Promise<PublicRoutinePackProductResult> {

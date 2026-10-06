@@ -93,6 +93,7 @@ export default async function RoutinePackPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'routine_pack' })
   const rawTWa = await getTranslations({ locale, namespace: 'whatsapp' })
   const tProduct = await getTranslations({ locale, namespace: 'product' })
+  const tStep = await getTranslations({ locale, namespace: 'routine_step_labels' })
   const routineWhatsApp = { message: undefined as string | undefined }
   const tWa = ((key: Parameters<typeof rawTWa>[0]) =>
     key === 'routine' && routineWhatsApp.message ? routineWhatsApp.message : rawTWa(key)) as typeof rawTWa
@@ -153,7 +154,7 @@ export default async function RoutinePackPage({ params }: Props) {
           <div className="aspect-square overflow-hidden rounded-2xl bg-cream p-6 md:p-8">
             <ProductImage
               src={packProduct.images[0] ?? ''}
-              alt={packName}
+              alt={packProduct.imageAlts?.[l]?.[0] || packName}
               className="h-full w-full"
             />
           </div>
@@ -204,9 +205,25 @@ export default async function RoutinePackPage({ params }: Props) {
           </section>
         )}
 
-        {/* Routine products grid */}
+        {/* Routine products: published + "show in routine", ordered by routine_order */}
         {routineProducts.length > 0 && (
           <section className="mb-8">
+            <h2 className="font-semibold text-green-900 mb-4">{t('steps_title')}</h2>
+            <ol className="mb-6 flex flex-col gap-2">
+              {routineProducts.map((product, index) => (
+                <li key={product.id} className="flex gap-3 text-sm text-green-800/80">
+                  <span className="shrink-0 font-semibold text-gold-500">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span>
+                    {product.routineStep && (
+                      <span className="font-semibold text-green-900">{tStep(product.routineStep)} — </span>
+                    )}
+                    {getLocalized(product.name, l)}
+                  </span>
+                </li>
+              ))}
+            </ol>
             <ProductGrid products={routineProducts} locale={locale} />
           </section>
         )}

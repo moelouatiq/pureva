@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
-import { getPublicVisibleProducts } from '@/lib/products/public-products'
+import { getPublicShopProducts } from '@/lib/products/public-products'
 import ProductGrid from '@/components/product/ProductGrid'
 import type { Locale } from '@/types/locale'
 
@@ -27,9 +27,10 @@ export default async function ShopPage({ params }: Props) {
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'shop' })
 
-  const visibleProducts = await getPublicVisibleProducts()
-  const routineProducts = visibleProducts.filter((p) => p.isRoutineProduct)
-  const otherProducts = visibleProducts.filter((p) => !p.isRoutineProduct)
+  // Published + "show in shop", ordered by shop_order (admin-managed).
+  const shopProducts = await getPublicShopProducts()
+  const routineProducts = shopProducts.filter((p) => p.isRoutineProduct)
+  const otherProducts = shopProducts.filter((p) => !p.isRoutineProduct)
 
   return (
     <div className="section-padding">
@@ -47,6 +48,8 @@ export default async function ShopPage({ params }: Props) {
             <ProductGrid products={routineProducts} locale={locale} />
           </section>
         )}
+
+        {shopProducts.length === 0 && <p className="text-green-800/70">{t('empty')}</p>}
 
         {otherProducts.length > 0 && (
           <section>
