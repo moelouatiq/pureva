@@ -1,6 +1,5 @@
-const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
+export const WHATSAPP_NUMBER = '33761506910'
 
 export function buildWhatsAppUrl(message: string): string {
-  if (!phone) return '#'
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
